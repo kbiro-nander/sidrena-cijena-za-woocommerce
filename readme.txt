@@ -7,8 +7,8 @@ Requires PHP: 8.1
 WC requires at least: 9.0
 WC tested up to: 9.9
 Stable tag: 1.1.3
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+License: MIT
+License URI: https://opensource.org/licenses/MIT
 
 Sidrena (dodatna) cijena uz svaku cijenu, najniža cijena u 30 dana prije sniženja i strojno čitljiv cjenik (XML/CSV) prema NN 101/2026 i Zakonu o zaštiti potrošača.
 
@@ -94,6 +94,7 @@ Iz najniže cijene u 30 dana prije početka sniženja (a ne iz redovne cijene), 
 == Changelog ==
 
 = 1.1.3 =
+* Licenca promijenjena u MIT; projekt objavljen na GitHubu s README-om i CI provjerama.
 * Polja za datum i vrijeme u postavkama dovoljno su široka da prikažu cijelu vrijednost.
 
 = 1.1.2 =

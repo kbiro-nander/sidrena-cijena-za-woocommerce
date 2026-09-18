@@ -11,8 +11,8 @@
  * WC tested up to:      9.9
  * Author:               Nander
  * Author URI:           https://nander.hr
- * License:              GPL-2.0-or-later
- * License URI:          https://www.gnu.org/licenses/gpl-2.0.html
+ * License:              MIT
+ * License URI:          https://opensource.org/licenses/MIT
  * Text Domain:          sidrena-cijena-za-woocommerce
  * Domain Path:          /languages
  *
