@@ -26,6 +26,9 @@ final class Defaults {
 				'storage_number' => '1',
 				'merchant_name'  => '',
 			],
+			'outlets'          => [
+				'additional' => [],
+			],
 			'reference_prices' => [
 				'anchor'                   => self::referenceType( true, 'Cijena na dan', self::ANCHOR_DATE ),
 				'base'                     => self::referenceType( false, 'Bazna cijena na dan', '' ),

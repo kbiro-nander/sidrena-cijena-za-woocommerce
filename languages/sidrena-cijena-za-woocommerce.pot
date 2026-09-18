@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Sidrena cijena za WooCommerce 1.0.0\n"
+"Project-Id-Version: Sidrena cijena za WooCommerce 1.1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/nander/sidrena-cijena-za-"
 "woocommerce/issues\n"
-"POT-Creation-Date: 2026-09-18 16:20+0200\n"
+"POT-Creation-Date: 2026-09-18 16:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,548 +47,549 @@ msgid "Generiranje cjenika nije uspjelo: %s"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:46
-#: src/Admin/Fields.php:46
+#: src/Admin/SettingsPage.php:251
 msgid "Prodajni objekt"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:47
-#: src/Admin/Fields.php:47
+#: src/Admin/Fields.php:68
 msgid "Referentne cijene"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:48
-#: src/Admin/Fields.php:48
+#: src/Admin/Fields.php:69
 msgid "Prikaz"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:49
-#: src/Admin/Fields.php:49
+#: src/Admin/Fields.php:70
 msgid "Cjenik"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:50
-#: src/Admin/Fields.php:50
+#: src/Admin/Fields.php:71
 msgid "Povijest cijena"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:51
-#: src/Admin/Fields.php:51
+#: src/Admin/Fields.php:72
 msgid "Napredno"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:86
-#: src/Admin/Fields.php:86
+#: src/Admin/Fields.php:106
 msgid "Oblik prodajnog objekta"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:87
-#: src/Admin/Fields.php:87
+#: src/Admin/Fields.php:107
 msgid "Npr. webshop, prodavaonica, kiosk. Prvi dio naziva datoteke cjenika."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:93
-#: src/Admin/Fields.php:93
+#: src/Admin/Fields.php:113
 msgid "Adresa prodajnog objekta"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:94
-#: src/Admin/Fields.php:94
+#: src/Admin/Fields.php:114
 msgid "Za web trgovinu: adresa sjedišta trgovca. Obvezan podatak u cjeniku."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:100
-#: src/Admin/Fields.php:100
+#: src/Admin/Fields.php:120 templates/admin/outlets.php:16
 msgid "Oznaka prodajnog objekta"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:101
-#: src/Admin/Fields.php:101
+#: src/Admin/Fields.php:121
 msgid ""
 "Interna oznaka objekta (npr. naziv web trgovine). Obvezan dio naziva "
 "datoteke."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:106
-#: src/Admin/Fields.php:106
+#: src/Admin/Fields.php:126
 msgid "Broj skladišta"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:107
-#: src/Admin/Fields.php:107
+#: src/Admin/Fields.php:127
 msgid "Zadano 1 ako nemate više skladišta."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:112
-#: src/Admin/Fields.php:112
+#: src/Admin/Fields.php:132
 msgid "Naziv trgovca"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:113
-#: src/Admin/Fields.php:113
+#: src/Admin/Fields.php:133
 msgid "Prazno = naziv web stranice."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:116
-#: src/Admin/Fields.php:116
+#: src/Admin/Fields.php:143
 msgid "Sidrena (dodatna) cijena"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:117
-#: src/Admin/Fields.php:117
+#: src/Admin/Fields.php:144
 msgid "Bazna cijena (od 17. 11. 2026.)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:122
-#: src/Admin/Fields.php:122
+#: src/Admin/Fields.php:149
 msgid "Varijacije nasljeđuju referentnu cijenu roditelja"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:123
-#: src/Admin/Fields.php:123
+#: src/Admin/Fields.php:150
 msgid ""
 "Kada varijacija nema vlastitu referentnu cijenu, koristi se cijena "
 "varijabilnog proizvoda."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:124
-#: src/Admin/Fields.php:124
+#: src/Admin/Fields.php:151
 msgid "Ostalo"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:129
-#: src/Admin/Fields.php:129
+#: src/Admin/Fields.php:156
 msgid "Automatski \"nema referentne cijene\" za nove proizvode"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:130
-#: src/Admin/Fields.php:130
+#: src/Admin/Fields.php:157
 msgid ""
 "Proizvodi kreirani nakon referentnog datuma nemaju sidrenu cijenu pa se "
 "oznaka ne prikazuje."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:136
-#: src/Admin/Fields.php:136
+#: src/Admin/Fields.php:163
 msgid "Položaj oznake"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:138
-#: src/Admin/Fields.php:138
+#: src/Admin/Fields.php:165
 msgid "Iza cijene (isti redak)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:139
-#: src/Admin/Fields.php:139
+#: src/Admin/Fields.php:166
 msgid "Ispod cijene"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:140
-#: src/Admin/Fields.php:140
+#: src/Admin/Fields.php:167
 msgid "Ispred cijene"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:146
-#: src/Admin/Fields.php:146
+#: src/Admin/Fields.php:173
 msgid "Format oznake"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:147
-#: src/Admin/Fields.php:147
+#: src/Admin/Fields.php:174
 msgid ""
 "Dostupne oznake: {label}, {date}, {price}, {key}. Sidrena cijena isključuje "
 "akcijske cijene."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:152
-#: src/Admin/Fields.php:152
+#: src/Admin/Fields.php:179
 msgid "Sažeti format (košarica, blagajna)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:153
-#: src/Admin/Fields.php:153
+#: src/Admin/Fields.php:180
 msgid "Iste oznake kao gore; koristi se gdje je malo prostora."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:158
-#: src/Admin/Fields.php:158
+#: src/Admin/Fields.php:185
 msgid "Format datuma"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:159
-#: src/Admin/Fields.php:159
+#: src/Admin/Fields.php:186
 msgid "PHP format datuma; zadano \"j. n. Y.\" daje 10. 9. 2026."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:165
-#: src/Admin/Fields.php:165
+#: src/Admin/Fields.php:192
 msgid "Prikaži u popisu proizvoda"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:166
-#: src/Admin/Fields.php:166
+#: src/Admin/Fields.php:193
 msgid "Zakon traži oznaku svugdje gdje se prikazuje cijena."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:171
-#: src/Admin/Fields.php:171
+#: src/Admin/Fields.php:198
 msgid "Prikaži na stranici proizvoda"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:176
-#: src/Admin/Fields.php:176
+#: src/Admin/Fields.php:203
 msgid "Prikaži u košarici"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:181
-#: src/Admin/Fields.php:181
+#: src/Admin/Fields.php:208
 msgid "Prikaz na blagajni"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:183
-#: src/Admin/Fields.php:183
+#: src/Admin/Fields.php:210
 msgid "Jedinična cijena"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:184
-#: src/Admin/Fields.php:184
+#: src/Admin/Fields.php:211
 msgid "Ukupno za količinu"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:185
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:205
-#: src/Admin/Fields.php:185 src/Admin/Fields.php:205
+#: src/Admin/Fields.php:212 src/Admin/Fields.php:232
 msgid "Ne prikazuj"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:191
-#: src/Admin/Fields.php:191
+#: src/Admin/Fields.php:218
 msgid "Prikaži u mini košarici"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:196
-#: src/Admin/Fields.php:196
+#: src/Admin/Fields.php:223
 msgid "Dodaj redak u podatke stavke (blok košarica/blagajna)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:197
-#: src/Admin/Fields.php:197
+#: src/Admin/Fields.php:224
 msgid ""
 "Blok košarica ne renderira oznaku; ovako se podatak ipak prikazuje kao redak "
 "stavke."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:202
-#: src/Admin/Fields.php:202
+#: src/Admin/Fields.php:229
 msgid "Varijabilni proizvodi u popisu"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:204
-#: src/Admin/Fields.php:204
+#: src/Admin/Fields.php:231
 msgid "Raspon (min – max)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:211
-#: src/Admin/Fields.php:211
+#: src/Admin/Fields.php:238
 msgid "Prikaži najnižu cijenu u 30 dana prije sniženja"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:212
-#: src/Admin/Fields.php:212
+#: src/Admin/Fields.php:239
 msgid "Obveza prema čl. 19 Zakona o zaštiti potrošača za svako sniženje."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:217
-#: src/Admin/Fields.php:217
+#: src/Admin/Fields.php:244
 msgid "Naziv najniže cijene"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:222
-#: src/Admin/Fields.php:222
+#: src/Admin/Fields.php:249
 msgid "Zamijeni precrtanu cijenu najnižom u 30 dana"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:223
-#: src/Admin/Fields.php:223
+#: src/Admin/Fields.php:250
 msgid ""
 "Kada je najniža cijena niža od redovne, precrtava se ona (postotak se računa "
 "od nje)."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:228
-#: src/Admin/Fields.php:228
+#: src/Admin/Fields.php:255
 msgid "Prikaži postotak sniženja"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:233
-#: src/Admin/Fields.php:233
+#: src/Admin/Fields.php:260
 msgid "Učitaj CSS dodatka"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:234
-#: src/Admin/Fields.php:234
+#: src/Admin/Fields.php:261
 msgid "Isključite ako stilove definirate u temi."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:240
-#: src/Admin/Fields.php:240
+#: src/Admin/Fields.php:267
 msgid "Objavi strojno čitljiv cjenik"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:241
-#: src/Admin/Fields.php:241
+#: src/Admin/Fields.php:268
 msgid "Obveza za sve trgovce s web stranicom od 1. 10. 2026."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:246
-#: src/Admin/Fields.php:246
+#: src/Admin/Fields.php:273
 msgid "Formati"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:255
-#: src/Admin/Fields.php:255
+#: src/Admin/Fields.php:282
 msgid "Putanja (slug)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:256
-#: src/Admin/Fields.php:256
+#: src/Admin/Fields.php:283
 msgid "Javna adresa cjenika: /{slug}/latest.xml"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:262
-#: src/Admin/Fields.php:262
+#: src/Admin/Fields.php:289
 msgid "Vrijeme dnevnog generiranja"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:263
-#: src/Admin/Fields.php:263
+#: src/Admin/Fields.php:290
 msgid "Cjenik robe mora biti objavljen svaki dan prije 08:00."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:268
-#: src/Admin/Fields.php:268
+#: src/Admin/Fields.php:295
 msgid "Regeneriraj pri promjeni cijene"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:269
-#: src/Admin/Fields.php:269
+#: src/Admin/Fields.php:296
 msgid "Cjenik usluga mora se objaviti pri svakoj promjeni cijene."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:271
-#: src/Admin/Fields.php:271
+#: src/Admin/Fields.php:298
 msgid "Samo usluge"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:272
-#: src/Admin/Fields.php:272
+#: src/Admin/Fields.php:299
 msgid "Svi proizvodi"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:273
-#: src/Admin/Fields.php:273
+#: src/Admin/Fields.php:300
 msgid "Nikad (samo dnevno)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:279
-#: src/Admin/Fields.php:279
+#: src/Admin/Fields.php:306
 msgid "Odgoda regeneriranja (s)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:280
-#: src/Admin/Fields.php:280
+#: src/Admin/Fields.php:307
 msgid "Više promjena u ovom razdoblju spaja se u jedno generiranje."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:286
-#: src/Admin/Fields.php:286
+#: src/Admin/Fields.php:313
 msgid "Čuvanje starih cjenika (dana)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:287
-#: src/Admin/Fields.php:287
+#: src/Admin/Fields.php:314
 msgid "Zakonski minimum 30 dana."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:293
-#: src/Admin/Fields.php:293
+#: src/Admin/Fields.php:320
 msgid "Uključi proizvode kojih nema na zalihi"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:298
-#: src/Admin/Fields.php:298
+#: src/Admin/Fields.php:325
 msgid "Uključi skrivene proizvode"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:303
-#: src/Admin/Fields.php:303
+#: src/Admin/Fields.php:330
 msgid "Što je usluga"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:305
-#: src/Admin/Fields.php:305
+#: src/Admin/Fields.php:332
 msgid "Virtualni proizvod ili oznaka \"Ovo je usluga\""
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:306
-#: src/Admin/Fields.php:306
+#: src/Admin/Fields.php:333
 msgid "Samo virtualni proizvodi"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:307
-#: src/Admin/Fields.php:307
+#: src/Admin/Fields.php:334
 msgid "Samo oznaka \"Ovo je usluga\""
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:308
-#: src/Admin/Fields.php:308
+#: src/Admin/Fields.php:335
 msgid "Svi proizvodi su usluge"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:309
-#: src/Admin/Fields.php:309
+#: src/Admin/Fields.php:336
 msgid "Nema usluga"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:315
-#: src/Admin/Fields.php:315
+#: src/Admin/Fields.php:342
 msgid "Zadani naziv posebnog oblika prodaje"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:321
-#: src/Admin/Fields.php:321
+#: src/Admin/Fields.php:348
 msgid "CSV razdjelnik"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:323
-#: src/Admin/Fields.php:323
+#: src/Admin/Fields.php:350
 msgid "Točka-zarez (;)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:324
-#: src/Admin/Fields.php:324
+#: src/Admin/Fields.php:351
 msgid "Zarez (,)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:325
 #: build/sidrena-cijena-za-woocommerce/templates/admin/tools.php:116
-#: src/Admin/Fields.php:325 templates/admin/tools.php:116
+#: src/Admin/Fields.php:352 templates/admin/tools.php:116
 msgid "Tabulator"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:331
-#: src/Admin/Fields.php:331
+#: src/Admin/Fields.php:358
 msgid "CSV s UTF-8 BOM (za Excel)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:336
-#: src/Admin/Fields.php:336
+#: src/Admin/Fields.php:363
 msgid "Cijene u cjeniku"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:338
-#: src/Admin/Fields.php:338
+#: src/Admin/Fields.php:365
 msgid "S PDV-om (maloprodajne)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:339
-#: src/Admin/Fields.php:339
+#: src/Admin/Fields.php:366
 msgid "Bez PDV-a"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:345
-#: src/Admin/Fields.php:345
+#: src/Admin/Fields.php:372
 msgid "Ključ za vanjski cron"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:346
+#: src/Admin/Fields.php:373
 msgid ""
-"Za pokretanje generiranja izvana (?scwc_cron=KLJUČ). Prazno = generira se "
-"automatski."
+"Za pokretanje generiranja izvana: /cjenik/?scwc_run=1&key=KLJUČ (npr. iz "
+"sistemskog crona)."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:352
-#: src/Admin/Fields.php:352
+#: src/Admin/Fields.php:379
 msgid "Bilježi povijest cijena"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:353
-#: src/Admin/Fields.php:353
+#: src/Admin/Fields.php:380
 msgid "Potrebno za izračun najniže cijene u 30 dana prije sniženja."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:358
-#: src/Admin/Fields.php:358
+#: src/Admin/Fields.php:385
 msgid "Čuvanje povijesti (dana)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:359
-#: src/Admin/Fields.php:359
+#: src/Admin/Fields.php:386
 msgid "Najmanje 31 dan; preporučeno 400 radi naknadnih provjera."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:365
-#: src/Admin/Fields.php:365
+#: src/Admin/Fields.php:392
 msgid "Vrijeme dnevne provjere cijena"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:366
-#: src/Admin/Fields.php:366
+#: src/Admin/Fields.php:393
 msgid "Hvata promjene cijena izvan WooCommerce sučelja (ERP, SQL)."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:371
-#: src/Admin/Fields.php:371
+#: src/Admin/Fields.php:398
 msgid "Kad nema dovoljno povijesti"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:372
-#: src/Admin/Fields.php:372
+#: src/Admin/Fields.php:399
 msgid "Za sniženja bez 30 dana zabilježene povijesti."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:374
-#: src/Admin/Fields.php:374
+#: src/Admin/Fields.php:401
 msgid "Koristi redovnu cijenu"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:375
-#: src/Admin/Fields.php:375
+#: src/Admin/Fields.php:402
 msgid "Ne prikazuj najnižu cijenu"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:382
-#: src/Admin/Fields.php:382
+#: src/Admin/Fields.php:409
 msgid "Obriši sve podatke pri deinstalaciji"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:383
-#: src/Admin/Fields.php:383
+#: src/Admin/Fields.php:410
 msgid "Postavke, meta podatke proizvoda, povijest cijena i generirane cjenike."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:388
-#: src/Admin/Fields.php:388
+#: src/Admin/Fields.php:415
 msgid "Zapisuj dijagnostiku u WooCommerce log"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:404
-#: src/Admin/Fields.php:404
+#: src/Admin/Fields.php:431
 msgid "Omogućeno"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:411
-#: src/Admin/Fields.php:411
+#: src/Admin/Fields.php:438
 msgid "Omogući"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:412
-#: src/Admin/Fields.php:412
+#: src/Admin/Fields.php:439
 msgid "Uključite kada pravilnik odredi referentni dan za baznu cijenu."
 msgstr ""
 
 #. translators: 1: default anchor date, 2: FMCG date
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:419
-#: src/Admin/Fields.php:419
+#: src/Admin/Fields.php:446
 #, php-format
 msgid ""
 "Zadano %1$s (NN 101/2026). Datum za FMCG kategorije koje ste već označavali: "
@@ -596,114 +597,114 @@ msgid ""
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:423
-#: src/Admin/Fields.php:423
+#: src/Admin/Fields.php:450
 msgid "Referentni dan određuje pravilnik; ostavite prazno dok nije objavljen."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:430
-#: src/Admin/Fields.php:430
+#: src/Admin/Fields.php:457
 msgid "Naziv na stranici"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:431
-#: src/Admin/Fields.php:431
+#: src/Admin/Fields.php:458
 msgid "Npr. \"Cijena na dan\" – prikazuje se uz datum i iznos."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:436
-#: src/Admin/Fields.php:436
+#: src/Admin/Fields.php:463
 msgid "Referentni datum"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:442
-#: src/Admin/Fields.php:442
+#: src/Admin/Fields.php:469
 msgid "Iznimke po kategorijama"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:443
-#: src/Admin/Fields.php:443
+#: src/Admin/Fields.php:470
 msgid "Kategorije (uključujući podkategorije) s drugim referentnim datumom."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:448
-#: src/Admin/Fields.php:448
+#: src/Admin/Fields.php:475
 msgid "Automatski snapshot cijena"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:449
-#: src/Admin/Fields.php:449
+#: src/Admin/Fields.php:476
 msgid ""
 "U zadano vrijeme redovne cijene svih proizvoda kopiraju se kao referentne "
 "(zakazani zadatak). Prazno = bez automatskog snapshota."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:454
-#: src/Admin/Fields.php:454
+#: src/Admin/Fields.php:481
 msgid "Snapshot obavljen"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:73
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:143
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:74
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:144
 #: src/Admin/ProductFields.php:74 src/Admin/ProductFields.php:144
 msgid "Izvor"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:87
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:88
 #: src/Admin/ProductFields.php:88
 msgid "Ovo je usluga"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:88
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:89
 #: src/Admin/ProductFields.php:89
 msgid "Cjenik usluga regenerira se pri svakoj promjeni cijene."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:95
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:96
 #: src/Admin/ProductFields.php:96
 msgid "Jedinica mjere (kg, l, m, kom)"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:102
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:103
 #: src/Admin/ProductFields.php:103
 msgid "Neto količina u jedinici mjere"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:103
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:104
 #: src/Admin/ProductFields.php:104
 msgid "Cijena za jedinicu mjere = cijena / neto količina."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:111
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:112
 #: src/Admin/ProductFields.php:112
 msgid "Naziv posebnog oblika prodaje"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:112
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:113
 #: src/Admin/ProductFields.php:113
 msgid "Npr. sniženje, akcija, rasprodaja. Prazno = zadani naziv iz postavki."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:120
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:121
 #: src/Admin/ProductFields.php:121
 msgid "Isključi iz cjenika"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:127
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:128
 #: src/Admin/ProductFields.php:128
 msgid "Cijena na upit (isključeno iz cjenika)"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:141
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:142
 #: src/Admin/ProductFields.php:142
 msgid "Referentna cijena"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:142
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:143
 #: src/Admin/ProductFields.php:143
 msgid "Početak sniženja"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:146
+#: build/sidrena-cijena-za-woocommerce/src/Admin/ProductFields.php:147
 #: src/Admin/ProductFields.php:147
 msgid "Najniža cijena u 30 dana"
 msgstr ""
@@ -752,164 +753,162 @@ msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:71
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:72
-#: src/Admin/SettingsPage.php:71 src/Admin/SettingsPage.php:72
+#: src/Admin/SettingsPage.php:73 src/Admin/SettingsPage.php:74
 msgid "Sidrena cijena"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:122
-#: src/Admin/SettingsPage.php:122
+#: src/Admin/SettingsPage.php:124
 msgid "Nemate ovlasti za pristup ovoj stranici."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:127
-#: src/Admin/SettingsPage.php:127
+#: src/Admin/SettingsPage.php:129
 msgid "Sidrena cijena za WooCommerce"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:213
-#: src/Admin/SettingsPage.php:213
+#: src/Admin/SettingsPage.php:214
 msgid ""
 "Podaci o prodajnom objektu ulaze u naziv datoteke i zaglavlje cjenika (NN "
 "101/2026)."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:214
-#: src/Admin/SettingsPage.php:214
+#: src/Admin/SettingsPage.php:215
 msgid ""
 "Sidrena cijena je redovna cijena koja je vrijedila na referentni dan; "
 "akcijske cijene se ne uzimaju u obzir."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:215
-#: src/Admin/SettingsPage.php:215
+#: src/Admin/SettingsPage.php:216
 msgid ""
 "Oznaka se prikazuje uz svaku cijenu: jasno, vidljivo i čitljivo, s "
 "referentnim datumom."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:216
-#: src/Admin/SettingsPage.php:216
+#: src/Admin/SettingsPage.php:217
 msgid ""
 "Cjenik robe objavljuje se svaki dan prije 08:00, cjenik usluga pri svakoj "
 "promjeni; verzije se čuvaju najmanje 30 dana."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:217
-#: src/Admin/SettingsPage.php:217
+#: src/Admin/SettingsPage.php:218
 msgid ""
 "Povijest cijena služi za izračun najniže cijene u 30 dana prije sniženja "
 "(čl. 19 ZZP)."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:247
-#: src/Admin/SettingsPage.php:247
 msgid "Naziv datoteke cjenika"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:249
-#: src/Admin/SettingsPage.php:249
 msgid ""
 "Datum i vrijeme dodaju se pri svakom generiranju. Isti naziv s "
 "nastavkom .csv za CSV."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:250
-#: src/Admin/SettingsPage.php:250
+#: src/Admin/SettingsPage.php:251
 msgid "Javne adrese"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:266
-#: src/Admin/SettingsPage.php:266
+#: src/Admin/SettingsPage.php:284
 msgid "Pregled oznake (primjer)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:267
-#: src/Admin/SettingsPage.php:267
+#: src/Admin/SettingsPage.php:285
 msgid ""
 "Proizvod na sniženju: trenutna cijena 12,99 €, sidrena 14,99 €, najniža u 30 "
 "dana 12,49 €. Pregled se osvježava nakon spremanja."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:275
-#: src/Admin/SettingsPage.php:275
+#: src/Admin/SettingsPage.php:293
 msgid "Stanje cjenika"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:277
-#: src/Admin/SettingsPage.php:277
+#: src/Admin/SettingsPage.php:295
 msgid "Nema podataka o generiranju."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:286
-#: src/Admin/SettingsPage.php:286
+#: src/Admin/SettingsPage.php:304
 msgid "Generiraj sada"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:287
-#: src/Admin/SettingsPage.php:287
+#: src/Admin/SettingsPage.php:305
 msgid "Provjeri cijene sada"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/SettingsPage.php:288
-#: src/Admin/SettingsPage.php:288
+#: src/Admin/SettingsPage.php:306
 msgid "Ponovno zakaži zadatke"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:37
 #: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:54
-#: src/Admin/StatusProvider.php:37 src/Admin/StatusProvider.php:54
+#: src/Admin/StatusProvider.php:38 src/Admin/StatusProvider.php:55
 msgid "Zadnje generiranje"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:38
-#: src/Admin/StatusProvider.php:38
+#: src/Admin/StatusProvider.php:39
 msgid "nikad"
 msgstr ""
 
 #. translators: 1: products, 2: services
 #: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:47
-#: src/Admin/StatusProvider.php:47
+#: src/Admin/StatusProvider.php:48
 #, php-format
 msgid "%1$d proizvoda, %2$d usluge"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:61
-#: src/Admin/StatusProvider.php:61
+#: src/Admin/StatusProvider.php:62
 msgid "Sljedeće generiranje"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:65
-#: src/Admin/StatusProvider.php:65
+#: src/Admin/StatusProvider.php:66
 msgid "Sljedeća provjera cijena"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:70
-#: src/Admin/StatusProvider.php:70
+#: src/Admin/StatusProvider.php:71
 msgid "Zakazano automatsko snimanje"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:75
-#: src/Admin/StatusProvider.php:75
+#: src/Admin/StatusProvider.php:76
 msgid "Mehanizam zakazivanja"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:82
-#: src/Admin/StatusProvider.php:82
+#: src/Admin/StatusProvider.php:83
 msgid "Popis"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:90
-#: src/Admin/StatusProvider.php:90
+#: src/Admin/StatusProvider.php:91
 msgid "Javni URL-ovi"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:97
-#: src/Admin/StatusProvider.php:97
+#: src/Admin/StatusProvider.php:109
 msgid "Vanjski cron (GET)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:106
-#: src/Admin/StatusProvider.php:106
+#: src/Admin/StatusProvider.php:118
 msgid "nije zakazano"
 msgstr ""
 
@@ -1192,12 +1191,17 @@ msgid "Nije moguće pisati u datoteku %s."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/PriceList/Generator.php:49
+#: src/PriceList/Generator.php:49
+msgid "Cjenik je isključen u postavkama."
+msgstr ""
+
+#: build/sidrena-cijena-za-woocommerce/src/PriceList/Generator.php:52
 #: src/PriceList/Generator.php:52
 msgid "Generiranje je već u tijeku."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/PriceList/Generator.php:70
-#: src/PriceList/Generator.php:80
+#: build/sidrena-cijena-za-woocommerce/src/PriceList/Generator.php:80
+#: src/PriceList/Generator.php:82
 msgid "Podaci o prodajnom objektu nisu potpuni."
 msgstr ""
 
@@ -1215,23 +1219,23 @@ msgstr ""
 msgid "Nije moguće objaviti datoteku %s."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/StoreApi/ExtendStoreApi.php:65
+#: build/sidrena-cijena-za-woocommerce/src/StoreApi/ExtendStoreApi.php:70
 #: src/StoreApi/ExtendStoreApi.php:70
 msgid "Referentne cijene (sidrena/bazna) s datumom."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/StoreApi/ExtendStoreApi.php:70
+#: build/sidrena-cijena-za-woocommerce/src/StoreApi/ExtendStoreApi.php:75
 #: src/StoreApi/ExtendStoreApi.php:75
 msgid "Najniža cijena u 30 dana prije sniženja."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/StoreApi/ExtendStoreApi.php:79
+#: build/sidrena-cijena-za-woocommerce/src/StoreApi/ExtendStoreApi.php:84
 #: src/StoreApi/ExtendStoreApi.php:84
 msgid "Gotov HTML oznake za prikaz."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/templates/admin/category-overrides.php:23
-#: templates/admin/category-overrides.php:23
+#: templates/admin/category-overrides.php:23 templates/admin/outlets.php:27
 msgid "Ukloni"
 msgstr ""
 
@@ -1461,60 +1465,115 @@ msgstr ""
 msgid "Izvezi CSV"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:34
-#: templates/cjenik-index.php:35
+#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:35
+#: templates/cjenik-index.php:42
 msgid "oznaka"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:34
-#: templates/cjenik-index.php:35
+#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:35
+#: templates/cjenik-index.php:42
 msgid "broj pohrane"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:35
-#: templates/cjenik-index.php:36
+#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:36
 msgid ""
 "Strojno čitljiv cjenik objavljen prema Odluci o objavi cjenika proizvoda i "
 "usluga (NN 101/2026). Datoteke sadrže maloprodajne cijene, sidrene cijene i "
 "podatke o posebnim oblicima prodaje. Verzije se čuvaju najmanje 30 dana."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:43
-#: templates/cjenik-index.php:44
+#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:44
+#: templates/cjenik-index.php:50
 msgid "Datoteka"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:43
-#: templates/cjenik-index.php:44
+#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:44
+#: templates/cjenik-index.php:50
 msgid "Format"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:43
-#: templates/cjenik-index.php:44
+#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:44
+#: templates/cjenik-index.php:50
 msgid "Generirano"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:43
-#: templates/cjenik-index.php:44
+#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:44
+#: templates/cjenik-index.php:50
 msgid "Proizvodi"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:43
-#: templates/cjenik-index.php:44
+#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:44
+#: templates/cjenik-index.php:50
 msgid "Usluge"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:43
-#: templates/cjenik-index.php:44
+#: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:44
+#: templates/cjenik-index.php:50
 msgid "Veličina"
 msgstr ""
 
-#: src/Admin/Fields.php:346
-msgid ""
-"Za pokretanje generiranja izvana: /cjenik/?scwc_run=1&key=KLJUČ (npr. iz "
-"sistemskog crona)."
+#: src/Admin/Fields.php:67
+msgid "Prodajni objekti"
 msgstr ""
 
-#: src/PriceList/Generator.php:49
-msgid "Cjenik je isključen u postavkama."
+#: src/Admin/Fields.php:138
+msgid "Dodatni prodajni objekti (poslovnice)"
+msgstr ""
+
+#: src/Admin/Fields.php:139
+msgid "Poslovnice"
+msgstr ""
+
+#: src/Admin/Fields.php:140
+msgid ""
+"Svaki prodajni objekt mora imati vlastitu datoteku cjenika s vlastitim "
+"nazivom i arhivom od 30 dana (NN 101/2026, t. VI.), i kad su cijene jednake. "
+"Ovdje dodajte fizičke poslovnice; cijene se preuzimaju iz WooCommercea."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:249
+msgid "Datoteke cjenika po prodajnom objektu"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:250
+msgid ""
+"Svaki prodajni objekt dobiva vlastitu datoteku (XML i/ili CSV) s propisanim "
+"nazivom i vlastitom arhivom od najmanje 30 dana. Datum i vrijeme dodaju se "
+"pri svakom generiranju."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:251
+msgid "Naziv datoteke"
+msgstr ""
+
+#: src/Admin/StatusProvider.php:101
+msgid "Po prodajnom objektu"
+msgstr ""
+
+#: templates/admin/outlets.php:14
+msgid "Oblik (npr. poslovnica, prodavaonica, kiosk)"
+msgstr ""
+
+#: templates/admin/outlets.php:15
+msgid "Adresa"
+msgstr ""
+
+#: templates/admin/outlets.php:17
+msgid "Broj pohrane"
+msgstr ""
+
+#: templates/admin/outlets.php:45
+msgid "Dodaj prodajni objekt"
+msgstr ""
+
+#: templates/cjenik-index.php:38
+msgid ""
+"Strojno čitljiv cjenik objavljen prema Odluci o objavi cjenika proizvoda i "
+"usluga (NN 101/2026). Svaki prodajni objekt ima vlastitu datoteku; datoteke "
+"sadrže maloprodajne cijene, sidrene cijene i podatke o posebnim oblicima "
+"prodaje. Verzije se čuvaju najmanje 30 dana."
+msgstr ""
+
+#: templates/cjenik-index.php:42
+msgid "stranica objekta"
 msgstr ""

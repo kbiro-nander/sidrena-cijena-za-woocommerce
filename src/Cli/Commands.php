@@ -82,7 +82,7 @@ final class Commands {
 			WP_CLI::error( (string) $result->error );
 		}
 		foreach ( $result->files as $file ) {
-			WP_CLI::success( sprintf( 'Generirano: %s (%d proizvoda, %d usluga)', $file['name'], $file['products'], $file['services'] ) );
+			WP_CLI::success( sprintf( 'Generirano [%s]: %s (%d proizvoda, %d usluga)', (string) ( $file['outlet'] ?? '-' ), $file['name'], $file['products'], $file['services'] ) );
 		}
 	}
 

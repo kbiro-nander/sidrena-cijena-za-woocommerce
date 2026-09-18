@@ -11,12 +11,14 @@ namespace SidrenaCijena\Endpoint;
 
 use SidrenaCijena\PriceList\FilenameBuilder;
 use SidrenaCijena\PriceList\Manifest;
+use SidrenaCijena\PriceList\Outlet;
+use SidrenaCijena\PriceList\Outlets;
 use SidrenaCijena\PriceList\Storage;
 use SidrenaCijena\Settings\Settings;
 
 final class Endpoint {
 
-	public const QUERY_VARS = [ 'scwc_cjenik', 'scwc_format', 'scwc_file' ];
+	public const QUERY_VARS = [ 'scwc_cjenik', 'scwc_format', 'scwc_file', 'scwc_outlet' ];
 	/** Read from $_GET only – `key` must not become a public query var (WooCommerce order URLs use it). */
 	public const PRIVATE_VARS = [ 'scwc_run', 'key' ];
 
@@ -72,6 +74,9 @@ final class Endpoint {
 			"^{$s}/?$"                                   => 'index.php?scwc_cjenik=index',
 			"^{$s}/index\.json$"                         => 'index.php?scwc_cjenik=json',
 			"^{$s}/latest\.(xml|csv)$"                   => 'index.php?scwc_cjenik=latest&scwc_format=$matches[1]',
+			"^{$s}/([a-z0-9-]+)/latest\.(xml|csv)$"      => 'index.php?scwc_cjenik=latest&scwc_outlet=$matches[1]&scwc_format=$matches[2]',
+			"^{$s}/([a-z0-9-]+)/index\.json$"            => 'index.php?scwc_cjenik=json&scwc_outlet=$matches[1]',
+			"^{$s}/([a-z0-9-]+)/?$"                      => 'index.php?scwc_cjenik=index&scwc_outlet=$matches[1]',
 			"^{$s}/([a-z0-9][a-z0-9._-]*\.(?:xml|csv))$" => 'index.php?scwc_cjenik=file&scwc_file=$matches[1]',
 		];
 	}
@@ -151,28 +156,34 @@ final class Endpoint {
 			return $this->externalRun( (string) ( $vars['key'] ?? '' ) );
 		}
 		$this->manifest->load();
+		$outlets   = Outlets::fromSettings( $this->settings );
+		$outletKey = (string) ( $vars['scwc_outlet'] ?? '' );
+		$outlet    = '' === $outletKey ? Outlets::primary( $outlets ) : Outlets::byKey( $outlets, $outletKey );
+		if ( ! $outlet instanceof Outlet ) {
+			return $this->notFound();
+		}
 		return match ( $action ) {
-			'index'  => $this->indexResponse( 'html' ),
-			'json'   => $this->indexResponse( 'json' ),
-			'latest' => $this->latest( (string) ( $vars['scwc_format'] ?? '' ), $server ),
+			'index'  => $this->indexResponse( 'html', '' === $outletKey ? null : $outlet ),
+			'json'   => $this->indexResponse( 'json', '' === $outletKey ? null : $outlet ),
+			'latest' => $this->latest( (string) ( $vars['scwc_format'] ?? '' ), $server, $outlet, (string) ( Outlets::primary( $outlets )->key ?? '' ) ),
 			'file'   => $this->file( (string) ( $vars['scwc_file'] ?? '' ), $server ),
 			default  => $this->notFound(),
 		};
 	}
 
-	private function indexResponse( string $format ): Response {
+	private function indexResponse( string $format, ?Outlet $only ): Response {
 		$this->headers->forIndex( $format );
-		return new Response( 200, null, 'json' === $format ? $this->index->json() : $this->index->html() );
+		return new Response( 200, null, 'json' === $format ? $this->index->json( $only ) : $this->index->html( $only ) );
 	}
 
 	/**
 	 * @param array<string,mixed> $server $_SERVER-like array.
 	 */
-	private function latest( string $format, array $server ): Response {
+	private function latest( string $format, array $server, Outlet $outlet, string $primaryKey ): Response {
 		if ( ! in_array( $format, [ 'xml', 'csv' ], true ) ) {
 			return $this->notFound();
 		}
-		$entry = $this->manifest->latest( $format );
+		$entry = $this->manifest->latest( $format, $outlet->key, $primaryKey );
 		if ( ! $entry || ! $this->storage->exists( (string) $entry['name'] ) ) {
 			return $this->notFound();
 		}

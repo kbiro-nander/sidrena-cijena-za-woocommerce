@@ -71,6 +71,15 @@ final class RetentionTest extends TestCase {
 		self::assertTrue( $this->manifest->has( 'c_20260101_060000.csv' ) );
 	}
 
+	public function test_newest_file_of_each_outlet_and_format_is_kept(): void {
+		$this->file( 'webshop_a_web1_1_20260101_060000.xml', 'xml', '2026-01-01 04:00:00' );
+		$this->file( 'webshop_a_web1_1_20260201_060000.xml', 'xml', '2026-02-01 04:00:00' );
+		$this->manifest->add( [ 'name' => 'poslovnica_b_zg02_3_20260101_060000.xml', 'format' => 'xml', 'outlet' => 'zg-02', 'generated_at' => '', 'generated_at_utc' => '2026-01-01 04:00:00', 'reason' => 'scheduled', 'products' => 1, 'services' => 0, 'size' => 1, 'sha256' => '' ] );
+		file_put_contents( $this->storage->path( 'poslovnica_b_zg02_3_20260101_060000.xml' ), 'x' );
+		self::assertSame( [ 'webshop_a_web1_1_20260101_060000.xml' ], $this->retention()->prune( 30 ) );
+		self::assertTrue( $this->manifest->has( 'poslovnica_b_zg02_3_20260101_060000.xml' ), 'the other outlet\'s only file survives' );
+	}
+
 	public function test_entries_whose_file_vanished_are_dropped(): void {
 		$this->file( 'gone_20261001_060000.xml', 'xml', '2026-10-01 04:00:00', false );
 		$this->file( 'here_20261001_060100.xml', 'xml', '2026-10-01 04:01:00' );

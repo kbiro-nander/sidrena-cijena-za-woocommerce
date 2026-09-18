@@ -11,6 +11,7 @@ namespace SidrenaCijena\Endpoint;
 
 use SidrenaCijena\PriceList\Manifest;
 use SidrenaCijena\PriceList\Outlet;
+use SidrenaCijena\PriceList\Outlets;
 use SidrenaCijena\PriceList\Storage;
 use SidrenaCijena\Settings\Settings;
 
@@ -32,54 +33,84 @@ final class IndexRenderer {
 	}
 
 	/**
+	 * @param Outlet|null $only Limit to one outlet (per-outlet page); null = all outlets.
 	 * @return array<string,mixed>
 	 */
-	public function data(): array {
-		$base  = $this->baseUrl();
-		$files = [];
-		foreach ( $this->manifest->entries() as $e ) {
-			if ( ! $this->storage->exists( (string) $e['name'] ) ) {
+	public function data( ?Outlet $only = null ): array {
+		$base    = $this->baseUrl();
+		$outlets = Outlets::fromSettings( $this->settings );
+		$primary = (string) ( Outlets::primary( $outlets )->key ?? '' );
+		$list    = [];
+		foreach ( $outlets as $outlet ) {
+			if ( $only && $only->key !== $outlet->key ) {
 				continue;
 			}
-			$files[] = [
-				'name'         => (string) $e['name'],
-				'format'       => (string) $e['format'],
-				'url'          => $this->fileUrl( (string) $e['name'] ),
-				'generated_at' => (string) ( $e['generated_at'] ?? '' ),
-				'size'         => (int) ( $e['size'] ?? 0 ),
-				'products'     => (int) ( $e['products'] ?? 0 ),
-				'services'     => (int) ( $e['services'] ?? 0 ),
-				'sha256'       => (string) ( $e['sha256'] ?? '' ),
-			];
-		}
-		$latest = [];
-		foreach ( [ 'xml', 'csv' ] as $format ) {
-			$entry = $this->manifest->latest( $format );
-			if ( $entry && $this->storage->exists( (string) $entry['name'] ) ) {
-				$latest[ $format ] = $base . 'latest.' . $format;
+			$files = [];
+			foreach ( $this->manifest->entriesFor( $outlet->key, $primary ) as $e ) {
+				if ( ! $this->storage->exists( (string) $e['name'] ) ) {
+					continue;
+				}
+				$files[] = [
+					'name'         => (string) $e['name'],
+					'format'       => (string) $e['format'],
+					'url'          => $this->fileUrl( (string) $e['name'] ),
+					'generated_at' => (string) ( $e['generated_at'] ?? '' ),
+					'size'         => (int) ( $e['size'] ?? 0 ),
+					'products'     => (int) ( $e['products'] ?? 0 ),
+					'services'     => (int) ( $e['services'] ?? 0 ),
+					'sha256'       => (string) ( $e['sha256'] ?? '' ),
+				];
 			}
-		}
-		$outlet = Outlet::fromSettings( $this->settings );
-		return [
-			'base_url' => $base,
-			'outlet'   => [
+			$latest = [];
+			foreach ( [ 'xml', 'csv' ] as $format ) {
+				$entry = $this->manifest->latest( $format, $outlet->key, $primary );
+				if ( $entry && $this->storage->exists( (string) $entry['name'] ) ) {
+					$latest[ $format ] = $base . ( $outlet->isPrimary() ? '' : $outlet->key . '/' ) . 'latest.' . $format;
+				}
+			}
+			$list[] = [
+				'key'            => $outlet->key,
+				'primary'        => $outlet->isPrimary(),
 				'form'           => $outlet->form,
 				'address'        => $outlet->address,
 				'label'          => $outlet->label,
 				'storage_number' => $outlet->storageNumber,
 				'merchant_name'  => $outlet->merchantName,
+				'url'            => $base . ( $outlet->isPrimary() ? '' : $outlet->key . '/' ),
+				'latest'         => $latest,
+				'files'          => $files,
+			];
+		}
+		$first = $list[0] ?? [
+			'form'           => '',
+			'address'        => '',
+			'label'          => '',
+			'storage_number' => '',
+			'merchant_name'  => '',
+			'latest'         => [],
+			'files'          => [],
+		];
+		return [
+			'base_url' => $base,
+			'outlet'   => [
+				'form'           => $first['form'],
+				'address'        => $first['address'],
+				'label'          => $first['label'],
+				'storage_number' => $first['storage_number'],
+				'merchant_name'  => $first['merchant_name'],
 			],
-			'latest'   => $latest,
-			'files'    => $files,
+			'latest'   => $first['latest'],
+			'files'    => $first['files'],
+			'outlets'  => $list,
 		];
 	}
 
-	public function json(): string {
-		return (string) wp_json_encode( $this->data(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+	public function json( ?Outlet $only = null ): string {
+		return (string) wp_json_encode( $this->data( $only ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 	}
 
-	public function html(): string {
-		$data = $this->data();
+	public function html( ?Outlet $only = null ): string {
+		$data = $this->data( $only );
 		$file = rtrim( $this->templateDir, '/' ) . '/cjenik-index.php';
 		ob_start();
 		( static function () use ( $file, $data ): void {
@@ -87,6 +118,7 @@ final class IndexRenderer {
 			$latest   = $data['latest'];
 			$files    = $data['files'];
 			$base_url = $data['base_url'];
+			$outlets  = $data['outlets'];
 			include $file;
 		} )();
 		return (string) ob_get_clean();

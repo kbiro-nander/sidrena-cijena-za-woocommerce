@@ -46,6 +46,10 @@ final class Sanitizer {
 				$out[ $key ] = $this->sanitizeReferenceType( $default, $rawType );
 				continue;
 			}
+			if ( 'outlets.additional' === $path ) {
+				$out[ $key ] = $this->outlets( $raw[ $key ] ?? [] );
+				continue;
+			}
 			// A section that was submitted but lacks a boolean key = unchecked checkbox.
 			$submitted   = null !== $raw && array_key_exists( $key, $raw );
 			$value       = $submitted ? $raw[ $key ] : ( null !== $raw && is_bool( $default ) ? false : $default );
@@ -97,6 +101,36 @@ final class Sanitizer {
 			$out[] = [
 				'term_ids' => $ids,
 				'date'     => $date,
+			];
+		}
+		return $out;
+	}
+
+	/**
+	 * Additional outlets (poslovnice): rows without address or label are dropped.
+	 *
+	 * @param mixed $rows Raw rows.
+	 * @return array<int,array{form:string,address:string,label:string,storage_number:string}>
+	 */
+	private function outlets( $rows ): array {
+		$out = [];
+		if ( ! is_array( $rows ) ) {
+			return $out;
+		}
+		foreach ( $rows as $row ) {
+			if ( ! is_array( $row ) ) {
+				continue;
+			}
+			$address = $this->text( $row['address'] ?? '' );
+			$label   = $this->text( $row['label'] ?? '' );
+			if ( '' === $address || '' === $label ) {
+				continue;
+			}
+			$out[] = [
+				'form'           => $this->text( $row['form'] ?? '' ) ?: 'poslovnica',
+				'address'        => $address,
+				'label'          => $label,
+				'storage_number' => $this->text( $row['storage_number'] ?? '' ) ?: '1',
 			];
 		}
 		return $out;

@@ -15,7 +15,8 @@ use SidrenaCijena\Tests\TestCase;
 final class StatusProviderTest extends TestCase {
 	public function test_rows_include_last_generation_next_run_urls_and_backend(): void {
 		scwc_test_schedule_reset();
-		$settings  = ( new Settings( Defaults::all() ) )->with( 'price_list.external_cron_key', 'k' );
+		$settings  = ( new Settings( Defaults::all() ) )->with( 'price_list.external_cron_key', 'k' )->with( 'outlet.label', 'WEB1' )->with( 'outlet.address', 'Ilica 1' )
+			->with( 'outlets.additional', [ [ 'form' => 'poslovnica', 'address' => 'V 5', 'label' => 'ZG-02', 'storage_number' => '1' ] ] );
 		$scheduler = new Scheduler( new ActionSchedulerBackend(), $settings, new FixedClock( '2026-10-01 03:00:00' ) );
 		$scheduler->ensureScheduled();
 		Functions\when( 'get_option' )->alias( fn( $k, $d = false ) => 'scwc_last_generation' === $k ? [ 'at' => '2026-10-01 04:00:12', 'files' => [ 'a.xml', 'a.csv' ], 'products' => 10, 'services' => 2, 'error' => '' ] : $d );
@@ -26,6 +27,8 @@ final class StatusProviderTest extends TestCase {
 		self::assertStringContainsString( '1. 10. 2026. 06:00', $values );
 		self::assertStringContainsString( '10 proizvoda, 2 usluge', $values );
 		self::assertStringContainsString( 'https://example.hr/cjenik/latest.xml', $values );
+		self::assertStringContainsString( 'https://example.hr/cjenik/zg-02/latest.xml', $values );
+		self::assertStringContainsString( 'ZG-02', $values );
 		self::assertStringContainsString( 'scwc_run=1&amp;key=k', $values );
 		self::assertStringContainsString( 'Action Scheduler', $values );
 		$next = array_values( array_filter( $rows, fn( $r ) => 'Sljedeće generiranje' === $r['label'] ) )[0]['value'];

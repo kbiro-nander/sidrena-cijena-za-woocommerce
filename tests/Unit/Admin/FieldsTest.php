@@ -43,9 +43,9 @@ final class FieldsTest extends TestCase {
 			$defs = Fields::forTab( $tab );
 			$all += count( $defs );
 			foreach ( $defs as $def ) {
-				self::assertSame( Fields::sectionForTab( $tab ), explode( '.', $def['path'] )[0], $def['path'] );
+				self::assertContains( explode( '.', $def['path'] )[0], Fields::sectionsForTab( $tab ), $def['path'] );
 				self::assertNotSame( '', $def['label'] );
-				self::assertContains( $def['type'], [ 'text', 'number', 'checkbox', 'select', 'time', 'date', 'datetime-local', 'multicheck', 'textarea', 'hidden', 'readonly', 'category_overrides' ] );
+				self::assertContains( $def['type'], [ 'text', 'number', 'checkbox', 'select', 'time', 'date', 'datetime-local', 'multicheck', 'textarea', 'hidden', 'readonly', 'category_overrides', 'outlets' ] );
 			}
 		}
 		self::assertSame( count( Fields::all() ), $all );

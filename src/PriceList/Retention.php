@@ -27,11 +27,15 @@ class Retention {
 	 * @param int $days Retention in days (floored to MIN_DAYS).
 	 * @return string[] Names removed from the manifest (and disk where present).
 	 */
-	public function prune( int $days ): array {
+	/**
+	 * @param string $primaryKey Key of the primary outlet; entries without an outlet key count as its files.
+	 * @return string[] Removed file names.
+	 */
+	public function prune( int $days, string $primaryKey = '' ): array {
 		$days   = max( self::MIN_DAYS, $days );
 		$cutoff = $this->clock->now()->modify( sprintf( '-%d days', $days ) );
 
-		$newest  = $this->newestPerFormat();
+		$newest  = $this->newestPerFormat( $primaryKey );
 		$removed = [];
 		foreach ( $this->manifest->entries() as $entry ) {
 			$name = (string) ( $entry['name'] ?? '' );
@@ -60,15 +64,21 @@ class Retention {
 	/**
 	 * @return string[] Name of the newest existing entry per format.
 	 */
-	private function newestPerFormat(): array {
+	/**
+	 * Newest existing file per (outlet, format); legacy entries without an outlet key belong to the primary.
+	 *
+	 * @return string[]
+	 */
+	private function newestPerFormat( string $primaryKey ): array {
 		$newest = [];
 		foreach ( $this->manifest->entries() as $entry ) {
-			$format = (string) ( $entry['format'] ?? '' );
+			$outlet = (string) ( $entry['outlet'] ?? '' );
+			$group  = ( '' === $outlet ? $primaryKey : $outlet ) . '|' . (string) ( $entry['format'] ?? '' );
 			$name   = (string) ( $entry['name'] ?? '' );
-			if ( isset( $newest[ $format ] ) || ! $this->storage->exists( $name ) ) {
+			if ( isset( $newest[ $group ] ) || ! $this->storage->exists( $name ) ) {
 				continue;
 			}
-			$newest[ $format ] = $name;
+			$newest[ $group ] = $name;
 		}
 		return array_values( $newest );
 	}

@@ -64,7 +64,7 @@ src/
   History/     Schema, PriceRecord, PriceHistoryRepository, LowestPriceQuery, LowestPriceCalculator, LowestResult,
                Recorder, Transition, PriceChangeListener, OmnibusStateUpdater, DiscountCalculator, DailySweep,
                SweepResult, Pruner
-  PriceList/   Outlet, Item, ServiceItem, ItemFactory, Collector, FilenameBuilder, Writer, XmlWriter, CsvWriter,
+  PriceList/   Outlet, Outlets, Item, ServiceItem, ItemFactory, Collector, FilenameBuilder, Writer, XmlWriter, CsvWriter,
                WriteStats, Storage, Manifest, Retention, Generator, GenerationResult
   Endpoint/    Endpoint, Headers, IndexRenderer, Response
   Scheduling/  SchedulerBackend, ActionSchedulerBackend, WpCronBackend, Scheduler, ServiceChangeDebouncer, JobRunner
@@ -134,6 +134,8 @@ Amounts go through `wc_get_price_to_display($product, ['price' => $amount])` + `
 **XML** (streamed via `XMLWriter` to temp file, atomic rename): root `<Cjenik verzija generirano izvor>` → `<ProdajniObjekt>` (Oblik, Adresa, Oznaka, BrojPohrane, Naziv, Url) → `<Proizvodi><Proizvod>` with `Naziv, Sifra, Marka, JedinicaMjere, CijenaZaJedinicuMjere, MaloprodajnaCijena, PosebniOblikProdaje (da|ne), NazivPosebnogOblikaProdaje, SidrenaCijena datum="…", NajnizaCijena30Dana (only on sale), Barkod, Dostupnost (dostupno|nedostupno), Url` → `<Usluge><Usluga>` with `NazivUsluge, MaloprodajnaCijena, PosebniOblikProdaje, NazivPosebnogOblikaProdaje, SidrenaCijena`. ASCII element names; `<BaznaCijena>` added when that type is enabled. Prices: dot, 2 dp, consumer (tax-inclusive) by default.
 
 **CSV**: `fputcsv`, `;` default, UTF-8 + BOM; header `vrsta;naziv;šifra;marka;jedinica_mjere;cijena_za_jedinicu_mjere;maloprodajna_cijena;posebni_oblik_prodaje;naziv_posebnog_oblika_prodaje;sidrena_cijena;datum_sidrene_cijene;najniža_cijena_30_dana;barkod;dostupnost;url`. Filters `scwc_price_list_columns`, `scwc_price_list_item`.
+
+**Outlets (v1.1)**: settings hold the primary outlet (`outlet.*`, the webshop) plus `outlets.additional` (poslovnice). `PriceList\Outlets::fromSettings()` yields all outlets with unique URL keys; the generator writes **one file per outlet per format** (identical rows, own `<ProdajniObjekt>` header), manifest entries carry `outlet`, retention keeps the newest file per (outlet, format), and the endpoint serves `/cjenik/{key}/latest.{xml,csv}`, `/cjenik/{key}/` and `/cjenik/{key}/index.json` in addition to the primary's `/cjenik/latest.*` (NN 101/2026 t. VI: each outlet needs its own file and 30-day archive).
 
 **Filename**: `{oblik}_{adresa}_{oznaka}_{broj_pohrane}_{YYYYMMDD}_{HHMMSS}.{xml|csv}`, parts via `Slugifier` (remove_accents, lowercase, `[^a-z0-9]+`→`-`), site-local time. Example `webshop_ulica-1-10000-zagreb_web1_1_20261001_060012.xml`.
 

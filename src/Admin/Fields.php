@@ -19,7 +19,7 @@ use SidrenaCijena\Settings\Settings;
 final class Fields {
 
 	public const TABS = [
-		'outlet'     => 'Prodajni objekt',
+		'outlet'     => 'Prodajni objekti',
 		'reference'  => 'Referentne cijene',
 		'display'    => 'Prikaz',
 		'price_list' => 'Cjenik',
@@ -28,7 +28,7 @@ final class Fields {
 	];
 
 	private const TAB_SECTIONS = [
-		'outlet'     => 'outlet',
+		'outlet'     => 'outlet|outlets',
 		'reference'  => 'reference_prices',
 		'display'    => 'display',
 		'price_list' => 'price_list',
@@ -36,14 +36,35 @@ final class Fields {
 		'advanced'   => 'advanced',
 	];
 
+	/** First settings section of a tab (legacy helper). */
 	public static function sectionForTab( string $tab ): string {
-		return self::TAB_SECTIONS[ $tab ] ?? '';
+		return self::sectionsForTab( $tab )[0] ?? '';
+	}
+
+	/**
+	 * All settings sections shown on a tab.
+	 *
+	 * @return string[]
+	 */
+	public static function sectionsForTab( string $tab ): array {
+		$sections = self::TAB_SECTIONS[ $tab ] ?? '';
+		return '' === $sections ? [] : explode( '|', $sections );
+	}
+
+	/** Whether a settings path belongs to a tab. */
+	public static function pathOnTab( string $path, string $tab ): bool {
+		foreach ( self::sectionsForTab( $tab ) as $section ) {
+			if ( str_starts_with( $path, $section . '.' ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/** Translated tab label. */
 	public static function tabLabel( string $tab ): string {
 		return match ( $tab ) {
-			'outlet'     => __( 'Prodajni objekt', 'sidrena-cijena-za-woocommerce' ),
+			'outlet'     => __( 'Prodajni objekti', 'sidrena-cijena-za-woocommerce' ),
 			'reference'  => __( 'Referentne cijene', 'sidrena-cijena-za-woocommerce' ),
 			'display'    => __( 'Prikaz', 'sidrena-cijena-za-woocommerce' ),
 			'price_list' => __( 'Cjenik', 'sidrena-cijena-za-woocommerce' ),
@@ -67,11 +88,10 @@ final class Fields {
 	 * @return array<int,FieldDef>
 	 */
 	public static function forTab( string $tab ): array {
-		$section = self::sectionForTab( $tab );
-		if ( '' === $section ) {
+		if ( [] === self::sectionsForTab( $tab ) ) {
 			return [];
 		}
-		return array_values( array_filter( self::all(), static fn( array $d ) => str_starts_with( $d['path'], $section . '.' ) ) );
+		return array_values( array_filter( self::all(), static fn( array $d ) => self::pathOnTab( $d['path'], $tab ) ) );
 	}
 
 	/**
@@ -111,6 +131,13 @@ final class Fields {
 					'type'        => 'text',
 					'label'       => __( 'Naziv trgovca', 'sidrena-cijena-za-woocommerce' ),
 					'description' => __( 'Prazno = naziv web stranice.', 'sidrena-cijena-za-woocommerce' ),
+				],
+				[
+					'path'        => 'outlets.additional',
+					'type'        => 'outlets',
+					'heading'     => __( 'Dodatni prodajni objekti (poslovnice)', 'sidrena-cijena-za-woocommerce' ),
+					'label'       => __( 'Poslovnice', 'sidrena-cijena-za-woocommerce' ),
+					'description' => __( 'Svaki prodajni objekt mora imati vlastitu datoteku cjenika s vlastitim nazivom i arhivom od 30 dana (NN 101/2026, t. VI.), i kad su cijene jednake. Ovdje dodajte fizičke poslovnice; cijene se preuzimaju iz WooCommercea.', 'sidrena-cijena-za-woocommerce' ),
 				],
 			],
 			self::referenceType( 'anchor', __( 'Sidrena (dodatna) cijena', 'sidrena-cijena-za-woocommerce' ), true ),

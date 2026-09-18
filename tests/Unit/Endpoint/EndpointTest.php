@@ -34,6 +34,8 @@ final class EndpointTest extends TestCase {
 		$this->manifest->add( [ 'name' => 'webshop_a_web1_1_20260930_060000.xml', 'format' => 'xml', 'generated_at' => '2026-09-30T06:00:00+02:00', 'generated_at_utc' => '2026-09-30 04:00:00', 'reason' => 'scheduled', 'products' => 1, 'services' => 0, 'size' => 9, 'sha256' => 'old' ] );
 		$this->manifest->add( [ 'name' => 'webshop_a_web1_1_20261001_060000.xml', 'format' => 'xml', 'generated_at' => '2026-10-01T06:00:00+02:00', 'generated_at_utc' => '2026-10-01 04:00:00', 'reason' => 'scheduled', 'products' => 2, 'services' => 1, 'size' => 9, 'sha256' => 'newxml' ] );
 		$this->manifest->add( [ 'name' => 'webshop_a_web1_1_20261001_060000.csv', 'format' => 'csv', 'generated_at' => '2026-10-01T06:00:00+02:00', 'generated_at_utc' => '2026-10-01 04:00:00', 'reason' => 'scheduled', 'products' => 2, 'services' => 1, 'size' => 12, 'sha256' => 'newcsv' ] );
+		file_put_contents( $this->storage->path( 'poslovnica_vukovarska-5_zg-02_3_20261001_060000.xml' ), '<Cjenik/>' );
+		$this->manifest->add( [ 'name' => 'poslovnica_vukovarska-5_zg-02_3_20261001_060000.xml', 'format' => 'xml', 'outlet' => 'zg-02', 'generated_at' => '2026-10-01T06:00:00+02:00', 'generated_at_utc' => '2026-10-01 04:00:00', 'reason' => 'scheduled', 'products' => 2, 'services' => 1, 'size' => 9, 'sha256' => 'zgxml' ] );
 		$this->sent = [];
 		$this->runs = [];
 	}
@@ -47,7 +49,11 @@ final class EndpointTest extends TestCase {
 	}
 
 	private function endpoint( ?Settings $settings = null ): Endpoint {
-		$settings = $settings ?? ( new Settings( Defaults::all() ) )->with( 'price_list.external_cron_key', 'secret' );
+		$settings = $settings ?? ( new Settings( Defaults::all() ) )
+			->with( 'price_list.external_cron_key', 'secret' )
+			->with( 'outlet.address', 'Ulica 1' )
+			->with( 'outlet.label', 'WEB1' )
+			->with( 'outlets.additional', [ [ 'form' => 'poslovnica', 'address' => 'Vukovarska 5', 'label' => 'ZG-02', 'storage_number' => '3' ] ] );
 		return new Endpoint(
 			$settings,
 			$this->storage,
@@ -73,7 +79,12 @@ final class EndpointTest extends TestCase {
 		self::assertSame( 'index.php?scwc_cjenik=json', $rules['^cjenik/index\.json$'] );
 		self::assertSame( 'index.php?scwc_cjenik=latest&scwc_format=$matches[1]', $rules['^cjenik/latest\.(xml|csv)$'] );
 		self::assertSame( 'index.php?scwc_cjenik=file&scwc_file=$matches[1]', $rules['^cjenik/([a-z0-9][a-z0-9._-]*\.(?:xml|csv))$'] );
-		self::assertSame( [ 'scwc_cjenik', 'scwc_format', 'scwc_file' ], $this->endpoint()->queryVars( [] ), 'scwc_run/key stay private ($_GET), `key` would collide with WC order keys' );
+		self::assertSame( [ 'scwc_cjenik', 'scwc_format', 'scwc_file', 'scwc_outlet' ], $this->endpoint()->queryVars( [] ), 'scwc_run/key stay private ($_GET), `key` would collide with WC order keys' );
+		self::assertSame( 'index.php?scwc_cjenik=latest&scwc_outlet=$matches[1]&scwc_format=$matches[2]', $rules['^cjenik/([a-z0-9-]+)/latest\.(xml|csv)$'] );
+		self::assertSame( 'index.php?scwc_cjenik=json&scwc_outlet=$matches[1]', $rules['^cjenik/([a-z0-9-]+)/index\.json$'] );
+		self::assertSame( 'index.php?scwc_cjenik=index&scwc_outlet=$matches[1]', $rules['^cjenik/([a-z0-9-]+)/?$'] );
+		$keys = array_keys( $rules );
+		self::assertLessThan( array_search( '^cjenik/([a-z0-9-]+)/?$', $keys, true ), array_search( '^cjenik/([a-z0-9-]+)/latest\.(xml|csv)$', $keys, true ), 'outlet latest before outlet index' );
 	}
 
 	public function test_latest_xml_streams_newest_file_with_no_cache_headers(): void {
@@ -83,6 +94,53 @@ final class EndpointTest extends TestCase {
 		self::assertContains( 'Content-Type: application/xml; charset=UTF-8', $this->sent );
 		self::assertContains( Headers::NO_CACHE, $this->sent );
 		self::assertContains( 'ETag: "newxml"', $this->sent );
+	}
+
+	public function test_latest_without_outlet_serves_the_primary_even_when_another_outlet_is_newer(): void {
+		$this->manifest->add( [ 'name' => 'poslovnica_vukovarska-5_zg-02_3_20261002_060000.xml', 'format' => 'xml', 'outlet' => 'zg-02', 'generated_at' => '2026-10-02T06:00:00+02:00', 'generated_at_utc' => '2026-10-02 04:00:00', 'reason' => 'scheduled', 'products' => 2, 'services' => 1, 'size' => 9, 'sha256' => 'zg2' ] );
+		file_put_contents( $this->storage->path( 'poslovnica_vukovarska-5_zg-02_3_20261002_060000.xml' ), '<Cjenik/>' );
+		$r = $this->endpoint()->resolve( [ 'scwc_cjenik' => 'latest', 'scwc_format' => 'xml' ], [] );
+		self::assertSame( $this->storage->path( 'webshop_a_web1_1_20261001_060000.xml' ), $r->file, 'legacy entries (no outlet key) belong to the primary' );
+	}
+
+	public function test_latest_for_a_specific_outlet(): void {
+		$r = $this->endpoint()->resolve( [ 'scwc_cjenik' => 'latest', 'scwc_outlet' => 'zg-02', 'scwc_format' => 'xml' ], [] );
+		self::assertSame( 200, $r->status );
+		self::assertSame( $this->storage->path( 'poslovnica_vukovarska-5_zg-02_3_20261001_060000.xml' ), $r->file );
+		self::assertContains( 'ETag: "zgxml"', $this->sent );
+		self::assertSame( 404, $this->endpoint()->resolve( [ 'scwc_cjenik' => 'latest', 'scwc_outlet' => 'zg-02', 'scwc_format' => 'csv' ], [] )->status );
+		self::assertSame( 404, $this->endpoint()->resolve( [ 'scwc_cjenik' => 'latest', 'scwc_outlet' => 'nope', 'scwc_format' => 'xml' ], [] )->status );
+		$r = $this->endpoint()->resolve( [ 'scwc_cjenik' => 'latest', 'scwc_outlet' => 'web1', 'scwc_format' => 'csv' ], [] );
+		self::assertSame( $this->storage->path( 'webshop_a_web1_1_20261001_060000.csv' ), $r->file, 'primary reachable under its key too' );
+	}
+
+	public function test_index_lists_every_outlet_with_its_own_latest_links(): void {
+		$r = $this->endpoint()->resolve( [ 'scwc_cjenik' => 'index' ], [] );
+		self::assertStringContainsString( 'ZG-02', $r->body );
+		self::assertStringContainsString( 'Vukovarska 5', $r->body );
+		self::assertStringContainsString( 'https://example.hr/cjenik/zg-02/latest.xml', $r->body );
+		self::assertStringContainsString( 'https://example.hr/cjenik/latest.xml', $r->body );
+		self::assertStringContainsString( 'https://example.hr/cjenik/poslovnica_vukovarska-5_zg-02_3_20261001_060000.xml', $r->body );
+		$one = $this->endpoint()->resolve( [ 'scwc_cjenik' => 'index', 'scwc_outlet' => 'zg-02' ], [] );
+		self::assertSame( 200, $one->status );
+		self::assertStringContainsString( 'ZG-02', $one->body );
+		self::assertStringNotContainsString( 'webshop_a_web1_1_20261001_060000.xml', $one->body, 'per-outlet page lists only that outlet' );
+		self::assertSame( 404, $this->endpoint()->resolve( [ 'scwc_cjenik' => 'index', 'scwc_outlet' => 'nope' ], [] )->status );
+	}
+
+	public function test_index_json_has_outlets_and_keeps_primary_at_top_level(): void {
+		$json = json_decode( $this->endpoint()->resolve( [ 'scwc_cjenik' => 'json' ], [] )->body, true );
+		self::assertSame( [ 'web1', 'zg-02' ], array_column( $json['outlets'], 'key' ) );
+		self::assertSame( 'https://example.hr/cjenik/zg-02/latest.xml', $json['outlets'][1]['latest']['xml'] );
+		self::assertArrayNotHasKey( 'csv', $json['outlets'][1]['latest'] );
+		self::assertSame( 'ZG-02', $json['outlets'][1]['label'] );
+		self::assertCount( 1, $json['outlets'][1]['files'] );
+		self::assertCount( 3, $json['outlets'][0]['files'], 'legacy entries listed under the primary' );
+		self::assertSame( 'https://example.hr/cjenik/latest.xml', $json['latest']['xml'], 'top-level = primary (backward compatible)' );
+		self::assertCount( 3, $json['files'] );
+		$one = json_decode( $this->endpoint()->resolve( [ 'scwc_cjenik' => 'json', 'scwc_outlet' => 'zg-02' ], [] )->body, true );
+		self::assertCount( 1, $one['outlets'] );
+		self::assertSame( 'zg-02', $one['outlets'][0]['key'] );
 	}
 
 	public function test_latest_returns_404_when_format_missing_or_unknown(): void {

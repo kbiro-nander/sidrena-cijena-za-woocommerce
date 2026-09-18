@@ -72,6 +72,24 @@ final class ManifestTest extends TestCase {
 		self::assertNull( $reloaded->entry( 'zzz.xml' ) );
 	}
 
+	public function test_latest_is_per_outlet_and_legacy_entries_belong_to_the_primary(): void {
+		$m = new Manifest( $this->storage );
+		$m->add( $this->entry( 'legacy_web1_1_20260930_060000.xml', 'xml', '2026-09-30 04:00:00' ) );
+		$m->add( $this->entry( 'poslovnica_zg02_3_20261001_060000.xml', 'xml', '2026-10-01 04:00:00' ) + [ 'outlet' => 'zg-02' ] );
+		$m->add( $this->entry( 'webshop_web1_1_20261001_060000.xml', 'xml', '2026-10-01 04:00:00' ) + [ 'outlet' => 'web1' ] );
+		self::assertSame( 'webshop_web1_1_20261001_060000.xml', $m->latest( 'xml' )['name'], 'no key = newest of any outlet' );
+		self::assertSame( 'webshop_web1_1_20261001_060000.xml', $m->latest( 'xml', 'web1', 'web1' )['name'] );
+		self::assertSame( 'poslovnica_zg02_3_20261001_060000.xml', $m->latest( 'xml', 'zg-02' )['name'] );
+		self::assertNull( $m->latest( 'csv', 'zg-02' ) );
+		self::assertNull( $m->latest( 'xml', 'nope', 'web1' ) );
+		$m->remove( 'webshop_web1_1_20261001_060000.xml' );
+		self::assertSame( 'legacy_web1_1_20260930_060000.xml', $m->latest( 'xml', 'web1', 'web1' )['name'], 'entries without outlet key count as the primary' );
+		self::assertNull( $m->latest( 'xml', 'zg-02', 'web1' ) ? null : null );
+		self::assertSame( 'poslovnica_zg02_3_20261001_060000.xml', $m->latest( 'xml', 'zg-02', 'web1' )['name'], 'legacy entries never leak into other outlets' );
+		self::assertSame( [ 'zg-02', 'web1' ], $m->outletKeys( 'web1' ) );
+		self::assertSame( [ 'legacy_web1_1_20260930_060000.xml' ], array_column( $m->entriesFor( 'web1', 'web1' ), 'name' ) );
+	}
+
 	public function test_add_replaces_existing_entry_with_same_name(): void {
 		$m = new Manifest( $this->storage );
 		$m->add( $this->entry( 'a.xml', 'xml', '2026-10-01 04:00:12' ) );

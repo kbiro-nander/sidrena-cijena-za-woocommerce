@@ -6,7 +6,7 @@ Tested up to: 6.8
 Requires PHP: 8.1
 WC requires at least: 9.0
 WC tested up to: 9.9
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,6 +19,7 @@ Dodatak provodi obveze hrvatskih webshopova koje stupaju na snagu **1. listopada
 * **Sidrena (dodatna) cijena** – uz svaku aktualnu cijenu prikazuje se redovna cijena koja je vrijedila na referentni dan (zadano **10. 9. 2026.**; za FMCG kategorije koje ste već označavali može se zadržati **2. 5. 2025.** po kategoriji). Prikaz je jasan, vidljiv i čitljiv, s datumom, na popisu proizvoda, stranici proizvoda, varijacijama, košarici i blagajni (klasični predlošci) te putem podataka Store API-ja za blokovsku košaricu.
 * **Najniža cijena u 30 dana prije sniženja** – dodatak bilježi povijest cijena i za vrijeme svakog sniženja prikazuje najnižu cijenu u 30 dana prije početka sniženja te postotak popusta izračunat iz nje.
 * **Strojno čitljiv cjenik (XML i/ili CSV)** – generira se automatski svaki dan prije 08:00 (zadano u 06:00 po vremenskoj zoni trgovine) i pri svakoj promjeni cijene usluge, objavljuje se na javnom URL-u `/cjenik/` (`/cjenik/latest.xml`, `/cjenik/latest.csv`), s propisanim poljima (naziv, šifra, marka, jedinica mjere, cijena za jedinicu mjere, maloprodajna cijena, posebni oblik prodaje, sidrena cijena, barkod, dostupnost), propisanim nazivom datoteke (oblik prodajnog objekta, adresa, oznaka, broj pohrane, datum i vrijeme) i čuvanjem verzija najmanje 30 dana. Datoteke su dostupne bez prijave i bez zaštite od robota.
+* **Više prodajnih objekata** – uz webshop možete dodati poslovnice (oblik, adresa, oznaka, broj pohrane). Svaki prodajni objekt dobiva vlastitu datoteku s propisanim nazivom, vlastitu arhivu od 30 dana i vlastite adrese (`/cjenik/{oznaka}/latest.xml`), kako traži t. VI. Odluke – i kada su cijene u svim objektima jednake.
 * **Alati** – jednim klikom snimite trenutne redovne cijene kao sidrene cijene (akcijske se cijene nikad ne kopiraju), uvezite sidrene cijene iz CSV-a (šifra → cijena), izvezite ih, te zakažite automatsko snimanje za budući datum (npr. „bazna cijena” od 17. 11. 2026.).
 * **Generički mehanizam referentnih cijena** – uz sidrenu cijenu možete uključiti i drugu referentnu cijenu (bazna cijena) čim ministarstvo objavi pravilnik.
 * WP-CLI naredbe, Action Scheduler, HPOS kompatibilnost, predlošci koje tema može nadjačati, kuke/filtri s prefiksom `scwc_`.
@@ -45,7 +46,7 @@ U blokovskoj košarici i blagajni (WooCommerce Blocks) sidrena cijena prikazuje 
 
 1. Prenesite mapu dodatka u `wp-content/plugins/` (ZIP paket već sadrži `vendor/`).
 2. Aktivirajte dodatak. WooCommerce 9.0+ i PHP 8.1+ su obavezni.
-3. **WooCommerce → Sidrena cijena → Prodajni objekt**: unesite adresu, oznaku prodajnog objekta i broj pohrane (ulaze u naziv datoteke cjenika).
+3. **WooCommerce → Sidrena cijena → Prodajni objekti**: unesite adresu, oznaku prodajnog objekta i broj pohrane webshopa (ulaze u naziv datoteke cjenika) te dodajte fizičke poslovnice ako ih imate – svaka dobiva vlastitu datoteku i adresu.
 4. **Referentne cijene**: provjerite datum (10. 9. 2026.) i po potrebi dodajte FMCG kategorije s datumom 2. 5. 2025.
 5. **WooCommerce → Sidrena cijena – Alati**: snimite trenutne redovne cijene kao sidrene cijene (ili uvezite CSV s cijenama koje su vrijedile 10. 9. 2026.).
 6. **Cjenik**: kliknite „Generiraj sada” i provjerite `https://vasa-trgovina.hr/cjenik/`.
@@ -71,6 +72,10 @@ Da, najmanje 30 dana. Dodatak čuva i javno poslužuje verzije prema postavci za
 Iz najniže cijene u 30 dana prije početka sniženja (a ne iz redovne cijene), zaokruženo na niže.
 
 == Changelog ==
+
+= 1.1.0 =
+* Više prodajnih objekata: svaka poslovnica ima vlastitu datoteku cjenika, arhivu i URL (`/cjenik/{oznaka}/latest.xml`); `/cjenik/latest.xml` i dalje poslužuje webshop.
+* index.json navodi sve prodajne objekte.
 
 = 1.0.0 =
 * Prva verzija: sidrena cijena, povijest cijena i najniža cijena u 30 dana, XML/CSV cjenik s javnim URL-om i zadržavanjem, alati za snimanje/uvoz/izvoz, WP-CLI, Store API.

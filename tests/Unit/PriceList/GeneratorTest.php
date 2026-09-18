@@ -58,6 +58,9 @@ final class GeneratorTest extends TestCase {
 		return $collector;
 	}
 
+	/** @var Outlet[] */
+	private array $extraOutlets = [];
+
 	private function outlet( bool $complete = true ): Outlet {
 		return new Outlet( 'webshop', $complete ? 'Ulica 1' : '', 'WEB1', '1', 'Trgovina', 'https://example.hr/' );
 	}
@@ -78,7 +81,7 @@ final class GeneratorTest extends TestCase {
 		$settings = $settings ?? new Settings( Defaults::all() );
 		return new Generator(
 			$settings,
-			fn() => $this->outlet( $completeOutlet ),
+			fn() => array_merge( [ $this->outlet( $completeOutlet ) ], $this->extraOutlets ),
 			$collector ?? $this->collector( $this->items() ),
 			$writers ?? [ 'xml' => new XmlWriter(), 'csv' => new CsvWriter() ],
 			new FilenameBuilder(),
@@ -140,6 +143,34 @@ final class GeneratorTest extends TestCase {
 		self::assertSame( filesize( $xml ), $e['size'] );
 		self::assertSame( hash_file( 'sha256', $xml ), $e['sha256'] );
 		self::assertArrayNotHasKey( 'scwc_generating', $GLOBALS['scwc_test_transients'] );
+	}
+
+	public function test_every_outlet_gets_its_own_files_with_identical_rows(): void {
+		$this->extraOutlets = [ new Outlet( 'poslovnica', 'Vukovarska 5', 'ZG-02', '3', 'Trgovina', 'https://example.hr/' ) ];
+		Functions\when( 'update_option' )->justReturn( true );
+		$result = $this->generator()->run( 'scheduled' );
+		self::assertTrue( $result->ok() );
+		self::assertSame(
+			[
+				'webshop_ulica-1_web1_1_20261001_060012.xml',
+				'webshop_ulica-1_web1_1_20261001_060012.csv',
+				'poslovnica_vukovarska-5_zg-02_3_20261001_060012.xml',
+				'poslovnica_vukovarska-5_zg-02_3_20261001_060012.csv',
+			],
+			array_column( $result->files, 'name' )
+		);
+		self::assertSame( [ 'web1', 'web1', 'zg-02', 'zg-02' ], array_column( $result->files, 'outlet' ) );
+		$xml2 = simplexml_load_file( $this->storage->path( $result->files[2]['name'] ) );
+		self::assertSame( 'ZG-02', (string) $xml2->ProdajniObjekt->Oznaka );
+		self::assertSame( 'Vukovarska 5', (string) $xml2->ProdajniObjekt->Adresa );
+		self::assertSame( '3', (string) $xml2->ProdajniObjekt->BrojPohrane );
+		self::assertCount( 2, $xml2->Proizvodi->Proizvod, 'same rows as the primary' );
+		$manifest = new Manifest( $this->storage );
+		self::assertSame( 'zg-02', $manifest->entry( $result->files[2]['name'] )['outlet'] );
+		self::assertSame( 'web1', $manifest->entry( $result->files[0]['name'] )['outlet'] );
+		self::assertSame( $result->files[2]['name'], $manifest->latest( 'xml', 'zg-02', 'web1' )['name'] );
+		self::assertSame( $result->files[0]['name'], $manifest->latest( 'xml', 'web1', 'web1' )['name'] );
+		self::assertSame( 2, $result->products );
 	}
 
 	public function test_only_enabled_formats_with_a_writer_are_written(): void {

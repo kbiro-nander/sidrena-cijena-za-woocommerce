@@ -18,6 +18,22 @@ final class SanitizerTest extends TestCase {
 		self::assertSame( '2026-09-10', $out['reference_prices']['anchor']['date'] );
 	}
 
+	public function test_additional_outlets_are_sanitized_as_a_list(): void {
+		$out = $this->sanitize( [ 'outlets' => [ 'additional' => [
+			[ 'form' => ' Poslovnica ', 'address' => '<b>Vukovarska 5</b>', 'label' => 'ZG-02', 'storage_number' => '' ],
+			[ 'form' => 'poslovnica', 'address' => '', 'label' => 'X' ],
+			[ 'form' => '', 'address' => 'Ilica 9', 'label' => '' ],
+			'garbage',
+		] ] ] );
+		self::assertSame( [ [ 'form' => 'Poslovnica', 'address' => 'Vukovarska 5', 'label' => 'ZG-02', 'storage_number' => '1' ] ], $out['outlets']['additional'] );
+		self::assertSame( [], $this->sanitize( [] )['outlets']['additional'] );
+	}
+
+	public function test_additional_outlet_form_defaults_to_poslovnica(): void {
+		$out = $this->sanitize( [ 'outlets' => [ 'additional' => [ [ 'address' => 'Ilica 9', 'label' => 'ZG-01' ] ] ] ] );
+		self::assertSame( 'poslovnica', $out['outlets']['additional'][0]['form'] );
+	}
+
 	public function test_retention_days_has_legal_minimum_of_30(): void {
 		self::assertSame( 30, $this->sanitize( [ 'price_list' => [ 'retention_days' => '7' ] ] )['price_list']['retention_days'] );
 		self::assertSame( 60, $this->sanitize( [ 'price_list' => [ 'retention_days' => '60' ] ] )['price_list']['retention_days'] );

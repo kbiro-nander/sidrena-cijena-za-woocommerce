@@ -129,6 +129,24 @@ final class SettingsPageTest extends TestCase {
 		self::assertStringContainsString( '<input type="hidden" name="scwc_settings[display][position]" value="after" />', $html );
 	}
 
+	public function test_outlet_tab_lists_additional_outlets_with_their_own_file_names_and_urls(): void {
+		$this->settings = $this->settings->with( 'outlets.additional', [ [ 'form' => 'poslovnica', 'address' => 'Vukovarska 5', 'label' => 'ZG-02', 'storage_number' => '3' ] ] );
+		$html           = $this->renderTab( 'outlet' );
+		self::assertStringContainsString( 'scwc-outlets', $html );
+		self::assertStringContainsString( 'name="scwc_settings[outlets][additional][0][label]" value="ZG-02"', $html );
+		self::assertStringContainsString( 'poslovnica_vukovarska-5_zg-02_3_YYYYMMDD_HHMMSS.xml', $html );
+		self::assertStringContainsString( 'https://example.hr/cjenik/zg-02/latest.xml', $html );
+		self::assertStringContainsString( 'https://example.hr/cjenik/moja-trgovina/latest.xml', $html );
+		self::assertStringContainsString( 'https://example.hr/cjenik/latest.xml', $html );
+	}
+
+	public function test_hidden_inputs_carry_outlet_rows_to_other_tabs(): void {
+		$this->settings = $this->settings->with( 'outlets.additional', [ [ 'form' => 'poslovnica', 'address' => 'Vukovarska 5', 'label' => 'ZG-02', 'storage_number' => '3' ] ] );
+		$html           = $this->page()->hiddenInputsForOtherTabs( 'display' );
+		self::assertStringContainsString( 'name="scwc_settings[outlets][additional][0][label]" value="ZG-02"', $html );
+		self::assertStringNotContainsString( 'scwc_settings[outlets]', $this->page()->hiddenInputsForOtherTabs( 'outlet' ), 'outlets belong to the outlet tab' );
+	}
+
 	public function test_filename_preview_uses_na_for_empty_parts(): void {
 		$this->settings = new Settings( Defaults::all() );
 		self::assertSame( 'webshop_na_na_1_YYYYMMDD_HHMMSS.xml', $this->page()->filenamePreview() );

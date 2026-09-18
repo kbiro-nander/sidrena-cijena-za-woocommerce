@@ -96,4 +96,20 @@ final class FieldRendererTest extends TestCase {
 		self::assertStringContainsString( '<template', $html, 'blank row template for JS' );
 		self::assertStringContainsString( '__INDEX__', $html );
 	}
+
+	public function test_outlets_repeater_renders_rows_and_blank_template(): void {
+		$html = $this->renderer( [] )->render(
+			[ 'path' => 'outlets.additional', 'type' => 'outlets', 'label' => 'Dodatni prodajni objekti' ],
+			[ [ 'form' => 'poslovnica', 'address' => 'Vukovarska 5', 'label' => 'ZG-02', 'storage_number' => '3' ] ]
+		);
+		self::assertStringContainsString( 'scwc-outlets', $html );
+		self::assertStringContainsString( 'data-name="scwc_settings[outlets][additional]"', $html );
+		self::assertStringContainsString( 'name="scwc_settings[outlets][additional][0][form]" value="poslovnica"', $html );
+		self::assertStringContainsString( 'name="scwc_settings[outlets][additional][0][address]" value="Vukovarska 5"', $html );
+		self::assertStringContainsString( 'name="scwc_settings[outlets][additional][0][label]" value="ZG-02"', $html );
+		self::assertStringContainsString( 'name="scwc_settings[outlets][additional][0][storage_number]" value="3"', $html );
+		self::assertStringContainsString( 'Dodaj prodajni objekt', $html );
+		self::assertStringContainsString( '<template', $html );
+		self::assertStringContainsString( '__INDEX__', $html );
+	}
 }

@@ -17,6 +17,7 @@ use SidrenaCijena\Settings\Defaults;
 final class FieldRenderer {
 
 	public const OVERRIDES_TEMPLATE = 'admin/category-overrides.php';
+	public const OUTLETS_TEMPLATE   = 'admin/outlets.php';
 
 	/**
 	 * @param array<int,array{id:int,name:string}> $categories Product categories for the overrides repeater.
@@ -42,6 +43,7 @@ final class FieldRenderer {
 			'textarea'           => '<textarea id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" rows="2" class="large-text code">' . esc_textarea( $this->scalar( $value ) ) . '</textarea>',
 			'readonly'           => $this->readonly( $name, $this->scalar( $value ) ),
 			'category_overrides' => $this->overrides( $name, is_array( $value ) ? $value : [] ),
+			'outlets'            => $this->outlets( $name, is_array( $value ) ? $value : [] ),
 			default              => $this->input( $type, $name, $id, $this->scalar( $value ), $def ),
 		};
 		if ( 'checkbox' !== $type && '' !== ( $def['description'] ?? '' ) ) {
@@ -117,6 +119,23 @@ final class FieldRenderer {
 
 	/**
 	 * @param array<int,mixed> $rows Override rows.
+	 */
+	/**
+	 * @param array<int,mixed> $rows Existing outlet rows.
+	 */
+	private function outlets( string $name, array $rows ): string {
+		$file = rtrim( $this->templateDir, '/' ) . '/' . self::OUTLETS_TEMPLATE;
+		ob_start();
+		try {
+			include $file;
+		} finally {
+			$out = (string) ob_get_clean();
+		}
+		return trim( $out );
+	}
+
+	/**
+	 * @param array<int,mixed> $rows Existing override rows.
 	 */
 	private function overrides( string $name, array $rows ): string {
 		$categories = $this->categories;

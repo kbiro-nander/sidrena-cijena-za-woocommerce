@@ -55,7 +55,7 @@ use SidrenaCijena\PriceList\FilenameBuilder;
 use SidrenaCijena\PriceList\Generator;
 use SidrenaCijena\PriceList\ItemFactory;
 use SidrenaCijena\PriceList\Manifest;
-use SidrenaCijena\PriceList\Outlet;
+use SidrenaCijena\PriceList\Outlets;
 use SidrenaCijena\PriceList\Retention;
 use SidrenaCijena\PriceList\Storage;
 use SidrenaCijena\PriceList\XmlWriter;
@@ -303,7 +303,7 @@ final class Plugin {
 				$settings = $c->get( Settings::class );
 				return new Generator(
 					$settings,
-					static fn(): Outlet => Outlet::fromSettings( $settings ),
+					static fn(): array => Outlets::fromSettings( $settings ),
 					$c->get( Collector::class ),
 					[
 						'xml' => new XmlWriter(),

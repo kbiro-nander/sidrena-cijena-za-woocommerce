@@ -63,13 +63,56 @@ class Manifest {
 	/**
 	 * @return array<string,mixed>|null
 	 */
-	public function latest( string $format ): ?array {
+	/**
+	 * Newest entry of a format. With $outletKey only that outlet's files count; entries without an
+	 * outlet key (pre-1.1 manifests) belong to $primaryKey.
+	 *
+	 * @return array<string,mixed>|null
+	 */
+	public function latest( string $format, ?string $outletKey = null, string $primaryKey = '' ): ?array {
 		foreach ( $this->entries() as $entry ) {
-			if ( ( $entry['format'] ?? '' ) === $format ) {
+			if ( ( $entry['format'] ?? '' ) !== $format ) {
+				continue;
+			}
+			if ( null === $outletKey || self::belongsTo( $entry, $outletKey, $primaryKey ) ) {
 				return $entry;
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Entries of one outlet, newest first. Entries without an outlet key (pre-1.1 manifests) belong to the primary.
+	 *
+	 * @param string $outletKey  Outlet key.
+	 * @param string $primaryKey Key of the primary outlet.
+	 * @return array<int,array<string,mixed>>
+	 */
+	public function entriesFor( string $outletKey, string $primaryKey ): array {
+		return array_values( array_filter( $this->entries(), static fn( array $e ) => self::belongsTo( $e, $outletKey, $primaryKey ) ) );
+	}
+
+	/**
+	 * Distinct outlet keys present in the manifest (legacy entries mapped to $primaryKey), in first-seen order.
+	 *
+	 * @return string[]
+	 */
+	public function outletKeys( string $primaryKey ): array {
+		$keys = [];
+		foreach ( $this->entries() as $entry ) {
+			$key          = (string) ( $entry['outlet'] ?? '' );
+			$key          = '' === $key ? $primaryKey : $key;
+			$keys[ $key ] = true;
+		}
+		return array_keys( $keys );
+	}
+
+	/**
+	 * @param array<string,mixed> $entry Manifest entry.
+	 */
+	private static function belongsTo( array $entry, string $outletKey, string $primaryKey ): bool {
+		$key = (string) ( $entry['outlet'] ?? '' );
+		return $key === $outletKey || ( '' === $key && '' !== $primaryKey && $outletKey === $primaryKey );
 	}
 
 	/**

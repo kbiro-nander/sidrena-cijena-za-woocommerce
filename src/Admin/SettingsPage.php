@@ -19,6 +19,8 @@ use SidrenaCijena\Settings\Defaults;
 use SidrenaCijena\Settings\Sanitizer;
 use SidrenaCijena\Settings\Settings;
 use SidrenaCijena\Support\DateFormat;
+use SidrenaCijena\PriceList\Outlet;
+use SidrenaCijena\PriceList\Outlets;
 use SidrenaCijena\Support\Slugifier;
 
 /**
@@ -144,10 +146,9 @@ class SettingsPage {
 	 * Hidden inputs carrying every setting that is not on the given tab, so a partial form post keeps the rest intact.
 	 */
 	public function hiddenInputsForOtherTabs( string $tab ): string {
-		$section = self::sectionForTab( $tab );
-		$html    = '';
+		$html = '';
 		foreach ( Fields::all() as $def ) {
-			if ( str_starts_with( $def['path'], $section . '.' ) ) {
+			if ( Fields::pathOnTab( $def['path'], $tab ) ) {
 				continue;
 			}
 			$html .= $this->hiddenTree( Fields::inputName( $def['path'] ), $this->settings->get( $def['path'] ) );
@@ -242,16 +243,33 @@ class SettingsPage {
 	}
 
 	private function outletExtras(): string {
-		$slug  = (string) $this->settings->get( 'price_list.slug', 'cjenik' );
-		$base  = (string) home_url( '/' . $slug . '/' );
-		$html  = '<div class="scwc-box scwc-filename-preview"><h3>' . esc_html__( 'Naziv datoteke cjenika', 'sidrena-cijena-za-woocommerce' ) . '</h3>';
-		$html .= '<p><code>' . esc_html( $this->filenamePreview() ) . '</code></p>';
-		$html .= '<p class="description">' . esc_html__( 'Datum i vrijeme dodaju se pri svakom generiranju. Isti naziv s nastavkom .csv za CSV.', 'sidrena-cijena-za-woocommerce' ) . '</p>';
-		$html .= '<h3>' . esc_html__( 'Javne adrese', 'sidrena-cijena-za-woocommerce' ) . '</h3><ul>';
-		foreach ( [ $base, $base . 'latest.xml', $base . 'latest.csv' ] as $url ) {
-			$html .= '<li><a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . esc_html( $url ) . '</a></li>';
+		$slug    = (string) $this->settings->get( 'price_list.slug', 'cjenik' );
+		$base    = (string) home_url( '/' . $slug . '/' );
+		$outlets = Outlets::fromSettings( $this->settings );
+		$html    = '<div class="scwc-box scwc-filename-preview"><h3>' . esc_html__( 'Datoteke cjenika po prodajnom objektu', 'sidrena-cijena-za-woocommerce' ) . '</h3>';
+		$html   .= '<p class="description">' . esc_html__( 'Svaki prodajni objekt dobiva vlastitu datoteku (XML i/ili CSV) s propisanim nazivom i vlastitom arhivom od najmanje 30 dana. Datum i vrijeme dodaju se pri svakom generiranju.', 'sidrena-cijena-za-woocommerce' ) . '</p>';
+		$html   .= '<table class="widefat striped"><thead><tr><th>' . esc_html__( 'Prodajni objekt', 'sidrena-cijena-za-woocommerce' ) . '</th><th>' . esc_html__( 'Naziv datoteke', 'sidrena-cijena-za-woocommerce' ) . '</th><th>' . esc_html__( 'Javne adrese', 'sidrena-cijena-za-woocommerce' ) . '</th></tr></thead><tbody>';
+		foreach ( $outlets as $outlet ) {
+			$urls = [ $base . $outlet->key . '/', $base . $outlet->key . '/latest.xml', $base . $outlet->key . '/latest.csv' ];
+			if ( $outlet->isPrimary() ) {
+				$urls = array_merge( [ $base, $base . 'latest.xml', $base . 'latest.csv' ], $urls );
+			}
+			$links = array_map( static fn( string $u ) => '<a href="' . esc_url( $u ) . '" target="_blank" rel="noopener">' . esc_html( $u ) . '</a>', $urls );
+			$html .= '<tr><td>' . esc_html( $outlet->label ?: '–' ) . '<br><small>' . esc_html( $outlet->form . ' · ' . $outlet->address ) . '</small></td>';
+			$html .= '<td><code>' . esc_html( $this->filenamePreviewFor( $outlet ) ) . '</code></td>';
+			$html .= '<td>' . implode( '<br>', $links ) . '</td></tr>';
 		}
-		return $html . '</ul></div>';
+		return $html . '</tbody></table></div>';
+	}
+
+	/** "{form}_{address}_{label}_{storage}_YYYYMMDD_HHMMSS.xml" for one outlet. */
+	public function filenamePreviewFor( Outlet $outlet ): string {
+		$parts = [];
+		foreach ( [ $outlet->form, $outlet->address, $outlet->label, $outlet->storageNumber ] as $value ) {
+			$slug    = Slugifier::filenamePart( $value );
+			$parts[] = '' === $slug ? 'na' : $slug;
+		}
+		return implode( '_', $parts ) . '_YYYYMMDD_HHMMSS.xml';
 	}
 
 	private function displayPreview(): string {

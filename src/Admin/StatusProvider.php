@@ -12,6 +12,7 @@ namespace SidrenaCijena\Admin;
 use DateTimeImmutable;
 use DateTimeZone;
 use SidrenaCijena\PriceList\Generator;
+use SidrenaCijena\PriceList\Outlets;
 use SidrenaCijena\Scheduling\Scheduler;
 use SidrenaCijena\Settings\Settings;
 use SidrenaCijena\Support\Clock;
@@ -86,11 +87,22 @@ final class StatusProvider {
 		] as $path => $label ) {
 			$links[] = '<a href="' . esc_url( $base . $path ) . '" target="_blank" rel="noopener">' . esc_html( (string) $label ) . '</a>';
 		}
-		$rows[] = [
+		$rows[]  = [
 			'label' => __( 'Javni URL-ovi', 'sidrena-cijena-za-woocommerce' ),
 			'value' => implode( ' · ', $links ),
 		];
-		$key    = (string) $this->settings->get( 'price_list.external_cron_key', '' );
+		$outlets = Outlets::fromSettings( $this->settings );
+		if ( count( $outlets ) > 1 ) {
+			$perOutlet = [];
+			foreach ( $outlets as $outlet ) {
+				$perOutlet[] = esc_html( $outlet->label ) . ': <a href="' . esc_url( $base . $outlet->key . '/latest.xml' ) . '" target="_blank" rel="noopener">latest.xml</a> · <a href="' . esc_url( $base . $outlet->key . '/latest.csv' ) . '" target="_blank" rel="noopener">latest.csv</a>';
+			}
+			$rows[] = [
+				'label' => __( 'Po prodajnom objektu', 'sidrena-cijena-za-woocommerce' ),
+				'value' => implode( '<br>', $perOutlet ),
+			];
+		}
+		$key = (string) $this->settings->get( 'price_list.external_cron_key', '' );
 		if ( '' !== $key ) {
 			$url    = $base . '?scwc_run=1&key=' . rawurlencode( $key );
 			$rows[] = [

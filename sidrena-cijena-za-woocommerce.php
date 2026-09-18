@@ -3,7 +3,7 @@
  * Plugin Name:          Sidrena cijena za WooCommerce
  * Plugin URI:           https://github.com/nander/sidrena-cijena-za-woocommerce
  * Description:          Sidrena (dodatna) cijena uz svaku cijenu, najniža cijena u 30 dana prije sniženja i strojno čitljiv cjenik (XML/CSV) prema NN 101/2026 i Zakonu o zaštiti potrošača.
- * Version:              1.0.0
+ * Version:              1.1.0
  * Requires at least:    6.4
  * Requires PHP:         8.1
  * Requires Plugins:     woocommerce
@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SCWC_VERSION', '1.0.0' );
+define( 'SCWC_VERSION', '1.1.0' );
 define( 'SCWC_PLUGIN_FILE', __FILE__ );
 define( 'SCWC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SCWC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

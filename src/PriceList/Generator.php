@@ -21,11 +21,11 @@ class Generator {
 	public const LOCK_TTL    = 15 * MINUTE_IN_SECONDS;
 	public const OPTION_LAST = 'scwc_last_generation';
 
-	/** @var callable():Outlet */
+	/** @var callable():Outlet[] */
 	private $outletProvider;
 
 	/**
-	 * @param callable():Outlet    $outletProvider Supplies the outlet at run time.
+	 * @param callable():Outlet[]  $outletProvider Supplies all outlets (primary first) at run time.
 	 * @param array<string,Writer> $writers        Writers keyed by format (xml, csv, ...).
 	 */
 	public function __construct(
@@ -75,8 +75,10 @@ class Generator {
 	}
 
 	private function generate( string $reason, \DateTimeImmutable $local ): GenerationResult {
-		$outlet = ( $this->outletProvider )();
-		if ( ! $outlet->isComplete() ) {
+		/** @var Outlet[] $outlets */
+		$outlets = ( $this->outletProvider )();
+		$primary = $outlets[0] ?? null;
+		if ( ! $primary instanceof Outlet || ! $primary->isComplete() ) {
 			throw new RuntimeException( esc_html__( 'Podaci o prodajnom objektu nisu potpuni.', 'sidrena-cijena-za-woocommerce' ) );
 		}
 		$this->storage->ensure();
@@ -88,48 +90,55 @@ class Generator {
 		$products = 0;
 		$services = 0;
 
-		foreach ( $this->formats() as $format ) {
-			$writer = $this->writers[ $format ] ?? null;
-			if ( ! $writer instanceof Writer ) {
+		foreach ( $outlets as $outlet ) {
+			if ( ! $outlet instanceof Outlet || ! $outlet->isComplete() ) {
 				continue;
 			}
-			$name = $this->filenames->build( $outlet, $local, $format );
-			$tmp  = $this->storage->tmpPath( $name );
-			try {
-				$stats = $writer->write( $items, $outlet, $local, $tmp, $types );
-			} catch ( Throwable $e ) {
-				if ( is_file( $tmp ) ) {
-					unlink( $tmp );
+			foreach ( $this->formats() as $format ) {
+				$writer = $this->writers[ $format ] ?? null;
+				if ( ! $writer instanceof Writer ) {
+					continue;
 				}
-				throw $e;
-			}
-			$this->storage->publish( $name );
+				$name = $this->filenames->build( $outlet, $local, $format );
+				$tmp  = $this->storage->tmpPath( $name );
+				try {
+					$stats = $writer->write( $items, $outlet, $local, $tmp, $types );
+				} catch ( Throwable $e ) {
+					if ( is_file( $tmp ) ) {
+						unlink( $tmp );
+					}
+					throw $e;
+				}
+				$this->storage->publish( $name );
 
-			$this->manifest->add(
-				[
-					'name'             => $name,
-					'format'           => $format,
-					'generated_at'     => $local->format( DATE_ATOM ),
-					'generated_at_utc' => $utc,
-					'reason'           => $reason,
-					'products'         => $stats->products,
-					'services'         => $stats->services,
-					'size'             => $this->storage->size( $name ),
-					'sha256'           => (string) hash_file( 'sha256', $this->storage->path( $name ) ),
-				]
-			);
-			$files[]  = [
-				'name'     => $name,
-				'format'   => $format,
-				'url'      => $this->storage->url( $name ),
-				'products' => $stats->products,
-				'services' => $stats->services,
-			];
-			$products = max( $products, $stats->products );
-			$services = max( $services, $stats->services );
+				$this->manifest->add(
+					[
+						'name'             => $name,
+						'format'           => $format,
+						'outlet'           => $outlet->key,
+						'generated_at'     => $local->format( DATE_ATOM ),
+						'generated_at_utc' => $utc,
+						'reason'           => $reason,
+						'products'         => $stats->products,
+						'services'         => $stats->services,
+						'size'             => $this->storage->size( $name ),
+						'sha256'           => (string) hash_file( 'sha256', $this->storage->path( $name ) ),
+					]
+				);
+				$files[]  = [
+					'name'     => $name,
+					'format'   => $format,
+					'outlet'   => $outlet->key,
+					'url'      => $this->storage->url( $name ),
+					'products' => $stats->products,
+					'services' => $stats->services,
+				];
+				$products = max( $products, $stats->products );
+				$services = max( $services, $stats->services );
+			}
 		}
 
-		$this->retention->prune( (int) $this->settings->get( 'price_list.retention_days', 35 ) );
+		$this->retention->prune( (int) $this->settings->get( 'price_list.retention_days', 35 ), $primary->key );
 
 		return new GenerationResult( $files, $local, $reason, null, $products, $services );
 	}

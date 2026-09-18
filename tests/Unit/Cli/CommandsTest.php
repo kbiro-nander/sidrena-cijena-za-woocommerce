@@ -46,7 +46,7 @@ final class CommandsTest extends TestCase {
 	public function test_export_runs_generation_and_prints_files(): void {
 		$this->commands()->export( [], [] );
 		self::assertSame( [ 'generate:cli' ], $this->calls );
-		self::assertContains( 'success: Generirano: a.xml (3 proizvoda, 1 usluga)', \WP_CLI::$out );
+		self::assertContains( 'success: Generirano [-]: a.xml (3 proizvoda, 1 usluga)', \WP_CLI::$out );
 	}
 
 	public function test_snapshot_pages_until_done(): void {
