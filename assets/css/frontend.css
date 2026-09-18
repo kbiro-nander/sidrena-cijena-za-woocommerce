@@ -1,0 +1,53 @@
+/* Sidrena cijena za WooCommerce – front-end badge */
+.scwc-badge {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 0.15em 0.6em;
+	font-size: 0.85em;
+	font-weight: 400;
+	line-height: 1.35;
+	color: inherit;
+	opacity: 0.92;
+	vertical-align: baseline;
+}
+.scwc-badge--below,
+.scwc-badge--single {
+	display: flex;
+	flex-direction: column;
+	gap: 0.1em;
+	margin-top: 0.25em;
+}
+.scwc-badge--cart,
+.scwc-badge--checkout,
+.scwc-badge--mini_cart {
+	display: block;
+	font-size: 0.8em;
+	margin-top: 0.15em;
+}
+.scwc-ref-price,
+.scwc-lowest30 {
+	white-space: normal;
+}
+.scwc-ref-price__amount,
+.scwc-lowest30__amount {
+	font-weight: 600;
+	white-space: nowrap;
+}
+.scwc-ref-price__amount del,
+.scwc-lowest30__amount del {
+	text-decoration: none;
+}
+.scwc-discount {
+	display: inline-block;
+	padding: 0 0.4em;
+	border-radius: 3px;
+	background: #d63638;
+	color: #fff;
+	font-weight: 600;
+	white-space: nowrap;
+}
+@media (max-width: 480px) {
+	.scwc-badge {
+		font-size: 0.8em;
+	}
+}

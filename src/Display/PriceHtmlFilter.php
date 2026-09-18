@@ -26,7 +26,8 @@ final class PriceHtmlFilter {
 	}
 
 	/**
-	 * @param mixed $html WC price HTML.
+	 * @param mixed $html    WC price HTML.
+	 * @param mixed $product Product.
 	 */
 	public function filter( $html, $product ): string {
 		$html = (string) $html;

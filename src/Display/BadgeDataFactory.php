@@ -78,7 +78,8 @@ final class BadgeDataFactory {
 		$types          = $this->registry->enabled();
 		/** @var array<string,array{min:float,max:float,ref:ReferencePrice}> $ranges */
 		$ranges = [];
-		foreach ( $parent->get_visible_children() as $childId ) {
+		$childIds = $parent instanceof \WC_Product_Variable ? $parent->get_visible_children() : $parent->get_children();
+		foreach ( $childIds as $childId ) {
 			$child = ( $this->loader )( (int) $childId );
 			if ( ! $child instanceof WC_Product ) {
 				continue;
@@ -114,7 +115,7 @@ final class BadgeDataFactory {
 	private function view( ReferencePrice $ref, float $amount, ?float $max ): ReferenceView {
 		$type    = $ref->type;
 		$isRange = null !== $max && abs( $max - $amount ) >= 0.005;
-		$html    = $isRange ? wc_format_price_range( $amount, $max ) : $this->formatter->html( $amount );
+		$html    = $isRange ? wc_format_price_range( $this->formatter->html( $amount ), $this->formatter->html( (float) $max ) ) : $this->formatter->html( $amount );
 		$text    = $isRange ? $this->formatter->text( $amount ) . ' – ' . $this->formatter->text( $max ) : $this->formatter->text( $amount );
 		$format  = (string) $this->settings->get( 'display.date_format', DateFormat::CROATIAN );
 		return new ReferenceView(

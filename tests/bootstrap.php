@@ -17,6 +17,9 @@ if ( ! defined( 'SCWC_PLUGIN_FILE' ) ) {
 if ( ! defined( 'SCWC_PLUGIN_DIR' ) ) {
 	define( 'SCWC_PLUGIN_DIR', dirname( __DIR__ ) . '/' );
 }
+if ( ! defined( 'WC_VERSION' ) ) {
+	define( 'WC_VERSION', '9.9.0' );
+}
 if ( ! defined( 'HOUR_IN_SECONDS' ) ) {
 	define( 'MINUTE_IN_SECONDS', 60 );
 	define( 'HOUR_IN_SECONDS', 3600 );

@@ -141,3 +141,15 @@ if ( ! function_exists( 'plugin_dir_path' ) ) {
 if ( ! function_exists( 'get_ancestors' ) ) {
 	function get_ancestors( $object_id = 0, $object_type = '', $resource_type = '' ) { return []; }
 }
+if ( ! function_exists( 'load_plugin_textdomain' ) ) {
+	function load_plugin_textdomain( ...$args ) { return true; }
+}
+if ( ! function_exists( 'plugin_basename' ) ) {
+	function plugin_basename( string $file ) { return 'sidrena-cijena-za-woocommerce/' . basename( $file ); }
+}
+if ( ! function_exists( 'flush_rewrite_rules' ) ) {
+	function flush_rewrite_rules( $hard = true ) { $GLOBALS['scwc_test_flushed'] = ( $GLOBALS['scwc_test_flushed'] ?? 0 ) + 1; }
+}
+if ( ! defined( 'SCWC_PLUGIN_URL' ) ) {
+	define( 'SCWC_PLUGIN_URL', 'https://example.hr/wp-content/plugins/sidrena-cijena-za-woocommerce/' );
+}

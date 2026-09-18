@@ -15,7 +15,7 @@ final class BarcodeResolver {
 
 	public function resolve( WC_Product $product ): string {
 		$code = '';
-		if ( method_exists( $product, 'get_global_unique_id' ) ) {
+		if ( self::coreGtinAvailable() ) {
 			$code = trim( (string) $product->get_global_unique_id( 'edit' ) );
 		}
 		if ( '' === $code ) {
@@ -32,5 +32,10 @@ final class BarcodeResolver {
 		/** @var string $code */
 		$code = apply_filters( 'scwc_product_barcode', $code, $product );
 		return $code;
+	}
+
+	/** Core GTIN/EAN field exists since WooCommerce 9.2. */
+	public static function coreGtinAvailable(): bool {
+		return defined( 'WC_VERSION' ) && version_compare( (string) constant( 'WC_VERSION' ), '9.2', '>=' );
 	}
 }
