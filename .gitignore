@@ -1,0 +1,9 @@
+/vendor/
+/node_modules/
+/.phpunit.result.cache
+/.phpunit.cache/
+/build/
+/dist/
+*.zip
+.DS_Store
+.idea/
