@@ -34,3 +34,7 @@ if ( ! defined( 'HOUR_IN_SECONDS' ) ) {
 require_once __DIR__ . '/stubs/wc-classes.php';
 require_once __DIR__ . '/stubs/wp-functions.php';
 require_once __DIR__ . '/stubs/wc-functions.php';
+// Additional per-area stub files (alphabetical); each function must be guarded with function_exists().
+foreach ( glob( __DIR__ . '/stubs/*-stubs.php' ) ?: [] as $scwc_stub_file ) {
+	require_once $scwc_stub_file;
+}

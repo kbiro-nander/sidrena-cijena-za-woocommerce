@@ -153,3 +153,48 @@ if ( ! function_exists( 'flush_rewrite_rules' ) ) {
 if ( ! defined( 'SCWC_PLUGIN_URL' ) ) {
 	define( 'SCWC_PLUGIN_URL', 'https://example.hr/wp-content/plugins/sidrena-cijena-za-woocommerce/' );
 }
+if ( ! function_exists( 'get_transient' ) ) {
+	function get_transient( string $key ) { return $GLOBALS['scwc_test_transients'][ $key ] ?? false; }
+}
+if ( ! function_exists( 'set_transient' ) ) {
+	function set_transient( string $key, $value, int $expiration = 0 ) { $GLOBALS['scwc_test_transients'][ $key ] = $value; return true; }
+}
+if ( ! function_exists( 'delete_transient' ) ) {
+	function delete_transient( string $key ) { unset( $GLOBALS['scwc_test_transients'][ $key ] ); return true; }
+}
+if ( ! function_exists( 'wp_upload_dir' ) ) {
+	function wp_upload_dir( $time = null, bool $create_dir = true ) {
+		$base = sys_get_temp_dir() . '/scwc-test-uploads';
+		return [ 'basedir' => $base, 'baseurl' => 'https://example.hr/wp-content/uploads', 'error' => false ];
+	}
+}
+if ( ! function_exists( 'wp_mkdir_p' ) ) {
+	function wp_mkdir_p( string $target ) { return is_dir( $target ) || mkdir( $target, 0755, true ); }
+}
+if ( ! function_exists( 'wp_normalize_path' ) ) {
+	function wp_normalize_path( string $path ) { return str_replace( '\\', '/', $path ); }
+}
+if ( ! function_exists( 'current_user_can' ) ) {
+	function current_user_can( string $cap, ...$args ) { return true; }
+}
+if ( ! function_exists( 'wp_verify_nonce' ) ) {
+	function wp_verify_nonce( $nonce, $action = -1 ) { return 1; }
+}
+if ( ! function_exists( 'wp_create_nonce' ) ) {
+	function wp_create_nonce( $action = -1 ) { return 'nonce'; }
+}
+if ( ! function_exists( 'wp_nonce_field' ) ) {
+	function wp_nonce_field( $action = -1, $name = '_wpnonce', $referer = true, $display = true ) { $html = '<input type="hidden" name="' . $name . '" value="nonce" />'; if ( $display ) { echo $html; } return $html; }
+}
+if ( ! function_exists( 'admin_url' ) ) {
+	function admin_url( string $path = '', string $scheme = 'admin' ) { return 'https://example.hr/wp-admin/' . ltrim( $path, '/' ); }
+}
+if ( ! function_exists( 'add_query_arg' ) ) {
+	function add_query_arg( ...$args ) {
+		if ( is_array( $args[0] ) ) { $params = $args[0]; $url = $args[1] ?? ''; } else { $params = [ $args[0] => $args[1] ]; $url = $args[2] ?? ''; }
+		return $url . ( str_contains( $url, '?' ) ? '&' : '?' ) . http_build_query( $params );
+	}
+}
+if ( ! function_exists( 'wp_json_encode' ) ) {
+	function wp_json_encode( $data, int $options = 0, int $depth = 512 ) { return json_encode( $data, $options, $depth ); }
+}
