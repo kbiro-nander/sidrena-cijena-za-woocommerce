@@ -38,3 +38,6 @@ require_once __DIR__ . '/stubs/wc-functions.php';
 foreach ( glob( __DIR__ . '/stubs/*-stubs.php' ) ?: [] as $scwc_stub_file ) {
 	require_once $scwc_stub_file;
 }
+
+// A fake $wpdb so services that touch the database can be constructed in tests.
+$GLOBALS['wpdb'] = new SidrenaCijena\Tests\Support\FakeWpdb();
