@@ -134,6 +134,8 @@ final class EndpointTest extends TestCase {
 		self::assertSame( 'https://example.hr/cjenik/zg-02/latest.xml', $json['outlets'][1]['latest']['xml'] );
 		self::assertArrayNotHasKey( 'csv', $json['outlets'][1]['latest'] );
 		self::assertSame( 'ZG-02', $json['outlets'][1]['label'] );
+		self::assertSame( 'https://example.hr/wp-content/uploads/scwc-cjenik/poslovnica_vukovarska-5_zg-02_3_20261001_060000.xml', $json['outlets'][1]['files'][0]['direct_url'], 'stable path independent of rewrite rules' );
+		self::assertArrayHasKey( 'direct_url', $json['files'][0] );
 		self::assertCount( 1, $json['outlets'][1]['files'] );
 		self::assertCount( 3, $json['outlets'][0]['files'], 'legacy entries listed under the primary' );
 		self::assertSame( 'https://example.hr/cjenik/latest.xml', $json['latest']['xml'], 'top-level = primary (backward compatible)' );

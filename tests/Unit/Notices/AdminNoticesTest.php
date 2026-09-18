@@ -78,4 +78,12 @@ final class AdminNoticesTest extends TestCase {
 		self::assertStringContainsString( '3', $html );
 		self::assertStringContainsString( 'scwc_dismiss_notice', $html );
 	}
+
+	public function test_generation_scheduled_after_the_deadline_is_a_warning(): void {
+		$late = ( new Settings( ( new \SidrenaCijena\Settings\Sanitizer() )->sanitize( [ 'outlet' => [ 'address' => 'Ilica 1', 'label' => 'WEB1' ], 'price_list' => [ 'enabled' => '1', 'generate_time' => '09:00' ] ] ) ) );
+		$ids  = array_column( ( new AdminNotices( $late, fn() => $this->env(), new FixedClock( '2026-10-01 10:00:00' ) ) )->collect(), 'id' );
+		self::assertSame( [ 'generate_after_deadline' ], $ids );
+		$ok   = ( new Settings( ( new \SidrenaCijena\Settings\Sanitizer() )->sanitize( [ 'outlet' => [ 'address' => 'Ilica 1', 'label' => 'WEB1' ], 'price_list' => [ 'enabled' => '1', 'generate_time' => '07:30' ] ] ) ) );
+		self::assertSame( [], ( new AdminNotices( $ok, fn() => $this->env(), new FixedClock( '2026-10-01 10:00:00' ) ) )->collect() );
+	}
 }

@@ -53,6 +53,7 @@ final class DailySweep {
 			++$processed;
 			if ( Transition::NONE !== $transition ) {
 				++$changed;
+				do_action( 'scwc_price_changed', $snapshot, $transition );
 			}
 		}
 		return new SweepResult( $processed, $changed, count( $ids ) >= $perPage && $perPage > 0 );

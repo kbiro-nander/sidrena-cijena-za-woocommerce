@@ -21,6 +21,7 @@ final class SettingsPageTest extends TestCase {
 		$this->settings = ( new Settings( Defaults::all() ) )
 			->with( 'outlet.address', 'Ilica 1, Zagreb' )
 			->with( 'outlet.label', 'Moja Trgovina' )
+			->with( 'outlet.key', 'moja-trgovina' )
 			->with( 'price_list.formats', [ 'csv' ] )
 			->with( 'price_list.external_cron_key', 'k3y' )
 			->with( 'display.loop', false )

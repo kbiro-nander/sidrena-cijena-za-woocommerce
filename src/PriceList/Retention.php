@@ -28,14 +28,15 @@ class Retention {
 	 * @return string[] Names removed from the manifest (and disk where present).
 	 */
 	/**
-	 * @param string $primaryKey Key of the primary outlet; entries without an outlet key count as its files.
+	 * @param string   $primaryKey Key of the primary outlet; entries without an outlet key count as its files.
+	 * @param string[] $knownKeys  Keys of configured outlets; when given, groups of other keys are not protected.
 	 * @return string[] Removed file names.
 	 */
-	public function prune( int $days, string $primaryKey = '' ): array {
+	public function prune( int $days, string $primaryKey = '', array $knownKeys = [] ): array {
 		$days   = max( self::MIN_DAYS, $days );
 		$cutoff = $this->clock->now()->modify( sprintf( '-%d days', $days ) );
 
-		$newest  = $this->newestPerFormat( $primaryKey );
+		$newest  = $this->newestPerFormat( $primaryKey, $knownKeys );
 		$removed = [];
 		foreach ( $this->manifest->entries() as $entry ) {
 			$name = (string) ( $entry['name'] ?? '' );
@@ -67,14 +68,19 @@ class Retention {
 	/**
 	 * Newest existing file per (outlet, format); legacy entries without an outlet key belong to the primary.
 	 *
+	 * @param string[] $knownKeys Configured outlet keys.
 	 * @return string[]
 	 */
-	private function newestPerFormat( string $primaryKey ): array {
+	private function newestPerFormat( string $primaryKey, array $knownKeys = [] ): array {
 		$newest = [];
 		foreach ( $this->manifest->entries() as $entry ) {
 			$outlet = (string) ( $entry['outlet'] ?? '' );
-			$group  = ( '' === $outlet ? $primaryKey : $outlet ) . '|' . (string) ( $entry['format'] ?? '' );
-			$name   = (string) ( $entry['name'] ?? '' );
+			$outlet = '' === $outlet ? $primaryKey : $outlet;
+			if ( [] !== $knownKeys && ! in_array( $outlet, $knownKeys, true ) ) {
+				continue; // Orphaned outlet: nothing to protect, files age out normally.
+			}
+			$group = $outlet . '|' . (string) ( $entry['format'] ?? '' );
+			$name  = (string) ( $entry['name'] ?? '' );
 			if ( isset( $newest[ $group ] ) || ! $this->storage->exists( $name ) ) {
 				continue;
 			}

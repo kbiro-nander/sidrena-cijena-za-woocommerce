@@ -58,6 +58,12 @@ final class ProductAdapterTest extends TestCase {
 		self::assertSame( 'kg', $this->adapter()->fromProduct( $variation, $parent )->unit );
 	}
 
+	public function test_only_hidden_catalog_visibility_is_not_visible(): void {
+		self::assertTrue( $this->adapter()->fromProduct( $this->product( [ 'id' => 1, 'catalog_visibility' => 'search' ] ) )->visible, 'search-only products are purchasable' );
+		self::assertTrue( $this->adapter()->fromProduct( $this->product( [ 'id' => 2, 'catalog_visibility' => 'catalog' ] ) )->visible );
+		self::assertFalse( $this->adapter()->fromProduct( $this->product( [ 'id' => 3, 'catalog_visibility' => 'hidden' ] ) )->visible );
+	}
+
 	public function test_service_flag_null_when_unset(): void {
 		self::assertNull( $this->adapter()->fromProduct( $this->product( [ 'id' => 1 ] ) )->serviceFlag );
 	}

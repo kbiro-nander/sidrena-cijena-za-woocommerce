@@ -57,7 +57,7 @@ final class ProductAdapter {
 			'yes' === ( $meta[ MetaKeys::EXCLUDE ] ?? '' ),
 			'yes' === ( $meta[ MetaKeys::PRICE_ON_REQUEST ] ?? '' ),
 			(string) $product->get_stock_status( 'edit' ),
-			in_array( $product->get_catalog_visibility( 'edit' ), [ 'visible', 'catalog' ], true ),
+			'hidden' !== $product->get_catalog_visibility( 'edit' ),
 			(string) $product->get_status( 'edit' ),
 			$this->toImmutable( $product->get_date_created( 'edit' ) ),
 			(string) $product->get_permalink(),

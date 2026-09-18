@@ -93,4 +93,12 @@ final class RetentionTest extends TestCase {
 		self::assertSame( [], $this->retention()->prune( 35 ) );
 		self::assertTrue( $this->manifest->has( 'weird_x.xml' ) );
 	}
+
+	public function test_orphaned_outlet_groups_are_pruned_by_age_when_known_keys_are_given(): void {
+		$this->file( 'webshop_a_web1_1_20260101_060000.xml', 'xml', '2026-01-01 04:00:00' );
+		$this->manifest->add( [ 'name' => 'poslovnica_gone_x_1_20260101_060000.xml', 'format' => 'xml', 'outlet' => 'gone', 'generated_at' => '', 'generated_at_utc' => '2026-01-01 04:00:00', 'reason' => 'scheduled', 'products' => 1, 'services' => 0, 'size' => 1, 'sha256' => '' ] );
+		file_put_contents( $this->storage->path( 'poslovnica_gone_x_1_20260101_060000.xml' ), 'x' );
+		self::assertSame( [ 'poslovnica_gone_x_1_20260101_060000.xml' ], $this->retention()->prune( 30, 'web1', [ 'web1' ] ) );
+		self::assertTrue( $this->manifest->has( 'webshop_a_web1_1_20260101_060000.xml' ), 'known outlet keeps its newest file' );
+	}
 }

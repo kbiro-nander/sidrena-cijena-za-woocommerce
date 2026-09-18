@@ -46,7 +46,7 @@ final class ServiceChangeDebouncerTest extends TestCase {
 		$g = $this->generated();
 		self::assertCount( 1, $g );
 		self::assertSame( [ 'reason' => 'change' ], $g[0]['args'] );
-		self::assertSame( strtotime( '2026-10-01 03:05:00 UTC' ), $g[0]['timestamp'], 'default debounce 300 s' );
+		self::assertSame( strtotime( '2026-10-01 03:10:00 UTC' ), $g[0]['timestamp'], 'default debounce 600 s' );
 	}
 
 	public function test_goods_change_ignored_in_services_mode_but_not_in_all_mode(): void {
@@ -70,5 +70,15 @@ final class ServiceChangeDebouncerTest extends TestCase {
 		$this->debouncer()->onBulkChange();
 		$this->debouncer()->onProductRemoved( 5 );
 		self::assertCount( 1, $this->generated(), 'both touches collapse into one pending on-change run' );
+	}
+
+	public function test_default_settings_regenerate_on_any_product_change(): void {
+		\Brain\Monkey\Functions\when( 'update_option' )->justReturn( true );
+		$settings  = new Settings( Defaults::all() );
+		$scheduler = new Scheduler( new ActionSchedulerBackend(), $settings, new FixedClock( '2026-10-01 10:00:00' ) );
+		( new ServiceChangeDebouncer( $scheduler, $settings, new ServiceRule( 'virtual_or_flag' ) ) )->onPriceChanged( ProductSnapshot::fromArray( [ 'id' => 1, 'isVirtual' => false ] ), Transition::CHANGED );
+		$g = $this->generated();
+		self::assertCount( 1, $g );
+		self::assertSame( strtotime( '2026-10-01 10:10:00 UTC' ), $g[0]['timestamp'], 'default debounce 600 s' );
 	}
 }

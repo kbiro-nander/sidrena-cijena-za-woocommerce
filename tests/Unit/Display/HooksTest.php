@@ -121,10 +121,13 @@ final class HooksTest extends TestCase {
 		self::assertStringNotContainsString( 'Cijena na dan', $html, 'compact format in cart' );
 	}
 
-	public function test_cart_item_price_in_mini_cart_is_off_by_default(): void {
+	public function test_cart_item_price_in_mini_cart_uses_mini_cart_context_and_can_be_disabled(): void {
 		$p  = $this->product( [ 'id' => 1, 'regular_price' => '10', 'meta' => [ '_scwc_ref_anchor_price' => '12' ] ] );
 		$cf = new CartFilters( $this->settings, $this->guard(), $this->factory(), $this->composer(), fn() => $this->ctx );
 		do_action( 'woocommerce_before_mini_cart' );
+		self::assertStringContainsString( 'scwc-badge--mini_cart', $cf->itemPrice( '<span>10</span>', [ 'data' => $p, 'quantity' => 1 ], 'key' ), 'on by default: the mini-cart shows retail prices' );
+		$this->settings = $this->settings->with( 'display.mini_cart', false );
+		$cf = new CartFilters( $this->settings, $this->guard(), $this->factory(), $this->composer(), fn() => $this->ctx );
 		self::assertSame( '<span>10</span>', $cf->itemPrice( '<span>10</span>', [ 'data' => $p, 'quantity' => 1 ], 'key' ) );
 	}
 

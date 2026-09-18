@@ -89,7 +89,17 @@ class Scheduler {
 		if ( null !== $this->backend->nextScheduled( self::HOOK_GENERATE, $args ) ) {
 			return;
 		}
-		$this->backend->scheduleSingle( $this->clock->now()->getTimestamp() + max( 0, $delaySeconds ), self::HOOK_GENERATE, $args, false );
+		$now = $this->clock->now()->getTimestamp();
+		$at  = $now + max( 0, $delaySeconds );
+		// Services must be republished by 08:00 on the day of the change (NN 101/2026 t. II.): never let the
+		// debounce push a pre-08:00 change past the deadline (07:55 safety margin).
+		$local    = $this->clock->nowLocal();
+		$deadline = $local->setTime( 8, 0, 0 )->getTimestamp();
+		$margin   = $local->setTime( 7, 55, 0 )->getTimestamp();
+		if ( $now < $deadline && $at > $margin ) {
+			$at = $now;
+		}
+		$this->backend->scheduleSingle( $at, self::HOOK_GENERATE, $args, false );
 	}
 
 	/**

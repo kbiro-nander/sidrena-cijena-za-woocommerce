@@ -25,7 +25,7 @@ final class SanitizerTest extends TestCase {
 			[ 'form' => '', 'address' => 'Ilica 9', 'label' => '' ],
 			'garbage',
 		] ] ] );
-		self::assertSame( [ [ 'form' => 'Poslovnica', 'address' => 'Vukovarska 5', 'label' => 'ZG-02', 'storage_number' => '1' ] ], $out['outlets']['additional'] );
+		self::assertSame( [ [ 'form' => 'Poslovnica', 'address' => 'Vukovarska 5', 'label' => 'ZG-02', 'storage_number' => '1', 'key' => 'zg-02' ] ], $out['outlets']['additional'] );
 		self::assertSame( [], $this->sanitize( [] )['outlets']['additional'] );
 	}
 
@@ -80,7 +80,7 @@ final class SanitizerTest extends TestCase {
 		self::assertSame( ';', $out['price_list']['csv_delimiter'] );
 		self::assertSame( [ 'xml' ], $out['price_list']['formats'] );
 		self::assertSame( 'virtual_or_flag', $out['price_list']['service_rule'] );
-		self::assertSame( 'services', $out['price_list']['regenerate_on_change'] );
+		self::assertSame( 'all', $out['price_list']['regenerate_on_change'] );
 		self::assertSame( 'unit', $out['display']['checkout'] );
 		self::assertSame( 'after', $out['display']['position'] );
 	}
@@ -115,5 +115,17 @@ final class SanitizerTest extends TestCase {
 	public function test_auto_snapshot_datetime_validated(): void {
 		self::assertSame( '2026-11-17 00:05', $this->sanitize( [ 'reference_prices' => [ 'base' => [ 'auto_snapshot_at' => '2026-11-17 00:05' ] ] ] )['reference_prices']['base']['auto_snapshot_at'] );
 		self::assertSame( '', $this->sanitize( [ 'reference_prices' => [ 'base' => [ 'auto_snapshot_at' => 'tomorrow' ] ] ] )['reference_prices']['base']['auto_snapshot_at'] );
+	}
+
+	public function test_outlets_get_a_permanent_key_that_survives_renames(): void {
+		$first = $this->sanitize( [ 'outlet' => [ 'label' => 'Moja trgovina' ], 'outlets' => [ 'additional' => [ [ 'address' => 'V 5', 'label' => 'ZG-02' ], [ 'address' => 'I 1', 'label' => 'ZG 02' ] ] ] ] );
+		self::assertSame( 'moja-trgovina', $first['outlet']['key'] );
+		self::assertSame( 'zg-02', $first['outlets']['additional'][0]['key'] );
+		self::assertSame( 'zg-02-2', $first['outlets']['additional'][1]['key'], 'unique across all outlets' );
+		$renamed = $this->sanitize( [ 'outlet' => [ 'label' => 'Nova trgovina', 'key' => 'moja-trgovina' ], 'outlets' => [ 'additional' => [ [ 'address' => 'V 5', 'label' => 'Zagreb Centar', 'key' => 'zg-02' ] ] ] ] );
+		self::assertSame( 'moja-trgovina', $renamed['outlet']['key'], 'key is stable so the archive stays attached' );
+		self::assertSame( 'zg-02', $renamed['outlets']['additional'][0]['key'] );
+		self::assertSame( 'webshop', $this->sanitize( [] )['outlet']['key'] );
+		self::assertSame( 'zg-02-2', $this->sanitize( [ 'outlet' => [ 'key' => 'zg-02' ], 'outlets' => [ 'additional' => [ [ 'address' => 'x', 'label' => 'ZG-02' ] ] ] ] )['outlets']['additional'][0]['key'], 'primary key wins; additional gets suffixed' );
 	}
 }

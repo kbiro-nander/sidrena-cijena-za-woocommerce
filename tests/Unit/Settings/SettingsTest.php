@@ -17,6 +17,10 @@ final class SettingsTest extends TestCase {
 		self::assertSame( 'cjenik', $s->get( 'price_list.slug' ) );
 		self::assertSame( '06:00', $s->get( 'price_list.generate_time' ) );
 		self::assertSame( 35, $s->get( 'price_list.retention_days' ) );
+		self::assertTrue( $s->get( 'price_list.include_hidden' ), 'hidden products are still purchasable (NN 101/2026 VI.)' );
+		self::assertTrue( $s->get( 'display.mini_cart' ), 'the mini-cart shows retail prices (NN 101/2026 doc 1212 II.)' );
+		self::assertSame( 'all', $s->get( 'price_list.regenerate_on_change' ), 'real-time retrieval (VII.)' );
+		self::assertSame( 600, $s->get( 'price_list.debounce_seconds' ) );
 	}
 
 	public function test_get_returns_default_for_unknown_path(): void {

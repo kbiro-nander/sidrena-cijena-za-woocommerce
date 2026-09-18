@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace SidrenaCijena\Settings;
 
+use SidrenaCijena\PriceList\Outlet;
 use SidrenaCijena\Support\DateFormat;
+use SidrenaCijena\Support\Slugifier;
 
 final class Sanitizer {
 
@@ -29,7 +31,45 @@ final class Sanitizer {
 		if ( '' === $out['price_list']['external_cron_key'] ) {
 			$out['price_list']['external_cron_key'] = wp_generate_password( 32, false );
 		}
+		$this->assignOutletKeys( $out );
 		return $out;
+	}
+
+	/**
+	 * Every outlet carries a permanent key (URL/archive identity). Existing keys are kept so renaming
+	 * a label never detaches its 30-day archive; missing keys derive from the label, made unique.
+	 *
+	 * @param array<string,mixed> $out Sanitized settings (modified in place).
+	 */
+	private function assignOutletKeys( array &$out ): void {
+		$used    = [];
+		$primary = sanitize_key( (string) ( $out['outlet']['key'] ?? '' ) );
+		if ( '' === $primary ) {
+			$primary = Slugifier::filenamePart( (string) ( $out['outlet']['label'] ?? '' ) );
+		}
+		$primary              = $this->uniqueKey( '' === $primary ? Outlet::PRIMARY_FALLBACK_KEY : $primary, $used );
+		$out['outlet']['key'] = $primary;
+		foreach ( $out['outlets']['additional'] as $i => $row ) {
+			$key = sanitize_key( (string) ( $row['key'] ?? '' ) );
+			if ( '' === $key ) {
+				$key = Slugifier::filenamePart( (string) $row['label'] );
+			}
+			$out['outlets']['additional'][ $i ]['key'] = $this->uniqueKey( '' === $key ? 'poslovnica' : $key, $used );
+		}
+	}
+
+	/**
+	 * @param array<string,bool> $used Keys already taken.
+	 */
+	private function uniqueKey( string $key, array &$used ): string {
+		$candidate = $key;
+		$n         = 1;
+		while ( isset( $used[ $candidate ] ) ) {
+			++$n;
+			$candidate = $key . '-' . $n;
+		}
+		$used[ $candidate ] = true;
+		return $candidate;
 	}
 
 	/**
@@ -131,6 +171,7 @@ final class Sanitizer {
 				'address'        => $address,
 				'label'          => $label,
 				'storage_number' => $this->text( $row['storage_number'] ?? '' ) ?: '1',
+				'key'            => sanitize_key( (string) ( $row['key'] ?? '' ) ),
 			];
 		}
 		return $out;

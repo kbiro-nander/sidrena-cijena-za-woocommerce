@@ -54,4 +54,10 @@ final class OutletsTest extends TestCase {
 		self::assertSame( 'web-shop-1', $o->key );
 		self::assertSame( 'custom', ( new Outlet( 'webshop', 'Ilica 1', 'W', '1', 'T', 'https://x/', 'custom' ) )->key );
 	}
+
+	public function test_stored_keys_are_used_instead_of_label_slugs(): void {
+		$settings = $this->settings( [ [ 'form' => 'poslovnica', 'address' => 'V 5', 'label' => 'Zagreb Centar', 'storage_number' => '1', 'key' => 'zg-02' ] ], 'Nova trgovina' )->with( 'outlet.key', 'moja-trgovina' );
+		$outlets  = Outlets::fromSettings( $settings );
+		self::assertSame( [ 'moja-trgovina', 'zg-02' ], array_map( fn( Outlet $o ) => $o->key, $outlets ) );
+	}
 }

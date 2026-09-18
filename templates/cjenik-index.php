@@ -51,7 +51,7 @@ h2{font-size:1.2em;margin:0 0 4px}
 <tbody>
 	<?php foreach ( (array) $o['files'] as $f ) : ?>
 <tr>
-<td><a href="<?php echo esc_url( (string) $f['url'] ); ?>"><?php echo esc_html( (string) $f['name'] ); ?></a></td>
+<td><a href="<?php echo esc_url( (string) $f['url'] ); ?>"><?php echo esc_html( (string) $f['name'] ); ?></a> <small><a href="<?php echo esc_url( (string) $f['direct_url'] ); ?>" title="<?php echo esc_attr__( 'Izravna adresa datoteke (neovisna o postavkama poveznica)', 'sidrena-cijena-za-woocommerce' ); ?>">↗</a></small></td>
 <td><?php echo esc_html( strtoupper( (string) $f['format'] ) ); ?></td>
 <td><?php echo esc_html( (string) $f['generated_at'] ); ?></td>
 <td><?php echo (int) $f['products']; ?></td>

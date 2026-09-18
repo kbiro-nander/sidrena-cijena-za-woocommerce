@@ -23,7 +23,8 @@ final class RenderGuardTest extends TestCase {
 		self::assertFalse( $this->guard( $off )->shouldRender( $p, BadgeContext::LOOP ) );
 		self::assertTrue( $this->guard( $off )->shouldRender( $p, BadgeContext::SINGLE ) );
 		self::assertFalse( $this->guard( $off )->shouldRender( $p, BadgeContext::CHECKOUT ) );
-		self::assertFalse( $this->guard()->shouldRender( $p, BadgeContext::MINI_CART ), 'mini cart off by default' );
+		self::assertTrue( $this->guard()->shouldRender( $p, BadgeContext::MINI_CART ), 'mini cart on by default' );
+		self::assertFalse( $this->guard( ( new Settings( Defaults::all() ) )->with( 'display.mini_cart', false ) )->shouldRender( $p, BadgeContext::MINI_CART ) );
 	}
 
 	public function test_skips_admin_screens_wc_rest_and_emails(): void {

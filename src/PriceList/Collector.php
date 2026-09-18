@@ -103,19 +103,30 @@ class Collector {
 	 *
 	 * @return callable(int,int):int[]
 	 */
+	/**
+	 * wc_get_products() arguments for one page of top-level products. No product-type whitelist:
+	 * third-party types (bundles, subscriptions, …) are the trader's products too; containers are
+	 * skipped later by ProductSnapshot::isContainer().
+	 *
+	 * @return array<string,mixed>
+	 */
+	public static function pagerArgs( int $page, int $perPage ): array {
+		return [
+			'status'  => 'publish',
+			'limit'   => $perPage,
+			'page'    => $page,
+			'orderby' => 'ID',
+			'order'   => 'ASC',
+			'return'  => 'ids',
+		];
+	}
+
+	/**
+	 * @return callable(int,int):int[]
+	 */
 	public static function wcPager(): callable {
 		return static function ( int $page, int $perPage ): array {
-			$ids = wc_get_products(
-				[
-					'status'  => 'publish',
-					'type'    => [ 'simple', 'external', 'variable' ],
-					'limit'   => $perPage,
-					'page'    => $page,
-					'orderby' => 'ID',
-					'order'   => 'ASC',
-					'return'  => 'ids',
-				]
-			);
+			$ids = wc_get_products( self::pagerArgs( $page, $perPage ) );
 			return array_map( 'intval', is_array( $ids ) ? $ids : [] );
 		};
 	}

@@ -54,6 +54,7 @@ final class IndexRenderer {
 					'name'         => (string) $e['name'],
 					'format'       => (string) $e['format'],
 					'url'          => $this->fileUrl( (string) $e['name'] ),
+					'direct_url'   => $this->storage->url( (string) $e['name'] ),
 					'generated_at' => (string) ( $e['generated_at'] ?? '' ),
 					'size'         => (int) ( $e['size'] ?? 0 ),
 					'products'     => (int) ( $e['products'] ?? 0 ),

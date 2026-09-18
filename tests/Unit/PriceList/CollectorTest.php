@@ -80,7 +80,7 @@ final class CollectorTest extends TestCase {
 		$this->product( [ 'id' => 2, 'regular_price' => '10', 'catalog_visibility' => 'hidden' ] );
 		$this->product( [ 'id' => 3, 'regular_price' => '10' ] );
 		$items = iterator_to_array( $this->collector( [ 1 => [ 1, 2, 404, 3 ] ], 50 )->items(), false );
-		self::assertCount( 1, $items );
+		self::assertCount( 2, $items, 'excluded flag and missing product skipped; hidden products are listed by default (still purchasable)' );
 	}
 
 	public function test_observer_sees_every_non_container_snapshot(): void {
@@ -97,5 +97,14 @@ final class CollectorTest extends TestCase {
 
 	public function test_wc_pager_is_a_callable(): void {
 		self::assertIsCallable( Collector::wcPager() );
+	}
+
+	public function test_pager_query_does_not_whitelist_product_types(): void {
+		$args = Collector::pagerArgs( 2, 50 );
+		self::assertArrayNotHasKey( 'type', $args, 'bundles, subscriptions etc. must be listed too' );
+		self::assertSame( 'publish', $args['status'] );
+		self::assertSame( 50, $args['limit'] );
+		self::assertSame( 2, $args['page'] );
+		self::assertSame( 'ids', $args['return'] );
 	}
 }

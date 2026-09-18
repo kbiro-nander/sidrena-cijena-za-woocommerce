@@ -6,7 +6,7 @@ Tested up to: 6.8
 Requires PHP: 8.1
 WC requires at least: 9.0
 WC tested up to: 9.9
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,22 @@ U blokovskoj košarici i blagajni (WooCommerce Blocks) sidrena cijena prikazuje 
 * Filtri: `scwc_reference_price_types`, `scwc_reference_date`, `scwc_should_render_badge`, `scwc_price_badge_html`, `scwc_is_service`, `scwc_product_brand`, `scwc_barcode_meta_keys`, `scwc_price_list_item`, `scwc_price_list_csv_header`, `scwc_price_list_csv_row`.
 * Akcije: `scwc_price_changed`, `scwc_price_list_generated`, `scwc_snapshot_completed`, `scwc_import_completed`.
 
+== Usklađenost s NN 101/2026 ==
+
+**Odluka o objavi cjenika (1213)**
+
+* t. II. – XML/CSV na vlastitoj stranici; cjenik robe generira se svaki dan (zadano 06:00 po vremenskoj zoni trgovine; ako je vrijeme postavljeno nakon 07:30 administracija upozorava); cjenik usluga osvježava se pri svakoj promjeni (zadano i pri promjeni cijene robe), a promjena prije 08:00 objavljuje se odmah, bez odgode; svaka objavljena verzija čuva se i javno je dostupna najmanje 30 dana (zadano 35).
+* t. III./IV. – sva propisana polja za proizvode (naziv, šifra, marka, jedinica mjere, cijena za jedinicu mjere, maloprodajna cijena + posebni oblik prodaje s nazivom, sidrena cijena, barkod, dostupno/nedostupno) i usluge (naziv usluge, maloprodajna cijena + posebni oblik prodaje, sidrena cijena).
+* t. VI. – naziv datoteke sadrži oblik, adresu i oznaku prodajnog objekta, broj pohrane te datum i vrijeme objave; svaki prodajni objekt (webshop i svaka poslovnica) ima vlastitu datoteku i arhivu jedinstvene strukture; u cjenik ulaze svi objavljeni proizvodi s cijenom, uključujući skrivene (dostupni izravnim linkom) i proizvode drugih dodataka (paketi, pretplate).
+* t. VII. – datoteke su dostupne bez prijave i zaštite od robota, s CORS zaglavljima, `no-cache` na `latest.*`, `index.json` za otkrivanje te izravnim adresama datoteka koje ne ovise o postavkama trajnih veza.
+
+**Odluka o isticanju dodatne cijene (1212)**
+
+* t. II. – sidrena (dodatna) cijena, uvijek redovna cijena bez akcija, prikazuje se uz svaku cijenu na popisu proizvoda, stranici proizvoda, varijacijama, u košarici, mini-košarici i na blagajni (klasični predlošci) te kao redak podataka stavke u blokovskoj košarici; za vlastite bannere i oglase na stranici koristite `[sidrena_cijena]`.
+* t. IV. – za FMCG kategorije koje ste već označavali od 2. 5. 2025. odaberite kategorije u postavkama (datum 2. 5. 2025. ne može se automatski utvrditi).
+
+Što dodatak ne može napraviti umjesto vas: cijene u fizičkim poslovnicama (koriste se cijene iz WooCommercea), letke/plakate/vanjske oglase, e-mailove i stranice narudžbe nakon kupnje (namjerno bez oznake), te provjeru iznosa koje sami uvezete CSV-om.
+
 == Installation ==
 
 1. Prenesite mapu dodatka u `wp-content/plugins/` (ZIP paket već sadrži `vendor/`).
@@ -72,6 +88,9 @@ Da, najmanje 30 dana. Dodatak čuva i javno poslužuje verzije prema postavci za
 Iz najniže cijene u 30 dana prije početka sniženja (a ne iz redovne cijene), zaokruženo na niže.
 
 == Changelog ==
+
+= 1.1.1 =
+* Provjera usklađenosti s NN 101/2026: upozorenje kad je generiranje zakazano nakon 07:30; promjene prije 08:00 objavljuju se odmah; skriveni proizvodi i proizvodi drugih vrsta (paketi, pretplate) ulaze u cjenik; mini-košarica i osvježavanje pri svakoj promjeni cijene uključeni zadano; trajni ključevi prodajnih objekata (preimenovanje ne gubi arhivu); promjene otkrivene noćnom provjerom također osvježavaju cjenik; izravne adrese datoteka u index.json.
 
 = 1.1.0 =
 * Više prodajnih objekata: svaka poslovnica ima vlastitu datoteku cjenika, arhivu i URL (`/cjenik/{oznaka}/latest.xml`); `/cjenik/latest.xml` i dalje poslužuje webshop.

@@ -22,6 +22,7 @@ final class DailySweepTest extends TestCase {
 		$recorder->shouldReceive( 'record' )->times( 5 )->withArgs( fn( $s, string $source ) => 'sweep' === $source )->andReturn( Transition::NONE, Transition::CHANGED, Transition::NONE, Transition::NONE, Transition::SALE_STARTED );
 		$updater = \Mockery::mock( OmnibusStateUpdater::class );
 		$updater->shouldReceive( 'apply' )->times( 5 );
+		\Brain\Monkey\Actions\expectDone( 'scwc_price_changed' )->twice();
 
 		$pages = [ 1 => [ 1, 2, 3 ], 2 => [ 4, 5 ], 3 => [] ];
 		$sweep = new DailySweep(

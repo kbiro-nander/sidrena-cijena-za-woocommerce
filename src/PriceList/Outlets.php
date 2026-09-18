@@ -18,15 +18,19 @@ final class Outlets {
 	 * @return Outlet[] Primary outlet first; keys unique.
 	 */
 	public static function fromSettings( Settings $settings ): array {
-		$primary = Outlet::fromSettings( $settings );
-		$used    = [];
-		$outlets = [ $primary->withKey( self::unique( $primary->key, $used ), true ) ];
+		$primary   = Outlet::fromSettings( $settings );
+		$used      = [];
+		$storedKey = trim( (string) $settings->get( 'outlet.key', '' ) );
+		$outlets   = [ $primary->withKey( self::unique( '' !== $storedKey ? $storedKey : $primary->key, $used ), true ) ];
 		foreach ( (array) $settings->get( 'outlets.additional', [] ) as $row ) {
 			if ( ! is_array( $row ) ) {
 				continue;
 			}
-			$label     = trim( (string) ( $row['label'] ?? '' ) );
-			$key       = Slugifier::filenamePart( $label );
+			$label = trim( (string) ( $row['label'] ?? '' ) );
+			$key   = trim( (string) ( $row['key'] ?? '' ) );
+			if ( '' === $key ) {
+				$key = Slugifier::filenamePart( $label );
+			}
 			$outlets[] = new Outlet(
 				trim( (string) ( $row['form'] ?? 'poslovnica' ) ) ?: 'poslovnica',
 				trim( (string) ( $row['address'] ?? '' ) ),

@@ -133,6 +133,11 @@ final class Fields {
 					'description' => __( 'Prazno = naziv web stranice.', 'sidrena-cijena-za-woocommerce' ),
 				],
 				[
+					'path'  => 'outlet.key',
+					'type'  => 'hidden',
+					'label' => 'key',
+				],
+				[
 					'path'        => 'outlets.additional',
 					'type'        => 'outlets',
 					'heading'     => __( 'Dodatni prodajni objekti (poslovnice)', 'sidrena-cijena-za-woocommerce' ),
@@ -293,7 +298,7 @@ final class Fields {
 					'path'        => 'price_list.regenerate_on_change',
 					'type'        => 'select',
 					'label'       => __( 'Regeneriraj pri promjeni cijene', 'sidrena-cijena-za-woocommerce' ),
-					'description' => __( 'Cjenik usluga mora se objaviti pri svakoj promjeni cijene.', 'sidrena-cijena-za-woocommerce' ),
+					'description' => __( 'Cjenik usluga mora se objaviti pri svakoj promjeni cijene. „Svi proizvodi” (zadano) osvježava cjenik i pri promjeni cijene robe, što omogućuje dohvat cijena u gotovo stvarnom vremenu (t. VII.).', 'sidrena-cijena-za-woocommerce' ),
 					'options'     => [
 						'services' => __( 'Samo usluge', 'sidrena-cijena-za-woocommerce' ),
 						'all'      => __( 'Svi proizvodi', 'sidrena-cijena-za-woocommerce' ),

@@ -92,7 +92,9 @@ final class ItemFactoryTest extends TestCase {
 		self::assertNull( $f->make( $p, $this->snapshot( [ 'active' => '' ] ), null ) );
 		self::assertNull( $f->make( $p, $this->snapshot( [ 'active' => 'abc' ] ), null ) );
 		self::assertNull( $f->make( $p, $this->snapshot( [ 'status' => 'draft' ] ), null ) );
-		self::assertNull( $f->make( $p, $this->snapshot( [ 'visible' => false ] ), null ) );
+		self::assertNotNull( $f->make( $p, $this->snapshot( [ 'visible' => false ] ), null ), 'hidden products are listed by default (purchasable via URL)' );
+		$strict = $this->factory( ( new Settings( Defaults::all() ) )->with( 'price_list.include_hidden', false ) );
+		self::assertNull( $strict->make( $p, $this->snapshot( [ 'visible' => false ] ), null ) );
 		self::assertNull( $f->make( $p, $this->snapshot( [ 'type' => 'variable' ] ), null ) );
 		self::assertNull( $f->make( $p, $this->snapshot( [ 'type' => 'grouped' ] ), null ) );
 	}

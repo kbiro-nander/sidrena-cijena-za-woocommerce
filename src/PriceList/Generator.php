@@ -138,7 +138,11 @@ class Generator {
 			}
 		}
 
-		$this->retention->prune( (int) $this->settings->get( 'price_list.retention_days', 35 ), $primary->key );
+		$this->retention->prune(
+			(int) $this->settings->get( 'price_list.retention_days', 35 ),
+			$primary->key,
+			array_map( static fn( Outlet $o ): string => $o->key, array_values( array_filter( $outlets, static fn( $o ) => $o instanceof Outlet ) ) )
+		);
 
 		return new GenerationResult( $files, $local, $reason, null, $products, $services );
 	}

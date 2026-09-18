@@ -101,6 +101,20 @@ final class AdminNotices {
 					);
 				}
 			}
+			$time = (string) $this->settings->get( 'price_list.generate_time', '06:00' );
+			if ( strcmp( $time, '07:30' ) > 0 ) {
+				$notices[] = $this->notice(
+					'generate_after_deadline',
+					'warning',
+					sprintf(
+					/* translators: 1: configured time, 2: settings URL */
+						__( 'Sidrena cijena: dnevno generiranje cjenika zakazano je u %1$s, a cjenik robe mora biti objavljen svaki dan do 08:00 (NN 101/2026). <a href="%2$s">Pomaknite vrijeme</a> na najkasnije 07:30.', 'sidrena-cijena-za-woocommerce' ),
+						esc_html( $time ),
+						esc_url( $setUrl . '&tab=price_list' )
+					),
+					false
+				);
+			}
 			if ( ! $env->prettyPermalinks ) {
 				$notices[] = $this->notice( 'permalinks', 'warning', __( 'Sidrena cijena: trajne veze su „obične” pa je cjenik dostupan samo na adresi s parametrima (?scwc_cjenik=latest&scwc_format=xml). Preporučujemo uključiti lijepe trajne veze.', 'sidrena-cijena-za-woocommerce' ), false );
 			}
