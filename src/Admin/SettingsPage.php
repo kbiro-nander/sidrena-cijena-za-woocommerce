@@ -277,8 +277,8 @@ class SettingsPage {
 		$iso  = (string) ( $type->defaultDate ?? Defaults::ANCHOR_DATE );
 		$date = DateFormat::parseIso( $iso );
 		$fmt  = (string) $this->settings->get( 'display.date_format', DateFormat::CROATIAN );
-		$ref  = new ReferenceView( $type->key, $type->label, null === $date ? '' : DateFormat::croatian( $date, $fmt ), $iso, 14.99, wc_price( 14.99 ), null, null, false );
-		$omni = (bool) $this->settings->get( 'display.omnibus', true ) ? new OmnibusView( 12.49, wc_price( 12.49 ), 23, 'history' ) : null;
+		$ref  = new ReferenceView( $type->key, $type->label, null === $date ? '' : DateFormat::croatian( $date, $fmt ), $iso, 15.99, wc_price( 15.99 ), null, null, false );
+		$omni = (bool) $this->settings->get( 'display.omnibus', true ) ? new OmnibusView( 14.99, wc_price( 14.99 ), 13, 'history' ) : null;
 		$data = new BadgeData( 0, [ $ref ], $omni, true, 12.99, 16.99 );
 
 		$html  = '<div class="scwc-box scwc-preview"><h3>' . esc_html__( 'Pregled oznake (primjer)', 'sidrena-cijena-za-woocommerce' ) . '</h3>';

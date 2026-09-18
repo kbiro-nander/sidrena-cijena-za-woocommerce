@@ -61,7 +61,7 @@ final class AdminNotices {
 
 		if ( $listOn ) {
 			if ( null === $env->nextGeneration ) {
-				$notices[] = $this->notice( 'schedule', 'warning', __( 'Sidrena cijena: dnevno generiranje cjenika nije zakazano. Otvorite postavke cjenika i kliknite „Ponovno zakaži”.', 'sidrena-cijena-za-woocommerce' ), false );
+				$notices[] = $this->notice( 'schedule', 'warning', __( 'Sidrena cijena: dnevno generiranje cjenika nije zakazano. Otvorite postavke cjenika i kliknite „Ponovno zakaži zadatke”.', 'sidrena-cijena-za-woocommerce' ), false );
 			}
 			$last = $env->lastGeneration;
 			if ( null === $last || empty( $last['at'] ) ) {

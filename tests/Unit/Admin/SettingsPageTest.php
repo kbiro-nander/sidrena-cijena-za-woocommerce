@@ -210,7 +210,7 @@ final class SettingsPageTest extends TestCase {
 		self::assertStringContainsString( '12,99', $html );
 		self::assertStringContainsString( '14,99', $html );
 		self::assertStringContainsString( 'Cijena na dan 10. 9. 2026.', $html );
-		self::assertStringContainsString( '12,49', $html );
+		self::assertStringContainsString( '15,99', $html );
 		self::assertStringContainsString( '&minus;23&nbsp;%', $html );
 		self::assertStringContainsString( '<textarea id="scwc_settings_display_format"', $html );
 	}

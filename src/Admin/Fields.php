@@ -123,7 +123,7 @@ final class Fields {
 				[
 					'path'        => 'outlet.storage_number',
 					'type'        => 'text',
-					'label'       => __( 'Broj skladišta', 'sidrena-cijena-za-woocommerce' ),
+					'label'       => __( 'Broj pohrane', 'sidrena-cijena-za-woocommerce' ),
 					'description' => __( 'Zadano 1 ako nemate više skladišta.', 'sidrena-cijena-za-woocommerce' ),
 				],
 				[

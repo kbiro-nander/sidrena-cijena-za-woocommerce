@@ -58,7 +58,7 @@ $scwc_template_href = 'data:text/csv;charset=utf-8,' . rawurlencode( "\xEF\xBB\x
 						<label><input type="checkbox" name="skip_on_sale" value="1" /> <?php esc_html_e( 'Preskoči proizvode koji su trenutno na akciji', 'sidrena-cijena-za-woocommerce' ); ?></label><br />
 						<label><input type="checkbox" name="dry_run" value="1" /> <?php esc_html_e( 'Probno izvršavanje (samo prikaži što bi se dogodilo, ništa ne zapisuj)', 'sidrena-cijena-za-woocommerce' ); ?></label>
 						<?php if ( (bool) $settings->get( 'reference_prices.auto_na_after_date', true ) ) : ?>
-							<p class="description"><?php esc_html_e( 'Proizvodi kreirani nakon datuma referentne cijene bit će označeni kao „bez referentne cijene” (postavka „Automatski označi proizvode nakon datuma”).', 'sidrena-cijena-za-woocommerce' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Proizvodi kreirani nakon datuma referentne cijene bit će označeni kao „bez referentne cijene” (postavka „Automatski \"nema referentne cijene\" za nove proizvode”).', 'sidrena-cijena-za-woocommerce' ); ?></p>
 						<?php endif; ?>
 					</td>
 				</tr>
