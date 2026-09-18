@@ -16,7 +16,7 @@ use SidrenaCijena\Settings\Settings;
 
 final class Endpoint {
 
-	public const QUERY_VARS   = [ 'scwc_cjenik', 'scwc_format', 'scwc_file' ];
+	public const QUERY_VARS = [ 'scwc_cjenik', 'scwc_format', 'scwc_file' ];
 	/** Read from $_GET only – `key` must not become a public query var (WooCommerce order URLs use it). */
 	public const PRIVATE_VARS = [ 'scwc_run', 'key' ];
 

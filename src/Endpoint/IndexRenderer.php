@@ -62,15 +62,15 @@ final class IndexRenderer {
 		$outlet = Outlet::fromSettings( $this->settings );
 		return [
 			'base_url' => $base,
-			'outlet' => [
+			'outlet'   => [
 				'form'           => $outlet->form,
 				'address'        => $outlet->address,
 				'label'          => $outlet->label,
 				'storage_number' => $outlet->storageNumber,
 				'merchant_name'  => $outlet->merchantName,
 			],
-			'latest' => $latest,
-			'files'  => $files,
+			'latest'   => $latest,
+			'files'    => $files,
 		];
 	}
 
