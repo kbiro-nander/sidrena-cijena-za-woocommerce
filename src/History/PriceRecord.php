@@ -33,8 +33,8 @@ final class PriceRecord {
 		return new self(
 			(int) $row['product_id'],
 			(int) ( $row['parent_id'] ?? 0 ),
-			isset( $row['regular_price'] ) && null !== $row['regular_price'] ? (float) $row['regular_price'] : null,
-			isset( $row['sale_price'] ) && null !== $row['sale_price'] ? (float) $row['sale_price'] : null,
+			isset( $row['regular_price'] ) ? (float) $row['regular_price'] : null,
+			isset( $row['sale_price'] ) ? (float) $row['sale_price'] : null,
 			(float) $row['active_price'],
 			(bool) (int) $row['is_on_sale'],
 			(string) $row['source'],

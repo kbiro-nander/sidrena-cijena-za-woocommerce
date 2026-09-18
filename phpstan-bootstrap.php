@@ -9,3 +9,4 @@ define( 'SCWC_PLUGIN_DIR', __DIR__ . '/' );
 define( 'SCWC_PLUGIN_URL', 'https://example.hr/wp-content/plugins/sidrena-cijena-za-woocommerce/' );
 define( 'WC_VERSION', '9.9.0' );
 define( 'WP_UNINSTALL_PLUGIN', true );
+define( 'ARRAY_A', 'ARRAY_A' );
