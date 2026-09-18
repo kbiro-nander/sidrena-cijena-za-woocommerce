@@ -55,6 +55,10 @@ dl { margin: 0 0 8pt; }
 dt { font-weight: 600; margin-top: 5pt; }
 dd { margin: 0 0 3pt 0; }
 a { color: #0f4c8a; }
+
+figure.shot { margin: 0.8em 0 1.2em; page-break-inside: avoid; }
+figure.shot img { display: block; max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; }
+figure.shot figcaption { font-size: 9pt; color: #555; margin-top: 0.35em; }
 </style>
 </head>
 <body>
@@ -200,6 +204,7 @@ a { color: #0f4c8a; }
 <p>Stranica postavki nalazi se u izborniku <strong>WooCommerce → Sidrena cijena</strong> (naslov stranice: „Sidrena cijena za WooCommerce”). Podijeljena je u šest kartica: <em>Prodajni objekti, Referentne cijene, Prikaz, Cjenik, Povijest cijena, Napredno</em>. Svaka kartica ima vlastiti gumb „Spremi promjene”; spremanje jedne kartice ne mijenja ostale. Za pristup je potrebna ovlast upravljanja WooCommerceom (uloga Administrator ili Upravitelj trgovine).</p>
 
 <h2 id="ch3-1">3.1 Kartica „Prodajni objekti”</h2>
+<figure class="shot"><img src="img/postavke-prodajni-objekti.png" alt="Kartica „Prodajni objekti”: podaci webshopa, popis poslovnica i pregled naziva datoteka i javnih adresa (na snimci je putanja cjenika promijenjena u „cijene”)."><figcaption>Kartica „Prodajni objekti”: podaci webshopa, popis poslovnica i pregled naziva datoteka i javnih adresa (na snimci je putanja cjenika promijenjena u „cijene”).</figcaption></figure>
 <p class="small">Uvodni tekst kartice: „Podaci o prodajnom objektu ulaze u naziv datoteke i zaglavlje cjenika (NN 101/2026).”</p>
 <table>
   <tr><th style="width:24%">Polje</th><th>Što znači</th><th style="width:16%">Zadano</th><th style="width:24%">Preporuka</th></tr>
@@ -232,6 +237,7 @@ a { color: #0f4c8a; }
 <p>Pregled se osvježava nakon spremanja. Dijelovi naziva pretvaraju se u mala slova bez dijakritike; razmaci, zarezi i ostali znakovi postaju crtica. Prazan dio zamjenjuje se s <code>na</code>.</p>
 
 <h2 id="ch3-2">3.2 Kartica „Referentne cijene”</h2>
+<figure class="shot"><img src="img/postavke-referentne-cijene.png" alt="Kartica „Referentne cijene”: sidrena cijena (10. 9. 2026.), iznimke po kategorijama, automatski snapshot i pripremljena bazna cijena."><figcaption>Kartica „Referentne cijene”: sidrena cijena (10. 9. 2026.), iznimke po kategorijama, automatski snapshot i pripremljena bazna cijena.</figcaption></figure>
 <p class="small">Uvodni tekst: „Sidrena cijena je redovna cijena koja je vrijedila na referentni dan; akcijske cijene se ne uzimaju u obzir.”</p>
 <p>Kartica ima tri odjeljka: <strong>Sidrena (dodatna) cijena</strong>, <strong>Bazna cijena (od 17. 11. 2026.)</strong> i <strong>Ostalo</strong>.</p>
 
@@ -262,6 +268,7 @@ a { color: #0f4c8a; }
 </table>
 
 <h2 id="ch3-3">3.3 Kartica „Prikaz”</h2>
+<figure class="shot"><img src="img/postavke-prikaz.png" alt="Kartica „Prikaz” s pregledom oznake na dnu."><figcaption>Kartica „Prikaz” s pregledom oznake na dnu.</figcaption></figure>
 <p class="small">Uvodni tekst: „Oznaka se prikazuje uz svaku cijenu: jasno, vidljivo i čitljivo, s referentnim datumom.”</p>
 <table>
   <tr><th style="width:26%">Polje</th><th>Što znači</th><th style="width:18%">Zadano</th><th style="width:20%">Preporuka</th></tr>
@@ -287,6 +294,7 @@ a { color: #0f4c8a; }
 <p>Ispod polja prikazuje se primjer oznake za proizvod na sniženju: „trenutna cijena 12,99 €, sidrena 15,99 €, najniža u 30 dana 14,99 €, popust −13 %”. Pregled se osvježava nakon spremanja i pokazuje kako će oznaka izgledati s vašim formatom i nazivima.</p>
 
 <h2 id="ch3-4">3.4 Kartica „Cjenik”</h2>
+<figure class="shot"><img src="img/postavke-cjenik.png" alt="Kartica „Cjenik” sa statusnim okvirom „Stanje cjenika”: javna adresa, provjera dostupnosti, zadnje i sljedeće generiranje te gumbi."><figcaption>Kartica „Cjenik” sa statusnim okvirom „Stanje cjenika”: javna adresa, provjera dostupnosti, zadnje i sljedeće generiranje te gumbi.</figcaption></figure>
 <p class="small">Uvodni tekst: „Cjenik robe objavljuje se svaki dan prije 08:00, cjenik usluga pri svakoj promjeni; verzije se čuvaju najmanje 30 dana.”</p>
 <table>
   <tr><th style="width:26%">Polje</th><th>Što znači</th><th style="width:15%">Zadano</th><th style="width:22%">Preporuka</th></tr>
@@ -328,6 +336,7 @@ a { color: #0f4c8a; }
 </ul>
 
 <h2 id="ch3-5">3.5 Kartica „Povijest cijena”</h2>
+<figure class="shot"><img src="img/postavke-povijest-cijena.png" alt="Kartica „Povijest cijena”."><figcaption>Kartica „Povijest cijena”.</figcaption></figure>
 <p class="small">Uvodni tekst: „Povijest cijena služi za izračun najniže cijene u 30 dana prije sniženja (čl. 19 ZZP).”</p>
 <table>
   <tr><th style="width:26%">Polje</th><th>Što znači</th><th style="width:15%">Zadano</th><th style="width:22%">Preporuka</th></tr>
@@ -338,6 +347,7 @@ a { color: #0f4c8a; }
 </table>
 
 <h2 id="ch3-6">3.6 Kartica „Napredno”</h2>
+<figure class="shot"><img src="img/postavke-napredno.png" alt="Kartica „Napredno”."><figcaption>Kartica „Napredno”.</figcaption></figure>
 <table>
   <tr><th style="width:30%">Polje</th><th>Što znači</th><th style="width:15%">Zadano</th><th style="width:20%">Preporuka</th></tr>
   <tr><td>Obriši sve podatke pri deinstalaciji</td><td>Opis: „Postavke, meta podatke proizvoda, povijest cijena i generirane cjenike.” Primjenjuje se samo pri brisanju dodatka, ne pri deaktivaciji.</td><td>isključeno</td><td>Ostavite isključeno dok traje obveza čuvanja 30 dana.</td></tr>
@@ -351,6 +361,7 @@ a { color: #0f4c8a; }
 <p>Stranica <strong>WooCommerce → Sidrena cijena – Alati</strong> sadrži tri kartice: snimanje trenutnih cijena, uvoz iz CSV-a i izvoz. Sve radnje izvršavaju se u pozadini u dijelovima (po 100 proizvoda), pa rade i na velikim katalozima; napredak vidite u traci i dnevniku na stranici.</p>
 
 <h2 id="ch4-1">4.1 Snimi trenutne redovne cijene kao referentnu cijenu</h2>
+<figure class="shot"><img src="img/alati.png" alt="Stranica „Alati”: snimanje redovnih cijena, uvoz iz CSV-a i izvoz."><figcaption>Stranica „Alati”: snimanje redovnih cijena, uvoz iz CSV-a i izvoz.</figcaption></figure>
 <p>Tekst na stranici: „Sidrena cijena je REDOVNA cijena proizvoda na dan 10. 9. 2026. Alat kopira trenutnu redovnu cijenu svakog proizvoda i varijacije u odabranu vrstu referentne cijene. Akcijske (snižene) cijene se nikada ne kopiraju.”</p>
 <div class="box-important"><strong>Kada je ovaj alat ispravan izbor</strong> Samo ako su vaše današnje <em>redovne</em> cijene jednake redovnim cijenama na dan 10. 9. 2026. Ako ste u međuvremenu mijenjali redovne cijene, koristite uvoz iz CSV-a (4.2) s cijenama koje su tada vrijedile.</div>
 

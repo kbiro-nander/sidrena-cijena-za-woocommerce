@@ -19,6 +19,18 @@ Pravna osnova: [Odluka o isticanju dodatne cijene](https://narodne-novine.nn.hr/
 - Alati: snimanje trenutnih redovnih cijena kao sidrenih (akcijske se nikad ne kopiraju), CSV uvoz/izvoz, automatsko snimanje na budući datum (npr. „bazna cijena” od 17. 11. 2026.).
 - Action Scheduler ili WP-Cron, vanjski cron URL, WP-CLI naredbe (`wp scwc …`), HPOS kompatibilnost, predlošci koje tema može nadjačati, kuke s prefiksom `scwc_`.
 
+## Snimke zaslona
+
+| Postavke – Cjenik (javna adresa, provjera dostupnosti, stanje) | Postavke – Referentne cijene |
+|---|---|
+| ![Kartica Cjenik](docs/manual/img/postavke-cjenik.png) | ![Kartica Referentne cijene](docs/manual/img/postavke-referentne-cijene.png) |
+
+| Postavke – Prikaz (s pregledom oznake) | Alati (snimanje, CSV uvoz/izvoz) |
+|---|---|
+| ![Kartica Prikaz](docs/manual/img/postavke-prikaz.png) | ![Alati](docs/manual/img/alati.png) |
+
+Sve kartice (Prodajni objekti, Povijest cijena, Napredno) prikazane su u [priručniku](docs/manual/Sidrena-cijena-za-WooCommerce-prirucnik.pdf).
+
 ## Zahtjevi
 
 WordPress 6.4+, WooCommerce 9.0+, PHP 8.1+.
