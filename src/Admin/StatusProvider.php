@@ -19,17 +19,74 @@ use SidrenaCijena\Support\Clock;
 
 final class StatusProvider {
 
+	/** @var callable(string):(array{code:int}|string) */
+	private $http;
+
+	/**
+	 * @param callable(string):(array{code:int}|string)|null $http HEAD request: returns ['code' => int] or an error message.
+	 */
 	public function __construct(
 		private readonly Settings $settings,
 		private readonly Scheduler $scheduler,
 		private readonly Clock $clock,
-	) {}
+		?callable $http = null,
+	) {
+		$this->http = $http ?? static function ( string $url ) {
+			$response = wp_remote_head(
+				$url,
+				[
+					'timeout'     => 5,
+					'redirection' => 2,
+					'sslverify'   => false,
+				]
+			);
+			if ( is_wp_error( $response ) ) {
+				return $response->get_error_message();
+			}
+			return [ 'code' => (int) wp_remote_retrieve_response_code( $response ) ];
+		};
+	}
+
+	/**
+	 * @return array<int,array{label:string,value:string}>
+	 */
+	private function publicAddressRows(): array {
+		$slug   = trim( (string) $this->settings->get( 'price_list.slug', 'cjenik' ), '/' );
+		$base   = (string) home_url( '/' . $slug . '/' );
+		$rows   = [];
+		$rows[] = [
+			'label' => __( 'Javna adresa cjenika', 'sidrena-cijena-za-woocommerce' ),
+			'value' => '<strong>' . esc_html( $base ) . '</strong><br><span class="description">' . sprintf(
+				/* translators: 1: slug */
+				esc_html__( 'Adresa je /%1$s/ (i /%1$s/latest.xml, /%1$s/latest.csv), a ne /cijene ni /%1$s.xml. Slug mijenjate u kartici Cjenik.', 'sidrena-cijena-za-woocommerce' ),
+				esc_html( $slug )
+			) . '</span>',
+		];
+		$result = ( $this->http )( $base . 'latest.xml' );
+		if ( is_array( $result ) ) {
+			$code = (int) ( $result['code'] ?? 0 );
+			$hint = match ( true ) {
+				200 === $code               => __( 'u redu – cjenik je javno dostupan', 'sidrena-cijena-za-woocommerce' ),
+				404 === $code               => __( 'nije pronađen – spremite Postavke → Trajne veze (bez promjena) ili kliknite „Ponovno zakaži zadatke”, pa provjerite je li cjenik generiran', 'sidrena-cijena-za-woocommerce' ),
+				in_array( $code, [ 401, 403, 429, 503 ], true ) => __( 'blokirano – zaštita od robota, CDN ili lozinka na stranici; datoteke moraju biti dostupne bez prijave i bez zaštite od robota', 'sidrena-cijena-za-woocommerce' ),
+				default                     => __( 'neočekivan odgovor – provjerite adresu u pregledniku', 'sidrena-cijena-za-woocommerce' ),
+			};
+			$value = sprintf( 'HTTP %d – %s', $code, esc_html( $hint ) );
+		} else {
+			$value = esc_html( (string) $result ) . ' – ' . esc_html__( 'poslužitelj ne može dohvatiti vlastitu adresu (loopback); provjerite u pregledniku', 'sidrena-cijena-za-woocommerce' );
+		}
+		$rows[] = [
+			'label' => __( 'Provjera dostupnosti', 'sidrena-cijena-za-woocommerce' ),
+			'value' => $value,
+		];
+		return $rows;
+	}
 
 	/**
 	 * @return array<int,array{label:string,value:string}>
 	 */
 	public function __invoke(): array {
-		$rows = [];
+		$rows = $this->publicAddressRows();
 		$last = get_option( Generator::OPTION_LAST, [] );
 		$last = is_array( $last ) ? $last : [];
 

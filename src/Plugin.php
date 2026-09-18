@@ -183,6 +183,17 @@ final class Plugin {
 			$this->get( ToolsAjax::class )->register();
 			$this->get( AdminActions::class )->register();
 			$this->get( AdminNotices::class )->register();
+			add_action(
+				'admin_init',
+				function (): void {
+					// Self-heal the /cjenik/ routes when visiting our screens (throttled hourly).
+					$page = isset( $_GET['page'] ) ? sanitize_key( (string) $_GET['page'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+					if ( in_array( $page, [ 'scwc-settings', 'scwc-tools' ], true ) && ! get_transient( 'scwc_rules_check' ) ) {
+						set_transient( 'scwc_rules_check', 1, HOUR_IN_SECONDS );
+						$this->get( Endpoint::class )->ensureRules();
+					}
+				}
+			);
 		}
 
 		if ( defined( 'WP_CLI' ) && constant( 'WP_CLI' ) && class_exists( 'WP_CLI' ) ) {

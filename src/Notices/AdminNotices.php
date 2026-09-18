@@ -121,6 +121,20 @@ final class AdminNotices {
 		}
 
 		if ( $env->isWooCommerceScreen() ) {
+			if ( $listOn && ( null === $env->lastGeneration || empty( $env->lastGeneration['at'] ) ) ) {
+				$slug      = trim( (string) $this->settings->get( 'price_list.slug', 'cjenik' ), '/' );
+				$notices[] = $this->notice(
+					'public_url',
+					'info',
+					sprintf(
+					/* translators: 1: public URL, 2: slug */
+						__( 'Sidrena cijena: javna adresa cjenika bit će <strong>%1$s</strong> (npr. %1$slatest.xml). Adresa je /%2$s/, a ne /cijene.', 'sidrena-cijena-za-woocommerce' ),
+						esc_url( home_url( '/' . $slug . '/' ) ),
+						esc_html( $slug )
+					),
+					true
+				);
+			}
 			if ( $env->missingAnchors > 0 ) {
 				$notices[] = $this->notice(
 					'missing_anchors',

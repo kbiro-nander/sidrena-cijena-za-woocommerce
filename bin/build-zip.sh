@@ -29,5 +29,7 @@ EXCLUDE
 if command -v msgfmt >/dev/null; then
   for po in "$BUILD"/languages/*.po; do [ -f "$po" ] && msgfmt -o "${po%.po}.mo" "$po"; done
 fi
+# Owner's manual (PDF) ships inside the plugin folder.
+for pdf in docs/manual/*.pdf; do [ -f "$pdf" ] && cp "$pdf" "$BUILD/prirucnik.pdf"; done
 ( cd build && zip -qr "../dist/$SLUG-$VERSION.zip" "$SLUG" )
 echo "Built dist/$SLUG-$VERSION.zip"

@@ -6,7 +6,7 @@ Tested up to: 6.8
 Requires PHP: 8.1
 WC requires at least: 9.0
 WC tested up to: 9.9
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,6 +71,10 @@ U blokovskoj košarici i blagajni (WooCommerce Blocks) sidrena cijena prikazuje 
 
 == Frequently Asked Questions ==
 
+= Otvorio sam /cijene i dobio 404 =
+
+Javna adresa cjenika je `https://vasa-trgovina.hr/cjenik/` (te `/cjenik/latest.xml` i `/cjenik/latest.csv`), a ne `/cijene`. Slug mijenjate u WooCommerce → Sidrena cijena → Cjenik. Ako i `/cjenik/` vraća 404: otvorite Postavke → Trajne veze i kliknite „Spremi promjene” (bez izmjena) ili u kartici Cjenik kliknite „Ponovno zakaži zadatke”; s „običnim” trajnim vezama koristite `?scwc_cjenik=latest&scwc_format=xml`. Kartica Cjenik prikazuje rezultat automatske provjere dostupnosti.
+
 = Što je sidrena cijena? =
 
 Službeno „dodatna maloprodajna cijena” – redovna cijena (bez posebnih oblika prodaje) koja je za proizvod/uslugu vrijedila na dan 10. 9. 2026. Mora se istaknuti uz svaku aktualnu cijenu i svako oglašavanje cijene.
@@ -88,6 +92,9 @@ Da, najmanje 30 dana. Dodatak čuva i javno poslužuje verzije prema postavci za
 Iz najniže cijene u 30 dana prije početka sniženja (a ne iz redovne cijene), zaokruženo na niže.
 
 == Changelog ==
+
+= 1.1.2 =
+* Korisnički priručnik (PDF) uz dodatak. Kartica Cjenik jasno prikazuje javnu adresu (/cjenik/) i automatski provjerava dostupnost; gumb „Ponovno zakaži zadatke” obnavlja i rute; rute se samoobnavljaju ako ih drugi dodatak obriše; obavijest s javnom adresom do prvog generiranja.
 
 = 1.1.1 =
 * Provjera usklađenosti s NN 101/2026: upozorenje kad je generiranje zakazano nakon 07:30; promjene prije 08:00 objavljuju se odmah; skriveni proizvodi i proizvodi drugih vrsta (paketi, pretplate) ulaze u cjenik; mini-košarica i osvježavanje pri svakoj promjeni cijene uključeni zadano; trajni ključevi prodajnih objekata (preimenovanje ne gubi arhivu); promjene otkrivene noćnom provjerom također osvježavaju cjenik; izravne adrese datoteka u index.json.

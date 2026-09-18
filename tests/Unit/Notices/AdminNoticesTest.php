@@ -47,7 +47,7 @@ final class AdminNoticesTest extends TestCase {
 		$ids = array_column( $this->notices( null, [ 'lastGeneration' => [ 'at' => '2026-10-01 04:00:00', 'error' => 'Boom' ] ] )->collect(), 'id' );
 		self::assertSame( [ 'generation_error' ], $ids );
 		$ids = array_column( $this->notices( null, [ 'lastGeneration' => null ] )->collect(), 'id' );
-		self::assertSame( [ 'never_generated' ], $ids );
+		self::assertSame( [ 'never_generated', 'public_url' ], $ids );
 	}
 
 	public function test_informational_notices_only_on_woocommerce_screens_and_respect_dismissal(): void {
@@ -85,5 +85,15 @@ final class AdminNoticesTest extends TestCase {
 		self::assertSame( [ 'generate_after_deadline' ], $ids );
 		$ok   = ( new Settings( ( new \SidrenaCijena\Settings\Sanitizer() )->sanitize( [ 'outlet' => [ 'address' => 'Ilica 1', 'label' => 'WEB1' ], 'price_list' => [ 'enabled' => '1', 'generate_time' => '07:30' ] ] ) ) );
 		self::assertSame( [], ( new AdminNotices( $ok, fn() => $this->env(), new FixedClock( '2026-10-01 10:00:00' ) ) )->collect() );
+	}
+
+	public function test_public_url_notice_until_first_generation_and_only_on_woocommerce_screens(): void {
+		$n = $this->notices( null, [ 'lastGeneration' => null ] )->collect();
+		$pu = array_values( array_filter( $n, fn( $x ) => 'public_url' === $x['id'] ) )[0];
+		self::assertSame( 'info', $pu['type'] );
+		self::assertTrue( $pu['dismissible'] );
+		self::assertStringContainsString( 'https://example.hr/cjenik/', $pu['message'] );
+		self::assertSame( [ 'never_generated' ], array_column( $this->notices( null, [ 'lastGeneration' => null, 'screenId' => 'dashboard' ] )->collect(), 'id' ) );
+		self::assertNotContains( 'public_url', array_column( $this->notices()->collect(), 'id' ), 'gone once a list exists' );
 	}
 }

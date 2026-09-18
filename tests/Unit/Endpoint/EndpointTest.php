@@ -70,6 +70,7 @@ final class EndpointTest extends TestCase {
 		Actions\expectAdded( 'template_redirect' )->once()->with( \Mockery::type( 'callable' ), 1 );
 		Filters\expectAdded( 'robots_txt' )->once();
 		Actions\expectAdded( 'update_option_scwc_settings' )->once();
+		Actions\expectAdded( 'wp_loaded' )->once()->with( \Mockery::type( 'callable' ) );
 		$this->endpoint()->register();
 	}
 
@@ -228,5 +229,23 @@ final class EndpointTest extends TestCase {
 		\Brain\Monkey\Functions\expect( 'delete_option' )->once()->with( 'scwc_flush_rewrite' );
 		$this->endpoint()->maybeFlush();
 		self::assertSame( 1, $GLOBALS['scwc_test_flushed'] );
+	}
+
+	public function test_rules_persisted_checks_the_saved_rewrite_rules_option(): void {
+		\Brain\Monkey\Functions\when( 'get_option' )->alias( fn( $k, $d = false ) => 'rewrite_rules' === $k ? [ '^cjenik/?$' => 'index.php?scwc_cjenik=index', 'other' => 'x' ] : $d );
+		self::assertTrue( $this->endpoint()->rulesPersisted() );
+		\Brain\Monkey\Functions\when( 'get_option' )->alias( fn( $k, $d = false ) => 'rewrite_rules' === $k ? [ 'other' => 'x' ] : $d );
+		self::assertFalse( $this->endpoint()->rulesPersisted() );
+		\Brain\Monkey\Functions\when( 'get_option' )->alias( fn( $k, $d = false ) => $d );
+		self::assertFalse( $this->endpoint()->rulesPersisted(), 'no saved rules at all' );
+	}
+
+	public function test_ensure_rules_flags_a_flush_only_when_rules_are_missing(): void {
+		\Brain\Monkey\Functions\when( 'get_option' )->alias( fn( $k, $d = false ) => 'rewrite_rules' === $k ? [ 'other' => 'x' ] : $d );
+		\Brain\Monkey\Functions\expect( 'update_option' )->once()->with( 'scwc_flush_rewrite', 1 );
+		self::assertTrue( $this->endpoint()->ensureRules() );
+		\Brain\Monkey\Functions\when( 'get_option' )->alias( fn( $k, $d = false ) => 'rewrite_rules' === $k ? [ '^cjenik/?$' => 'y' ] : $d );
+		\Brain\Monkey\Functions\expect( 'update_option' )->never();
+		self::assertFalse( $this->endpoint()->ensureRules() );
 	}
 }

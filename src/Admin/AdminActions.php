@@ -66,6 +66,7 @@ final class AdminActions {
 				break;
 			case 'scwc_reschedule':
 				( $this->reschedule )();
+				update_option( 'scwc_flush_rewrite', 1 ); // Also re-registers the /cjenik/ routes on the next request.
 				$result = 'rescheduled';
 				break;
 		}

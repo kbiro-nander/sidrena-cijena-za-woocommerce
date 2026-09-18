@@ -43,4 +43,31 @@ final class StatusProviderTest extends TestCase {
 		self::assertStringContainsString( 'nikad', $values );
 		self::assertStringContainsString( 'nije zakazano', $values );
 	}
+
+	private function providerWith( $http ): StatusProvider {
+		scwc_test_schedule_reset();
+		$settings  = ( new Settings( Defaults::all() ) )->with( 'outlet.label', 'WEB1' )->with( 'outlet.address', 'Ilica 1' );
+		$scheduler = new Scheduler( new ActionSchedulerBackend(), $settings, new FixedClock() );
+		return new StatusProvider( $settings, $scheduler, new FixedClock(), $http );
+	}
+
+	public function test_public_address_row_is_first_and_unmistakable(): void {
+		$rows = ( $this->providerWith( fn( string $url ) => [ 'code' => 200 ] ) )();
+		self::assertSame( 'Javna adresa cjenika', $rows[0]['label'] );
+		self::assertStringContainsString( '<strong>https://example.hr/cjenik/</strong>', $rows[0]['value'] );
+		self::assertStringContainsString( '/cijene', $rows[0]['value'], 'explicitly says what the address is NOT' );
+	}
+
+	public function test_availability_check_reports_status_with_a_hint(): void {
+		$ok = array_values( array_filter( ( $this->providerWith( fn( string $url ) => [ 'code' => 200 ] ) )(), fn( $r ) => 'Provjera dostupnosti' === $r['label'] ) )[0]['value'];
+		self::assertStringContainsString( 'HTTP 200', $ok );
+		self::assertStringContainsString( 'u redu', $ok );
+		$nf = array_values( array_filter( ( $this->providerWith( fn( string $url ) => [ 'code' => 404 ] ) )(), fn( $r ) => 'Provjera dostupnosti' === $r['label'] ) )[0]['value'];
+		self::assertStringContainsString( 'HTTP 404', $nf );
+		self::assertStringContainsString( 'Trajne veze', $nf );
+		$err = array_values( array_filter( ( $this->providerWith( fn( string $url ) => 'cURL error 28' ) )(), fn( $r ) => 'Provjera dostupnosti' === $r['label'] ) )[0]['value'];
+		self::assertStringContainsString( 'cURL error 28', $err );
+		$bot = array_values( array_filter( ( $this->providerWith( fn( string $url ) => [ 'code' => 403 ] ) )(), fn( $r ) => 'Provjera dostupnosti' === $r['label'] ) )[0]['value'];
+		self::assertStringContainsString( 'robot', $bot );
+	}
 }

@@ -41,6 +41,8 @@ final class Endpoint {
 
 	public function register(): void {
 		add_action( 'init', [ $this, 'addRules' ] );
+		// Flush after every plugin registered its rules (init callbacks of any priority), not in the middle of init.
+		add_action( 'wp_loaded', [ $this, 'maybeFlush' ] );
 		add_filter( 'query_vars', [ $this, 'queryVars' ] );
 		add_action( 'template_redirect', [ $this, 'dispatch' ], 1 );
 		add_filter( 'robots_txt', [ $this, 'robots' ], 10, 2 );
@@ -85,7 +87,25 @@ final class Endpoint {
 		foreach ( $this->rules() as $regex => $redirect ) {
 			add_rewrite_rule( $regex, $redirect, 'top' );
 		}
-		$this->maybeFlush();
+	}
+
+	/** Whether the saved (persisted) rewrite rules contain our index rule. */
+	public function rulesPersisted(): bool {
+		$saved = get_option( 'rewrite_rules', [] );
+		if ( ! is_array( $saved ) || [] === $saved ) {
+			return false;
+		}
+		$first = array_key_first( $this->rules() );
+		return null !== $first && isset( $saved[ $first ] );
+	}
+
+	/** Self-heal: flag a flush when another plugin/host dropped our rules. Returns true when a flush was flagged. */
+	public function ensureRules(): bool {
+		if ( $this->rulesPersisted() ) {
+			return false;
+		}
+		update_option( 'scwc_flush_rewrite', 1 );
+		return true;
 	}
 
 	public function maybeFlush(): void {

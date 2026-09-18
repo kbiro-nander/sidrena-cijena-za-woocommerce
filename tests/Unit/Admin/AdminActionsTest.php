@@ -43,6 +43,12 @@ final class AdminActionsTest extends TestCase {
 		self::assertStringContainsString( 'scwc_error=Nema', $GLOBALS['scwc_test_redirect'] );
 	}
 
+	public function test_reschedule_also_repairs_rewrite_rules(): void {
+		Functions\expect( 'update_option' )->once()->with( 'scwc_flush_rewrite', 1 );
+		$this->actions()->handle( 'scwc_reschedule' );
+		self::assertSame( [ 'reschedule' ], $this->calls );
+	}
+
 	public function test_invalid_nonce_dies(): void {
 		Functions\when( 'wp_verify_nonce' )->justReturn( false );
 		$this->expectException( \RuntimeException::class );
