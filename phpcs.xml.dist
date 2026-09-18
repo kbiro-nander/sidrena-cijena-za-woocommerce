@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<ruleset name="SidrenaCijena">
+    <description>Coding standard for Sidrena cijena za WooCommerce.</description>
+    <file>src</file>
+    <file>sidrena-cijena-za-woocommerce.php</file>
+    <file>uninstall.php</file>
+    <file>templates</file>
+    <arg name="extensions" value="php"/>
+    <arg value="sp"/>
+    <config name="testVersion" value="8.1-"/>
+    <config name="minimum_wp_version" value="6.4"/>
+    <rule ref="WordPress-Extra">
+        <exclude name="WordPress.Files.FileName"/>
+        <exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+        <exclude name="WordPress.NamingConventions.ValidVariableName"/>
+        <exclude name="WordPress.NamingConventions.ValidFunctionName"/>
+        <exclude name="Universal.Operators.DisallowShortTernary"/>
+    </rule>
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array"><element value="sidrena-cijena-za-woocommerce"/></property>
+        </properties>
+    </rule>
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array">
+                <element value="scwc"/>
+                <element value="SidrenaCijena"/>
+                <element value="sidrena_cijena"/>
+            </property>
+        </properties>
+    </rule>
+</ruleset>

@@ -1,0 +1,15 @@
+parameters:
+    level: 6
+    paths:
+        - src
+        - sidrena-cijena-za-woocommerce.php
+        - uninstall.php
+    scanFiles:
+        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-packages-stubs.php
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        - '#Function as_[a-z_]+ not found#'
+        - '#Constant WP_CLI not found#'
+        - '#Class WP_CLI not found#'
