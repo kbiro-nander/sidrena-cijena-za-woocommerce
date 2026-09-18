@@ -1,0 +1,43 @@
+<?php
+declare(strict_types=1);
+
+namespace SidrenaCijena\Tests\Unit\Admin;
+
+use Brain\Monkey\Functions;
+use SidrenaCijena\Admin\StatusProvider;
+use SidrenaCijena\Scheduling\ActionSchedulerBackend;
+use SidrenaCijena\Scheduling\Scheduler;
+use SidrenaCijena\Settings\Defaults;
+use SidrenaCijena\Settings\Settings;
+use SidrenaCijena\Tests\Support\FixedClock;
+use SidrenaCijena\Tests\TestCase;
+
+final class StatusProviderTest extends TestCase {
+	public function test_rows_include_last_generation_next_run_urls_and_backend(): void {
+		scwc_test_schedule_reset();
+		$settings  = ( new Settings( Defaults::all() ) )->with( 'price_list.external_cron_key', 'k' );
+		$scheduler = new Scheduler( new ActionSchedulerBackend(), $settings, new FixedClock( '2026-10-01 03:00:00' ) );
+		$scheduler->ensureScheduled();
+		Functions\when( 'get_option' )->alias( fn( $k, $d = false ) => 'scwc_last_generation' === $k ? [ 'at' => '2026-10-01 04:00:12', 'files' => [ 'a.xml', 'a.csv' ], 'products' => 10, 'services' => 2, 'error' => '' ] : $d );
+		$rows   = ( new StatusProvider( $settings, $scheduler, new FixedClock( '2026-10-01 10:00:00' ) ) )();
+		$labels = array_column( $rows, 'label' );
+		$values = implode( "\n", array_column( $rows, 'value' ) );
+		self::assertContains( 'Zadnje generiranje', $labels );
+		self::assertStringContainsString( '1. 10. 2026. 06:00', $values );
+		self::assertStringContainsString( '10 proizvoda, 2 usluge', $values );
+		self::assertStringContainsString( 'https://example.hr/cjenik/latest.xml', $values );
+		self::assertStringContainsString( 'scwc_run=1&amp;key=k', $values );
+		self::assertStringContainsString( 'Action Scheduler', $values );
+		$next = array_values( array_filter( $rows, fn( $r ) => 'Sljedeće generiranje' === $r['label'] ) )[0]['value'];
+		self::assertSame( '1. 10. 2026. 06:00', $next, 'next generation shown in local time' );
+	}
+
+	public function test_missing_generation_and_schedule_are_reported(): void {
+		scwc_test_schedule_reset();
+		$settings  = new Settings( Defaults::all() );
+		$scheduler = new Scheduler( new ActionSchedulerBackend(), $settings, new FixedClock() );
+		$values    = implode( "\n", array_column( ( new StatusProvider( $settings, $scheduler, new FixedClock() ) )(), 'value' ) );
+		self::assertStringContainsString( 'nikad', $values );
+		self::assertStringContainsString( 'nije zakazano', $values );
+	}
+}

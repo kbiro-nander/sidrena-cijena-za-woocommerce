@@ -21,6 +21,9 @@ final class PluginTest extends TestCase {
 		Actions\expectAdded( 'woocommerce_product_object_updated_props' )->once();
 		Actions\expectAdded( 'scwc_price_changed' )->once();
 		Actions\expectAdded( 'woocommerce_blocks_loaded' )->once();
+		Actions\expectAdded( 'template_redirect' )->once();
+		Actions\expectAdded( 'scwc_generate_price_list' )->once();
+		Actions\expectAdded( 'scwc_snapshot_completed' )->atLeast()->once();
 
 		$plugin = new Plugin();
 		$plugin->boot();
@@ -29,6 +32,26 @@ final class PluginTest extends TestCase {
 		self::assertInstanceOf( PriceBadge::class, $plugin->get( PriceBadge::class ) );
 		self::assertInstanceOf( PriceHtmlFilter::class, $plugin->get( PriceHtmlFilter::class ) );
 		self::assertArrayHasKey( 'sidrena_cijena', $GLOBALS['scwc_test_shortcodes'] );
+	}
+
+	public function test_admin_services_register_when_in_admin(): void {
+		\Brain\Monkey\Functions\when( 'is_admin' )->justReturn( true );
+		Actions\expectAdded( 'admin_menu' )->atLeast()->twice();
+		Actions\expectAdded( 'woocommerce_product_options_pricing' )->once();
+		Actions\expectAdded( 'woocommerce_variation_options_pricing' )->once();
+		Actions\expectAdded( 'woocommerce_admin_process_product_object' )->once();
+		Actions\expectAdded( 'wp_ajax_scwc_tool_step' )->once();
+		Actions\expectAdded( 'admin_post_scwc_generate_now' )->once();
+		Actions\expectAdded( 'admin_notices' )->atLeast()->once();
+		( new Plugin() )->boot();
+	}
+
+	public function test_activation_schedules_jobs_and_seeds_history(): void {
+		scwc_test_schedule_reset();
+		( new Plugin() )->onActivate();
+		$hooks = array_column( $GLOBALS['scwc_test_schedule']['single'], 'hook' );
+		self::assertContains( 'scwc_generate_price_list', $hooks );
+		self::assertSame( 'scwc_sweep_page', $GLOBALS['scwc_test_schedule']['async'][0]['hook'] );
 	}
 
 	public function test_boot_is_idempotent(): void {

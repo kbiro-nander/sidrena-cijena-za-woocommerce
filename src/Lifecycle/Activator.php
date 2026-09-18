@@ -22,6 +22,7 @@ final class Activator {
 		update_option( Settings::OPTION, ( new Sanitizer() )->sanitize( is_array( $stored ) ? $stored : [] ), true );
 		update_option( 'scwc_plugin_version', SCWC_VERSION );
 		update_option( 'scwc_flush_rewrite', 1 );
+		\SidrenaCijena\Plugin::instance()->onActivate();
 		do_action( 'scwc_activated' );
 	}
 }
