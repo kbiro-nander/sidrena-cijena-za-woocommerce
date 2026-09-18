@@ -6,49 +6,49 @@
 declare(strict_types=1);
 
 if ( ! function_exists( 'wp_timezone' ) ) {
-	function wp_timezone(): DateTimeZone { return new DateTimeZone( 'Europe/Zagreb' ); }
+	function wp_timezone() { return new DateTimeZone( 'Europe/Zagreb' ); }
 }
 if ( ! function_exists( 'wp_timezone_string' ) ) {
-	function wp_timezone_string(): string { return 'Europe/Zagreb'; }
+	function wp_timezone_string() { return 'Europe/Zagreb'; }
 }
 if ( ! function_exists( 'remove_accents' ) ) {
-	function remove_accents( string $string ): string {
+	function remove_accents( string $string ) {
 		$map = [ 'č' => 'c', 'ć' => 'c', 'š' => 's', 'ž' => 'z', 'đ' => 'd', 'Č' => 'C', 'Ć' => 'C', 'Š' => 'S', 'Ž' => 'Z', 'Đ' => 'D', 'é' => 'e', 'ü' => 'u', 'ö' => 'o', 'ä' => 'a' ];
 		return strtr( $string, $map );
 	}
 }
 if ( ! function_exists( 'sanitize_title' ) ) {
-	function sanitize_title( string $title ): string {
+	function sanitize_title( string $title ) {
 		$title = strtolower( remove_accents( $title ) );
 		$title = preg_replace( '/[^a-z0-9\-]+/', '-', $title ) ?? '';
 		return trim( $title, '-' );
 	}
 }
 if ( ! function_exists( 'sanitize_file_name' ) ) {
-	function sanitize_file_name( string $name ): string {
+	function sanitize_file_name( string $name ) {
 		return preg_replace( '/[^A-Za-z0-9._\-]+/', '-', $name ) ?? '';
 	}
 }
 if ( ! function_exists( 'sanitize_text_field' ) ) {
-	function sanitize_text_field( $str ): string { return trim( strip_tags( (string) $str ) ); }
+	function sanitize_text_field( $str ) { return trim( strip_tags( (string) $str ) ); }
 }
 if ( ! function_exists( 'sanitize_key' ) ) {
-	function sanitize_key( $key ): string { return preg_replace( '/[^a-z0-9_\-]/', '', strtolower( (string) $key ) ) ?? ''; }
+	function sanitize_key( $key ) { return preg_replace( '/[^a-z0-9_\-]/', '', strtolower( (string) $key ) ) ?? ''; }
 }
 if ( ! function_exists( 'wp_unslash' ) ) {
 	function wp_unslash( $value ) { return is_array( $value ) ? array_map( 'wp_unslash', $value ) : stripslashes( (string) $value ); }
 }
 if ( ! function_exists( 'wp_kses_post' ) ) {
-	function wp_kses_post( $data ): string { return (string) $data; }
+	function wp_kses_post( $data ) { return (string) $data; }
 }
 if ( ! function_exists( 'get_option' ) ) {
 	function get_option( string $option, $default = false ) { return $default; }
 }
 if ( ! function_exists( 'update_option' ) ) {
-	function update_option( string $option, $value, $autoload = null ): bool { return true; }
+	function update_option( string $option, $value, $autoload = null ) { return true; }
 }
 if ( ! function_exists( 'delete_option' ) ) {
-	function delete_option( string $option ): bool { return true; }
+	function delete_option( string $option ) { return true; }
 }
 if ( ! function_exists( 'get_post_meta' ) ) {
 	function get_post_meta( int $post_id, string $key = '', bool $single = false ) { return $single ? '' : []; }
@@ -57,49 +57,49 @@ if ( ! function_exists( 'update_post_meta' ) ) {
 	function update_post_meta( int $post_id, string $key, $value, $prev = '' ) { return true; }
 }
 if ( ! function_exists( 'delete_post_meta' ) ) {
-	function delete_post_meta( int $post_id, string $key, $value = '' ): bool { return true; }
+	function delete_post_meta( int $post_id, string $key, $value = '' ) { return true; }
 }
 if ( ! function_exists( 'get_ancestors' ) ) {
-	function get_ancestors( $object_id = 0, $object_type = '', $resource_type = '' ): array { return []; }
+	function get_ancestors( $object_id = 0, $object_type = '', $resource_type = '' ) { return []; }
 }
 if ( ! function_exists( 'wp_json_encode' ) ) {
 	function wp_json_encode( $data, int $options = 0, int $depth = 512 ) { return json_encode( $data, $options, $depth ); }
 }
 if ( ! function_exists( 'is_admin' ) ) {
-	function is_admin(): bool { return false; }
+	function is_admin() { return false; }
 }
 if ( ! function_exists( 'wp_doing_ajax' ) ) {
-	function wp_doing_ajax(): bool { return false; }
+	function wp_doing_ajax() { return false; }
 }
 if ( ! function_exists( 'wp_doing_cron' ) ) {
-	function wp_doing_cron(): bool { return false; }
+	function wp_doing_cron() { return false; }
 }
 if ( ! function_exists( 'is_checkout' ) ) {
-	function is_checkout(): bool { return false; }
+	function is_checkout() { return false; }
 }
 if ( ! function_exists( 'is_cart' ) ) {
-	function is_cart(): bool { return false; }
+	function is_cart() { return false; }
 }
 if ( ! function_exists( 'is_product' ) ) {
-	function is_product(): bool { return false; }
+	function is_product() { return false; }
 }
 if ( ! function_exists( 'in_the_loop' ) ) {
-	function in_the_loop(): bool { return false; }
+	function in_the_loop() { return false; }
 }
 if ( ! function_exists( 'get_queried_object_id' ) ) {
-	function get_queried_object_id(): int { return 0; }
+	function get_queried_object_id() { return 0; }
 }
 if ( ! function_exists( 'home_url' ) ) {
-	function home_url( string $path = '', $scheme = null ): string { return 'https://example.hr' . $path; }
+	function home_url( string $path = '', $scheme = null ) { return 'https://example.hr' . $path; }
 }
 if ( ! function_exists( 'get_bloginfo' ) ) {
-	function get_bloginfo( string $show = '' ): string { return 'name' === $show ? 'Test trgovina' : ''; }
+	function get_bloginfo( string $show = '' ) { return 'name' === $show ? 'Test trgovina' : ''; }
 }
 if ( ! function_exists( 'wp_generate_password' ) ) {
-	function wp_generate_password( int $length = 12, bool $special = true, bool $extra = false ): string { return substr( str_repeat( 'abcdef0123456789', 4 ), 0, $length ); }
+	function wp_generate_password( int $length = 12, bool $special = true, bool $extra = false ) { return substr( str_repeat( 'abcdef0123456789', 4 ), 0, $length ); }
 }
 if ( ! function_exists( 'taxonomy_exists' ) ) {
-	function taxonomy_exists( string $taxonomy ): bool { return false; }
+	function taxonomy_exists( string $taxonomy ) { return false; }
 }
 if ( ! function_exists( 'get_the_terms' ) ) {
 	function get_the_terms( $post, string $taxonomy ) { return false; }
