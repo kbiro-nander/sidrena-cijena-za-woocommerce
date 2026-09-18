@@ -110,3 +110,34 @@ if ( ! function_exists( 'current_time' ) ) {
 if ( ! function_exists( 'wp_date' ) ) {
 	function wp_date( string $format, ?int $timestamp = null, ?DateTimeZone $timezone = null ) { return ( new DateTimeImmutable( '@' . ( $timestamp ?? time() ) ) )->setTimezone( $timezone ?? wp_timezone() )->format( $format ); }
 }
+if ( ! function_exists( 'wp_strip_all_tags' ) ) {
+	function wp_strip_all_tags( $text, $remove_breaks = false ) { return trim( strip_tags( (string) $text ) ); }
+}
+if ( ! function_exists( 'shortcode_atts' ) ) {
+	function shortcode_atts( array $pairs, $atts, $shortcode = '' ) {
+		$atts = (array) $atts;
+		$out  = [];
+		foreach ( $pairs as $name => $default ) {
+			$out[ $name ] = array_key_exists( $name, $atts ) ? $atts[ $name ] : $default;
+		}
+		return $out;
+	}
+}
+if ( ! function_exists( 'add_shortcode' ) ) {
+	function add_shortcode( string $tag, callable $cb ) { $GLOBALS['scwc_test_shortcodes'][ $tag ] = $cb; }
+}
+if ( ! function_exists( 'wp_enqueue_style' ) ) {
+	function wp_enqueue_style( ...$args ) { $GLOBALS['scwc_test_styles'][] = $args; }
+}
+if ( ! function_exists( 'wp_enqueue_script' ) ) {
+	function wp_enqueue_script( ...$args ) { $GLOBALS['scwc_test_scripts'][] = $args; }
+}
+if ( ! function_exists( 'plugins_url' ) ) {
+	function plugins_url( string $path = '', string $plugin = '' ) { return 'https://example.hr/wp-content/plugins/sidrena-cijena-za-woocommerce/' . ltrim( $path, '/' ); }
+}
+if ( ! function_exists( 'plugin_dir_path' ) ) {
+	function plugin_dir_path( string $file ) { return rtrim( dirname( $file ), '/' ) . '/'; }
+}
+if ( ! function_exists( 'get_ancestors' ) ) {
+	function get_ancestors( $object_id = 0, $object_type = '', $resource_type = '' ) { return []; }
+}

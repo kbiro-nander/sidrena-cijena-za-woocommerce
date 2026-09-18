@@ -24,17 +24,17 @@ if ( ! function_exists( 'wc_price' ) ) {
 }
 if ( ! function_exists( 'wc_get_price_to_display' ) ) {
 	function wc_get_price_to_display( WC_Product $product, array $args = [] ) {
-		return (float) ( $args['price'] ?? $product->get_price() );
+		return (float) ( $args['price'] ?? $product->get_price() ) * (float) ( $args['qty'] ?? 1 );
 	}
 }
 if ( ! function_exists( 'wc_get_price_including_tax' ) ) {
 	function wc_get_price_including_tax( WC_Product $product, array $args = [] ) {
-		return (float) ( $args['price'] ?? $product->get_price() );
+		return (float) ( $args['price'] ?? $product->get_price() ) * (float) ( $args['qty'] ?? 1 );
 	}
 }
 if ( ! function_exists( 'wc_get_price_excluding_tax' ) ) {
 	function wc_get_price_excluding_tax( WC_Product $product, array $args = [] ) {
-		return (float) ( $args['price'] ?? $product->get_price() );
+		return (float) ( $args['price'] ?? $product->get_price() ) * (float) ( $args['qty'] ?? 1 );
 	}
 }
 if ( ! function_exists( 'wc_format_sale_price' ) ) {
@@ -84,5 +84,27 @@ if ( ! function_exists( 'wc_get_logger' ) ) {
 			public array $entries = [];
 			public function __call( string $name, array $args ) { $this->entries[] = [ $name, $args[0] ?? '', $args[1] ?? [] ]; }
 		};
+	}
+}
+
+if ( ! class_exists( 'SCWC_Test_Cart' ) ) {
+	class SCWC_Test_Cart {
+		public bool $incl = true;
+		public function display_prices_including_tax() { return $this->incl; }
+	}
+}
+if ( ! class_exists( 'SCWC_Test_WC' ) ) {
+	class SCWC_Test_WC {
+		public ?SCWC_Test_Cart $cart = null;
+		public function __construct() { $this->cart = new SCWC_Test_Cart(); }
+	}
+}
+if ( ! function_exists( 'WC' ) ) {
+	function WC() {
+		static $wc = null;
+		if ( null === $wc ) {
+			$wc = new SCWC_Test_WC();
+		}
+		return $wc;
 	}
 }
