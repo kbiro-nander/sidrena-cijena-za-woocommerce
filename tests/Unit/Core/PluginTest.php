@@ -22,6 +22,7 @@ final class PluginTest extends TestCase {
 		Actions\expectAdded( 'scwc_price_changed' )->once();
 		Actions\expectAdded( 'woocommerce_blocks_loaded' )->once();
 		Actions\expectAdded( 'template_redirect' )->once();
+		Filters\expectAdded( 'pre_set_site_transient_update_plugins' )->once();
 		Actions\expectAdded( 'scwc_generate_price_list' )->once();
 		Actions\expectAdded( 'scwc_snapshot_completed' )->atLeast()->once();
 

@@ -37,6 +37,10 @@ composer install --no-dev
 composer install && bin/build-zip.sh   # → dist/sidrena-cijena-za-woocommerce-x.y.z.zip
 ```
 
+## Ažuriranje
+
+Dodatak provjerava [GitHub Releases](../../releases) i WordPress prikazuje uobičajeni gumb „Ažuriraj sada” kad postoji novija verzija. Ručno ažuriranje: prenesite novi ZIP i odaberite „Zamijeni trenutni prenesenim”.
+
 ## Brzi start
 
 1. Aktivirajte dodatak.

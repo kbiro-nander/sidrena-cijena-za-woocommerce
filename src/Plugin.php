@@ -80,6 +80,7 @@ use SidrenaCijena\Settings\Settings;
 use SidrenaCijena\StoreApi\ExtendStoreApi;
 use SidrenaCijena\Support\Clock;
 use SidrenaCijena\Support\WpClock;
+use SidrenaCijena\Updates\GitHubUpdater;
 use WC_Product;
 
 final class Plugin {
@@ -167,6 +168,7 @@ final class Plugin {
 		$this->get( ServiceChangeDebouncer::class )->register();
 		$this->get( JobRunner::class )->register();
 		$this->get( Scheduler::class )->registerWatchdog();
+		$this->get( GitHubUpdater::class )->register();
 
 		$flush = function (): void {
 			$this->get( MissingReferenceCounter::class )->flush( $this->get( ReferencePriceRegistry::class )->primary() );
@@ -420,6 +422,8 @@ final class Plugin {
 				$c->get( Clock::class ),
 			)
 		);
+
+		$c->set( GitHubUpdater::class, static fn() => new GitHubUpdater( 'kbiro-nander/sidrena-cijena-za-woocommerce', plugin_basename( SCWC_PLUGIN_FILE ), SCWC_VERSION ) );
 
 		// CLI.
 		$c->set(

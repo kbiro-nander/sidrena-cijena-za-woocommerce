@@ -6,7 +6,7 @@ Tested up to: 6.8
 Requires PHP: 8.1
 WC requires at least: 9.0
 WC tested up to: 9.9
-Stable tag: 1.1.3
+Stable tag: 1.2.0
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -71,6 +71,10 @@ U blokovskoj košarici i blagajni (WooCommerce Blocks) sidrena cijena prikazuje 
 
 == Frequently Asked Questions ==
 
+= Kako ažuriram dodatak? =
+
+Kad na GitHubu objavimo novu verziju, WordPress → Dodaci prikazuje „Ažuriraj sada” kao i za svaki drugi dodatak (provjera se radi najviše svakih 12 sati; „Provjeri ponovno” na stranici Ažuriranja osvježava odmah). Ručno: prenesite novi ZIP i odaberite „Zamijeni trenutni prenesenim” – mapa dodatka mora se zvati `sidrena-cijena-za-woocommerce`.
+
 = Otvorio sam /cijene i dobio 404 =
 
 Javna adresa cjenika je `https://vasa-trgovina.hr/cjenik/` (te `/cjenik/latest.xml` i `/cjenik/latest.csv`), a ne `/cijene`. Slug mijenjate u WooCommerce → Sidrena cijena → Cjenik. Ako i `/cjenik/` vraća 404: otvorite Postavke → Trajne veze i kliknite „Spremi promjene” (bez izmjena) ili u kartici Cjenik kliknite „Ponovno zakaži zadatke”; s „običnim” trajnim vezama koristite `?scwc_cjenik=latest&scwc_format=xml`. Kartica Cjenik prikazuje rezultat automatske provjere dostupnosti.
@@ -92,6 +96,9 @@ Da, najmanje 30 dana. Dodatak čuva i javno poslužuje verzije prema postavci za
 Iz najniže cijene u 30 dana prije početka sniženja (a ne iz redovne cijene), zaokruženo na niže.
 
 == Changelog ==
+
+= 1.2.0 =
+* Ažuriranja iz GitHub Releases: WordPress prikazuje „Ažuriraj sada” kad postoji novija verzija; pogled „Detalji” pokazuje bilješke izdanja. Privatni repozitorij zahtijeva token putem filtra `scwc_github_token`.
 
 = 1.1.3 =
 * Licenca promijenjena u MIT; projekt objavljen na GitHubu s README-om i CI provjerama.
