@@ -78,7 +78,14 @@ final class FieldRenderer {
 		if ( '' !== ( $def['placeholder'] ?? '' ) ) {
 			$attrs .= ' placeholder="' . esc_attr( $def['placeholder'] ) . '"';
 		}
-		$class = in_array( $type, [ 'text' ], true ) ? ' class="regular-text"' : ' class="small-text"';
+		if ( 'text' === $type ) {
+			$class = ' class="regular-text"';
+		} elseif ( in_array( $type, [ 'date', 'time', 'datetime-local' ], true ) ) {
+			// WordPress' small-text (~50px) truncates calendar values; give them room to show the full value.
+			$class = ' class="scwc-input scwc-input--' . esc_attr( $type ) . '"';
+		} else {
+			$class = ' class="small-text"';
+		}
 		return '<input' . $attrs . $class . ' />';
 	}
 

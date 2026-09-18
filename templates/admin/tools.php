@@ -41,7 +41,7 @@ $scwc_template_href = 'data:text/csv;charset=utf-8,' . rawurlencode( "\xEF\xBB\x
 				<tr>
 					<th scope="row"><label for="scwc-snapshot-date"><?php esc_html_e( 'Datum referentne cijene', 'sidrena-cijena-za-woocommerce' ); ?></label></th>
 					<td>
-						<input type="date" id="scwc-snapshot-date" name="date" value="<?php echo esc_attr( $scwc_default_date ); ?>" />
+						<input type="date" id="scwc-snapshot-date" name="date" value="<?php echo esc_attr( $scwc_default_date ); ?>" class="scwc-input scwc-input--date" />
 						<p class="description"><?php esc_html_e( 'Ostavite prazno da se koristi zadani datum vrste (bez zapisa datuma po proizvodu).', 'sidrena-cijena-za-woocommerce' ); ?></p>
 					</td>
 				</tr>

@@ -43,6 +43,7 @@ class ToolsPage {
 		if ( ! str_contains( $hookSuffix, self::SLUG ) ) {
 			return;
 		}
+		wp_enqueue_style( 'scwc-admin', SCWC_PLUGIN_URL . 'assets/css/admin.css', [], SCWC_VERSION );
 		wp_enqueue_script( self::HANDLE, SCWC_PLUGIN_URL . 'assets/js/admin-tools.js', [ 'jquery' ], SCWC_VERSION, true );
 		wp_localize_script(
 			self::HANDLE,

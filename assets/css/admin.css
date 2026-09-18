@@ -61,3 +61,24 @@
 	cursor: pointer;
 	padding: 0.4em 0;
 }
+
+/* Calendar/time inputs: wide enough to show the whole value (WP's small-text truncates them). */
+.scwc-input--date,
+.scwc-overrides__date,
+#scwc-snapshot-date {
+	width: 11em;
+	min-width: 11em;
+}
+.scwc-input--time {
+	width: 7.5em;
+	min-width: 7.5em;
+}
+.scwc-input--datetime-local {
+	width: 15.5em;
+	min-width: 15.5em;
+}
+.scwc-input {
+	padding: 0 8px;
+	line-height: 2;
+	min-height: 30px;
+}

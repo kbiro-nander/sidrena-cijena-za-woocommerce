@@ -112,4 +112,16 @@ final class FieldRendererTest extends TestCase {
 		self::assertStringContainsString( '<template', $html );
 		self::assertStringContainsString( '__INDEX__', $html );
 	}
+
+	public function test_date_and_time_inputs_get_wide_enough_classes_not_small_text(): void {
+		$date = $this->renderer()->render( [ 'path' => 'reference_prices.anchor.date', 'type' => 'date', 'label' => 'x' ], '2026-09-10' );
+		self::assertStringContainsString( 'class="scwc-input scwc-input--date"', $date );
+		self::assertStringNotContainsString( 'small-text', $date );
+		$time = $this->renderer()->render( [ 'path' => 'history.sweep_time', 'type' => 'time', 'label' => 'x' ], '00:30' );
+		self::assertStringContainsString( 'class="scwc-input scwc-input--time"', $time );
+		$dt = $this->renderer()->render( [ 'path' => 'reference_prices.base.auto_snapshot_at', 'type' => 'datetime-local', 'label' => 'x' ], '2026-11-17 00:05' );
+		self::assertStringContainsString( 'class="scwc-input scwc-input--datetime-local"', $dt );
+		$num = $this->renderer()->render( [ 'path' => 'price_list.retention_days', 'type' => 'number', 'label' => 'x', 'min' => 30 ], 35 );
+		self::assertStringContainsString( 'class="small-text"', $num, 'numbers stay compact' );
+	}
 }
