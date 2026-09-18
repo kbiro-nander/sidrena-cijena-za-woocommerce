@@ -40,43 +40,45 @@ The user wants a **distributable WordPress/WooCommerce plugin** for Croatian sho
 | Brain Monkey | `brain/monkey ^2.7`, `mockery/mockery ^1.6`, `phpunit/phpunit ^9.6` (PHPUnit 10+ unverified with Brain Monkey). |
 | dbDelta | two spaces after `PRIMARY KEY`, no backticks, no `IF NOT EXISTS`, `$wpdb->get_charset_collate()`, version option gates upgrades. |
 
-## Directory layout
+## Directory layout (as built)
 
 ```
-sidrena-cijena-za-woocommerce.php   # header, WC-active + PHP check, HPOS declare, Plugin::instance()->boot()
+sidrena-cijena-za-woocommerce.php   # header, requirements guard, HPOS/blocks compatibility, Plugin::instance()->boot()
 uninstall.php                       # honours advanced.remove_data_on_uninstall (default false)
-readme.txt  composer.json  phpunit.xml.dist  phpcs.xml.dist  phpstan.neon.dist
-languages/  (pot, hr_HR.po/.mo)
-assets/css/frontend.css  assets/css/admin.css  assets/js/admin-tools.js  assets/js/admin-settings.js
-templates/price-badge.php  templates/lowest-30.php  templates/cjenik-index.php   (theme-overridable: yourtheme/sidrena-cijena/)
+readme.txt  composer.json  phpunit.xml.dist  phpstan.neon.dist  phpstan-bootstrap.php  phpcs.xml.dist
+bin/make-pot.sh  bin/build-zip.sh   # translation template, distributable zip (vendor/ without dev deps)
+languages/sidrena-cijena-za-woocommerce.pot
+assets/css/{frontend,admin}.css  assets/js/{admin-settings,admin-tools}.js
+templates/price-badge.php  templates/cjenik-index.php  templates/admin/{category-overrides,tools}.php
 src/
-  Plugin.php                                  # tiny container, boot()
-  Lifecycle/  Requirements, Activator, Deactivator, Upgrader
-  Support/    Clock (iface), WpClock, FixedClock(tests), Money, DateFormat, Slugifier
-  Settings/   Settings, Defaults, Sanitizer, SettingsPage
-  Reference/  ReferencePriceType, ReferencePriceRegistry, ReferencePrice (VO), ReferencePriceRepository,
-              ReferenceDateResolver, CategoryOverrideResolver
-  Product/    ProductSnapshot (DTO), ProductAdapter, ServiceRule, UnitPrice, BrandResolver, BarcodeResolver
-  History/    Schema, PriceRecord, PriceHistoryRepository, LowestPriceQuery, LowestPriceCalculator, Recorder,
-              PriceChangeListener, DailySweep, OmnibusState, OmnibusStateUpdater, DiscountCalculator, Pruner
-  Display/    BadgeContext, BadgeData, BadgeDataFactory, PriceBadge, RenderGuard, PriceHtmlFilter,
-              VariationJsonFilter, CartFilters, CartItemDataFilter, Shortcode, Assets
-  PriceList/  Outlet, Item, ServiceItem, ItemFactory, Collector, FilenameBuilder, Writer (iface), XmlWriter,
-              CsvWriter, Storage, Manifest, Retention, Generator, GenerationResult, Scheduler,
-              SchedulerBackend (iface), ActionSchedulerBackend, WpCronBackend, ServiceChangeDebouncer,
-              Endpoint, Headers, IndexRenderer
-  Admin/      ProductFields, VariationFields, ProductSave, BulkToolsPage, SnapshotService, CsvImporter,
-              CsvExporter, Ajax, Notices
-  StoreApi/   ExtendStoreApi
-  Cli/        Commands
-  functions.php                               # sidrena_cijena(), scwc_get_reference_price(), scwc_get_lowest_30_day_price(), scwc_discount_percent()
-tests/
-  bootstrap.php  TestCase.php  stubs/wc-classes.php  stubs/wc-functions.php  Unit/<Concern>/*Test.php
+  Plugin.php  Container.php  functions.php
+  Lifecycle/   Requirements, Activator, Deactivator, Upgrader
+  Support/     Clock, WpClock, Money, DateFormat, Slugifier
+  Settings/    Settings, Defaults, Sanitizer
+  Reference/   ReferencePriceType, ReferencePriceRegistry, ReferencePrice, ReferencePriceRepository,
+               ReferenceDateResolver, CategoryOverrideResolver, MissingReferenceCounter
+  Product/     ProductSnapshot, ProductAdapter, MetaKeys, ServiceRule, UnitPrice, BrandResolver, BarcodeResolver
+  Display/     BadgeContext, BadgeData, ReferenceView, OmnibusView, BadgeDataFactory, PriceFormatter, PriceBadge,
+               PriceHtmlComposer, RenderGuard, RequestContext, PriceHtmlFilter, VariationJsonFilter, CartFilters,
+               Shortcode, Assets
+  History/     Schema, PriceRecord, PriceHistoryRepository, LowestPriceQuery, LowestPriceCalculator, LowestResult,
+               Recorder, Transition, PriceChangeListener, OmnibusStateUpdater, DiscountCalculator, DailySweep,
+               SweepResult, Pruner
+  PriceList/   Outlet, Item, ServiceItem, ItemFactory, Collector, FilenameBuilder, Writer, XmlWriter, CsvWriter,
+               WriteStats, Storage, Manifest, Retention, Generator, GenerationResult
+  Endpoint/    Endpoint, Headers, IndexRenderer, Response
+  Scheduling/  SchedulerBackend, ActionSchedulerBackend, WpCronBackend, Scheduler, ServiceChangeDebouncer, JobRunner
+  Notices/     AdminNotices, Environment
+  Admin/       SettingsPage, Fields, FieldRenderer, ProductFields, VariationFields, ProductSave, ReferenceFieldLabel,
+               AdminActions, StatusProvider
+  Admin/Tools/ SnapshotRequest, SnapshotResult, SnapshotService, CsvImporter, CsvImportRow, ImportPreview,
+               ImportResult, CsvExporter, ToolsAjax, ToolsPage
+  StoreApi/    ExtendStoreApi
+  Cli/         Commands
+tests/         bootstrap.php, TestCase.php, Support/{FixedClock,FakeWpdb}.php, stubs/*.php, Unit/<Concern>/*Test.php
 ```
 
-Composer: `"psr-4": {"SidrenaCijena\\": "src/"}`, `"files": ["src/functions.php"]`; dev deps `phpunit/phpunit ^9.6`, `brain/monkey ^2.7`, `mockery/mockery ^1.6`, `phpstan/phpstan`, `php-stubs/wordpress-stubs`, `php-stubs/woocommerce-stubs`, `wp-coding-standards/wpcs`. Distribution zip ships `vendor/` built with `--no-dev --classmap-authoritative`.
-
-Rule: only `ProductAdapter`, repositories, `Storage`, `Endpoint`, `Scheduler` backends and Admin/Settings pages touch WP/WC globals. All logic consumes `ProductSnapshot` DTOs and is unit-testable.
+Rule: only `ProductAdapter`, repositories, `Storage`, `Endpoint`, scheduler backends and Admin pages touch WP/WC globals. All logic consumes `ProductSnapshot` DTOs and is unit-testable.
 
 ## Data model
 
