@@ -1,0 +1,63 @@
+/* Sidrena cijena za WooCommerce – settings page */
+.scwc-settings .scwc-intro {
+	max-width: 60em;
+	font-size: 14px;
+}
+.scwc-settings .scwc-heading th {
+	padding-bottom: 0;
+}
+.scwc-settings .scwc-heading h3 {
+	margin: 1.5em 0 0;
+}
+.scwc-settings .scwc-box {
+	max-width: 60em;
+	margin: 1.5em 0;
+	padding: 1em 1.25em;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+.scwc-settings .scwc-box h3 {
+	margin-top: 0;
+}
+.scwc-preview__price {
+	font-size: 1.25em;
+	line-height: 1.6;
+}
+.scwc-preview__price ins {
+	text-decoration: none;
+	font-weight: 600;
+}
+.scwc-preview .scwc-badge {
+	display: flex;
+	flex-direction: column;
+	gap: 0.15em;
+	margin-top: 0.4em;
+	font-size: 0.85em;
+}
+.scwc-status__table {
+	margin-bottom: 1em;
+}
+.scwc-status__table th {
+	width: 30%;
+}
+.scwc-multicheck {
+	margin-right: 1em;
+}
+.scwc-overrides__row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: 0.5em;
+	margin-bottom: 0.5em;
+}
+.scwc-overrides__cats {
+	min-width: 16em;
+}
+.scwc-overrides__remove {
+	color: #b32d2e;
+	background: none;
+	border: 0;
+	cursor: pointer;
+	padding: 0.4em 0;
+}
