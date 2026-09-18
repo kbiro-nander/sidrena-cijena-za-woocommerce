@@ -12,8 +12,8 @@ namespace SidrenaCijena\Updates;
 final class GitHubUpdater {
 
 	public const TRANSIENT    = 'scwc_github_release';
-	public const CACHE_OK     = 12 * HOUR_IN_SECONDS;
-	public const CACHE_FAIL   = HOUR_IN_SECONDS;
+	public const CACHE_OK     = 43200; // 12 h.
+	public const CACHE_FAIL   = 3600;  // 1 h.
 	public const REQUIRES_WP  = '6.4';
 	public const REQUIRES_PHP = '8.1';
 	public const TESTED_WP    = '6.8';
