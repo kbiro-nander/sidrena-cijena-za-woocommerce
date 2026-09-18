@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Sidrena cijena za WooCommerce 1.1.2\n"
-"Report-Msgid-Bugs-To: https://github.com/nander/sidrena-cijena-za-"
+"Project-Id-Version: Sidrena cijena za WooCommerce 1.1.3\n"
+"Report-Msgid-Bugs-To: https://github.com/kbiro-nander/sidrena-cijena-za-"
 "woocommerce/issues\n"
-"POT-Creation-Date: 2026-09-18 23:17+0200\n"
+"POT-Creation-Date: 2026-09-19 00:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,28 +19,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/AdminActions.php:54
-#: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:175
+#: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:189
 #: src/Admin/AdminActions.php:54 src/Notices/AdminNotices.php:189
 msgid "Nedozvoljen zahtjev."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/AdminActions.php:91
+#: build/sidrena-cijena-za-woocommerce/src/Admin/AdminActions.php:92
 #: src/Admin/AdminActions.php:92
 msgid "Cjenik je generiran."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/AdminActions.php:92
+#: build/sidrena-cijena-za-woocommerce/src/Admin/AdminActions.php:93
 #: src/Admin/AdminActions.php:93
 msgid "Provjera cijena je pokrenuta."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/AdminActions.php:93
+#: build/sidrena-cijena-za-woocommerce/src/Admin/AdminActions.php:94
 #: src/Admin/AdminActions.php:94
 msgid "Zadaci su ponovno zakazani."
 msgstr ""
 
 #. translators: %s: error message
-#: build/sidrena-cijena-za-woocommerce/src/Admin/AdminActions.php:99
+#: build/sidrena-cijena-za-woocommerce/src/Admin/AdminActions.php:100
 #: src/Admin/AdminActions.php:100
 #, php-format
 msgid "Generiranje cjenika nije uspjelo: %s"
@@ -110,7 +110,9 @@ msgid ""
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:126
-msgid "Broj skladišta"
+#: build/sidrena-cijena-za-woocommerce/templates/admin/outlets.php:17
+#: src/Admin/Fields.php:126 templates/admin/outlets.php:17
+msgid "Broj pohrane"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Fields.php:127
@@ -888,65 +890,115 @@ msgstr ""
 msgid "Ponovno zakaži zadatke"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:38
-#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:55
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:58
+#: src/Admin/StatusProvider.php:58
+msgid "Javna adresa cjenika"
+msgstr ""
+
+#. translators: 1: slug
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:61
+#: src/Admin/StatusProvider.php:61
+#, php-format
+msgid ""
+"Adresa je /%1$s/ (i /%1$s/latest.xml, /%1$s/latest.csv), a ne /cijene ni /"
+"%1$s.xml. Slug mijenjate u kartici Cjenik."
+msgstr ""
+
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:69
+#: src/Admin/StatusProvider.php:69
+msgid "u redu – cjenik je javno dostupan"
+msgstr ""
+
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:70
+#: src/Admin/StatusProvider.php:70
+msgid ""
+"nije pronađen – spremite Postavke → Trajne veze (bez promjena) ili kliknite "
+"„Ponovno zakaži zadatke”, pa provjerite je li cjenik generiran"
+msgstr ""
+
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:71
+#: src/Admin/StatusProvider.php:71
+msgid ""
+"blokirano – zaštita od robota, CDN ili lozinka na stranici; datoteke moraju "
+"biti dostupne bez prijave i bez zaštite od robota"
+msgstr ""
+
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:72
+#: src/Admin/StatusProvider.php:72
+msgid "neočekivan odgovor – provjerite adresu u pregledniku"
+msgstr ""
+
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:76
+#: src/Admin/StatusProvider.php:76
+msgid ""
+"poslužitelj ne može dohvatiti vlastitu adresu (loopback); provjerite u "
+"pregledniku"
+msgstr ""
+
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:79
+#: src/Admin/StatusProvider.php:79
+msgid "Provjera dostupnosti"
+msgstr ""
+
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:95
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:112
 #: src/Admin/StatusProvider.php:95 src/Admin/StatusProvider.php:112
 msgid "Zadnje generiranje"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:39
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:96
 #: src/Admin/StatusProvider.php:96
 msgid "nikad"
 msgstr ""
 
 #. translators: 1: products, 2: services
-#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:48
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:105
 #: src/Admin/StatusProvider.php:105
 #, php-format
 msgid "%1$d proizvoda, %2$d usluge"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:62
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:119
 #: src/Admin/StatusProvider.php:119
 msgid "Sljedeće generiranje"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:66
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:123
 #: src/Admin/StatusProvider.php:123
 msgid "Sljedeća provjera cijena"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:71
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:128
 #: src/Admin/StatusProvider.php:128
 msgid "Zakazano automatsko snimanje"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:76
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:133
 #: src/Admin/StatusProvider.php:133
 msgid "Mehanizam zakazivanja"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:83
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:140
 #: src/Admin/StatusProvider.php:140
 msgid "Popis"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:91
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:148
 #: src/Admin/StatusProvider.php:148
 msgid "Javni URL-ovi"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:101
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:158
 #: src/Admin/StatusProvider.php:158
 msgid "Po prodajnom objektu"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:109
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:166
 #: src/Admin/StatusProvider.php:166
 msgid "Vanjski cron (GET)"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:118
+#: build/sidrena-cijena-za-woocommerce/src/Admin/StatusProvider.php:175
 #: src/Admin/StatusProvider.php:175
 msgid "nije zakazano"
 msgstr ""
@@ -1025,8 +1077,8 @@ msgid "(probno – ništa nije zapisano)"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsAjax.php:139
-#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:61
-#: src/Admin/Tools/ToolsAjax.php:139 src/Admin/Tools/ToolsPage.php:61
+#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:62
+#: src/Admin/Tools/ToolsAjax.php:139 src/Admin/Tools/ToolsPage.php:62
 msgid "Odaberite CSV datoteku."
 msgstr ""
 
@@ -1043,96 +1095,96 @@ msgstr ""
 msgid "Sidrena cijena – Alati"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:55
-#: src/Admin/Tools/ToolsPage.php:55
-msgid "Pokrećem…"
-msgstr ""
-
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:56
 #: src/Admin/Tools/ToolsPage.php:56
-msgid "Gotovo."
+msgid "Pokrećem…"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:57
 #: src/Admin/Tools/ToolsPage.php:57
-msgid "Greška:"
+msgid "Gotovo."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:58
 #: src/Admin/Tools/ToolsPage.php:58
-msgid "Greška u komunikaciji s poslužiteljem."
+msgid "Greška:"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:59
 #: src/Admin/Tools/ToolsPage.php:59
-msgid ""
-"Zapisati referentne cijene za sve proizvode? Ova radnja mijenja podatke "
-"proizvoda."
+msgid "Greška u komunikaciji s poslužiteljem."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:60
 #: src/Admin/Tools/ToolsPage.php:60
 msgid ""
-"Primijeniti uvoz? Referentne cijene navedenih proizvoda bit će prepisane."
+"Zapisati referentne cijene za sve proizvode? Ova radnja mijenja podatke "
+"proizvoda."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:62
-#: src/Admin/Tools/ToolsPage.php:62
-msgid "ispravnih redaka"
+#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:61
+#: src/Admin/Tools/ToolsPage.php:61
+msgid ""
+"Primijeniti uvoz? Referentne cijene navedenih proizvoda bit će prepisane."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:63
 #: src/Admin/Tools/ToolsPage.php:63
-msgid "neispravnih"
+msgid "ispravnih redaka"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:64
 #: src/Admin/Tools/ToolsPage.php:64
+msgid "neispravnih"
+msgstr ""
+
+#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:65
+#: src/Admin/Tools/ToolsPage.php:65
 msgid "bez proizvoda"
 msgstr ""
 
 #. translators: %d: number
-#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:66
-#: src/Admin/Tools/ToolsPage.php:66
+#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:67
+#: src/Admin/Tools/ToolsPage.php:67
 #, php-format
 msgid ""
 "Uvoz završen: ažurirano %1$d, označeno bez cijene %2$d, preskočeno %3$d."
 msgstr ""
 
 #. translators: %d: number
-#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:68
-#: src/Admin/Tools/ToolsPage.php:68
+#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:69
+#: src/Admin/Tools/ToolsPage.php:69
 #, php-format
 msgid "Izvezeno redaka: %d"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:70
-#: src/Admin/Tools/ToolsPage.php:70
-msgid "zapisano"
-msgstr ""
-
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:71
 #: src/Admin/Tools/ToolsPage.php:71
-msgid "preskočeno – već postoji"
+msgid "zapisano"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:72
 #: src/Admin/Tools/ToolsPage.php:72
-msgid "preskočeno – na akciji"
+msgid "preskočeno – već postoji"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:73
 #: src/Admin/Tools/ToolsPage.php:73
-msgid "preskočeno – bez cijene"
+msgid "preskočeno – na akciji"
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:74
 #: src/Admin/Tools/ToolsPage.php:74
+msgid "preskočeno – bez cijene"
+msgstr ""
+
+#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:75
+#: src/Admin/Tools/ToolsPage.php:75
 msgid "označeno – bez referentne cijene"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:83
-#: src/Admin/Tools/ToolsPage.php:83
+#: build/sidrena-cijena-za-woocommerce/src/Admin/Tools/ToolsPage.php:84
+#: src/Admin/Tools/ToolsPage.php:84
 msgid "Nemate dopuštenje za pristup ovoj stranici."
 msgstr ""
 
@@ -1146,9 +1198,10 @@ msgid ""
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:64
+#: src/Notices/AdminNotices.php:64
 msgid ""
 "Sidrena cijena: dnevno generiranje cjenika nije zakazano. Otvorite postavke "
-"cjenika i kliknite „Ponovno zakaži”."
+"cjenika i kliknite „Ponovno zakaži zadatke”."
 msgstr ""
 
 #. translators: %s: settings URL
@@ -1194,8 +1247,17 @@ msgid ""
 "lijepe trajne veze."
 msgstr ""
 
+#. translators: 1: public URL, 2: slug
+#: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:131
+#: src/Notices/AdminNotices.php:131
+#, php-format
+msgid ""
+"Sidrena cijena: javna adresa cjenika bit će <strong>%1$s</strong> (npr. "
+"%1$slatest.xml). Adresa je /%2$s/, a ne /cijene."
+msgstr ""
+
 #. translators: 1: count, 2: tools URL
-#: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:130
+#: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:144
 #: src/Notices/AdminNotices.php:144
 #, php-format
 msgid ""
@@ -1203,7 +1265,7 @@ msgid ""
 "„nema referentne cijene”. <a href=\"%2$s\">Snimite ili uvezite cijene</a>."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:138
+#: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:152
 #: src/Notices/AdminNotices.php:152
 msgid ""
 "Sidrena cijena: koristite blokovsku košaricu/blagajnu. Sidrena cijena tamo "
@@ -1211,21 +1273,21 @@ msgid ""
 "blokovima stiže u sljedećoj verziji."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:141
+#: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:155
 #: src/Notices/AdminNotices.php:155
 msgid ""
 "Sidrena cijena: WooCommerce 9.2+ ima ugrađeno polje GTIN/EAN (barkod). "
 "Nadogradite WooCommerce kako bi cjenik sadržavao barkodove."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:144
+#: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:158
 #: src/Notices/AdminNotices.php:158
 msgid ""
 "Sidrena cijena: WooCommerce 9.6+ ima ugrađene marke (Brands). Nadogradite "
 "WooCommerce kako bi cjenik sadržavao marku."
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:167
+#: build/sidrena-cijena-za-woocommerce/src/Notices/AdminNotices.php:181
 #: src/Notices/AdminNotices.php:181
 msgid "Sakrij"
 msgstr ""
@@ -1320,11 +1382,6 @@ msgstr ""
 msgid "Adresa"
 msgstr ""
 
-#: build/sidrena-cijena-za-woocommerce/templates/admin/outlets.php:17
-#: src/Admin/Fields.php:126 templates/admin/outlets.php:17
-msgid "Broj pohrane"
-msgstr ""
-
 #: build/sidrena-cijena-za-woocommerce/templates/admin/outlets.php:45
 #: templates/admin/outlets.php:45
 msgid "Dodaj prodajni objekt"
@@ -1391,9 +1448,11 @@ msgid "Probno izvršavanje (samo prikaži što bi se dogodilo, ništa ne zapisuj
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/templates/admin/tools.php:61
+#: templates/admin/tools.php:61
 msgid ""
 "Proizvodi kreirani nakon datuma referentne cijene bit će označeni kao „bez "
-"referentne cijene” (postavka „Automatski označi proizvode nakon datuma”)."
+"referentne cijene” (postavka „Automatski \\\"nema referentne cijene\\\" za "
+"nove proizvode”)."
 msgstr ""
 
 #: build/sidrena-cijena-za-woocommerce/templates/admin/tools.php:67
@@ -1590,67 +1649,4 @@ msgstr ""
 #: build/sidrena-cijena-za-woocommerce/templates/cjenik-index.php:54
 #: templates/cjenik-index.php:54
 msgid "Izravna adresa datoteke (neovisna o postavkama poveznica)"
-msgstr ""
-
-#: src/Admin/StatusProvider.php:58
-msgid "Javna adresa cjenika"
-msgstr ""
-
-#. translators: 1: slug
-#: src/Admin/StatusProvider.php:61
-#, php-format
-msgid ""
-"Adresa je /%1$s/ (i /%1$s/latest.xml, /%1$s/latest.csv), a ne /cijene ni /"
-"%1$s.xml. Slug mijenjate u kartici Cjenik."
-msgstr ""
-
-#: src/Admin/StatusProvider.php:69
-msgid "u redu – cjenik je javno dostupan"
-msgstr ""
-
-#: src/Admin/StatusProvider.php:70
-msgid ""
-"nije pronađen – spremite Postavke → Trajne veze (bez promjena) ili kliknite "
-"„Ponovno zakaži zadatke”, pa provjerite je li cjenik generiran"
-msgstr ""
-
-#: src/Admin/StatusProvider.php:71
-msgid ""
-"blokirano – zaštita od robota, CDN ili lozinka na stranici; datoteke moraju "
-"biti dostupne bez prijave i bez zaštite od robota"
-msgstr ""
-
-#: src/Admin/StatusProvider.php:72
-msgid "neočekivan odgovor – provjerite adresu u pregledniku"
-msgstr ""
-
-#: src/Admin/StatusProvider.php:76
-msgid ""
-"poslužitelj ne može dohvatiti vlastitu adresu (loopback); provjerite u "
-"pregledniku"
-msgstr ""
-
-#: src/Admin/StatusProvider.php:79
-msgid "Provjera dostupnosti"
-msgstr ""
-
-#: src/Notices/AdminNotices.php:64
-msgid ""
-"Sidrena cijena: dnevno generiranje cjenika nije zakazano. Otvorite postavke "
-"cjenika i kliknite „Ponovno zakaži zadatke”."
-msgstr ""
-
-#. translators: 1: public URL, 2: slug
-#: src/Notices/AdminNotices.php:131
-#, php-format
-msgid ""
-"Sidrena cijena: javna adresa cjenika bit će <strong>%1$s</strong> (npr. "
-"%1$slatest.xml). Adresa je /%2$s/, a ne /cijene."
-msgstr ""
-
-#: templates/admin/tools.php:61
-msgid ""
-"Proizvodi kreirani nakon datuma referentne cijene bit će označeni kao „bez "
-"referentne cijene” (postavka „Automatski \\\"nema referentne cijene\\\" za "
-"nove proizvode”)."
 msgstr ""

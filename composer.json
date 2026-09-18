@@ -1,5 +1,5 @@
 {
-    "name": "nander/sidrena-cijena-za-woocommerce",
+    "name": "kbiro/sidrena-cijena-za-woocommerce",
     "description": "Sidrena (dodatna) cijena, najniža cijena u 30 dana i strojno čitljiv cjenik za WooCommerce prema NN 101/2026 i Zakonu o zaštiti potrošača.",
     "type": "wordpress-plugin",
     "license": "MIT",

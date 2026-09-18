@@ -1,5 +1,5 @@
 === Sidrena cijena za WooCommerce ===
-Contributors: nander
+Contributors: kristijanbiro
 Tags: woocommerce, sidrena cijena, dodatna cijena, cjenik, omnibus, najniža cijena, hrvatska
 Requires at least: 6.4
 Tested up to: 6.8

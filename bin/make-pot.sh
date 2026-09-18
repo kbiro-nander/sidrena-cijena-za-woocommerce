@@ -10,7 +10,7 @@ xgettext --language=PHP --from-code=UTF-8 --add-comments=translators \
   --keyword=_x:1,2c --keyword=_ex:1,2c --keyword=esc_html_x:1,2c --keyword=esc_attr_x:1,2c \
   --keyword=_n:1,2 --keyword=_nx:1,2,4c --keyword=_n_noop:1,2 --keyword=_nx_noop:1,2,3c \
   --package-name="Sidrena cijena za WooCommerce" --package-version="$(grep -m1 'Version:' sidrena-cijena-za-woocommerce.php | sed 's/.*Version: *//')" \
-  --msgid-bugs-address="https://github.com/nander/sidrena-cijena-za-woocommerce/issues" \
+  --msgid-bugs-address="https://github.com/kbiro-nander/sidrena-cijena-za-woocommerce/issues" \
   -o "$OUT" $FILES
 sed -i.bak 's/charset=CHARSET/charset=UTF-8/; s/^"Language: \\n"/"Language: hr_HR\\n"/' "$OUT" && rm -f "$OUT.bak"
 echo "Wrote $OUT ($(grep -c '^msgid' "$OUT") strings)"
