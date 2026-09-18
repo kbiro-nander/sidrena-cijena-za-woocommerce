@@ -20,6 +20,10 @@ if ( ! defined( 'SCWC_PLUGIN_DIR' ) ) {
 if ( ! defined( 'WC_VERSION' ) ) {
 	define( 'WC_VERSION', '9.9.0' );
 }
+if ( ! defined( 'ARRAY_A' ) ) {
+	define( 'ARRAY_A', 'ARRAY_A' );
+	define( 'OBJECT', 'OBJECT' );
+}
 if ( ! defined( 'HOUR_IN_SECONDS' ) ) {
 	define( 'MINUTE_IN_SECONDS', 60 );
 	define( 'HOUR_IN_SECONDS', 3600 );
