@@ -52,9 +52,9 @@ final class Endpoint {
 	public function rules(): array {
 		$s = preg_quote( $this->slug(), '/' );
 		return [
-			"^{$s}/?$"                                    => 'index.php?scwc_cjenik=index',
-			"^{$s}/index\.json$"                          => 'index.php?scwc_cjenik=json',
-			"^{$s}/latest\.(xml|csv)$"                    => 'index.php?scwc_cjenik=latest&scwc_format=$matches[1]',
+			"^{$s}/?$"                                   => 'index.php?scwc_cjenik=index',
+			"^{$s}/index\.json$"                         => 'index.php?scwc_cjenik=json',
+			"^{$s}/latest\.(xml|csv)$"                   => 'index.php?scwc_cjenik=latest&scwc_format=$matches[1]',
 			"^{$s}/([a-z0-9][a-z0-9._-]*\.(?:xml|csv))$" => 'index.php?scwc_cjenik=file&scwc_file=$matches[1]',
 		];
 	}
@@ -102,7 +102,7 @@ final class Endpoint {
 			return;
 		}
 		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
-			define( 'DONOTCACHEPAGE', true );
+			define( 'DONOTCACHEPAGE', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- cache-plugin convention.
 		}
 		status_header( $response->status );
 		if ( null !== $response->file ) {

@@ -35,14 +35,17 @@ final class PriceBadge {
 		$override = ( $this->locator )( self::TEMPLATE );
 		$file     = ( '' !== $override && is_readable( $override ) ) ? $override : rtrim( $this->templateDir, '/' ) . '/' . self::TEMPLATE;
 
-		$html = $this->include( $file, [
-			'badge'    => $data,
-			'context'  => $context,
-			'display'  => $this->settings->section( 'display' ),
-			'compact'  => in_array( $context, BadgeContext::COMPACT, true ),
-			'position' => (string) $this->settings->get( 'display.position', 'after' ),
-			'renderer' => $this,
-		] );
+		$html = $this->include(
+			$file,
+			[
+				'badge'    => $data,
+				'context'  => $context,
+				'display'  => $this->settings->section( 'display' ),
+				'compact'  => in_array( $context, BadgeContext::COMPACT, true ),
+				'position' => (string) $this->settings->get( 'display.position', 'after' ),
+				'renderer' => $this,
+			]
+		);
 		/** @var string $html */
 		$html = apply_filters( 'scwc_price_badge_html', $html, $data, $context );
 		return $html;

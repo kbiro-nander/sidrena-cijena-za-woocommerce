@@ -87,7 +87,12 @@ final class ExtendStoreApi {
 	 * @return array<string,mixed>
 	 */
 	private function data( ?WC_Product $product ): array {
-		$empty = [ 'references' => [], 'lowest_30_days' => null, 'is_on_sale' => false, 'badge_html' => '' ];
+		$empty = [
+			'references'     => [],
+			'lowest_30_days' => null,
+			'is_on_sale'     => false,
+			'badge_html'     => '',
+		];
 		if ( ! $product ) {
 			return $empty;
 		}

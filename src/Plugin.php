@@ -84,7 +84,7 @@ use WC_Product;
 
 final class Plugin {
 
-	public const TEXT_DOMAIN = 'sidrena-cijena-za-woocommerce';
+	public const TEXT_DOMAIN     = 'sidrena-cijena-za-woocommerce';
 	public const SWEEP_PAGE_SIZE = 300;
 
 	private static ?Plugin $instance = null;
@@ -218,28 +218,37 @@ final class Plugin {
 		$c->set( CategoryOverrideResolver::class, static fn() => CategoryOverrideResolver::forWordPress() );
 		$c->set( ReferenceDateResolver::class, static fn( Container $c ) => new ReferenceDateResolver( $c->get( CategoryOverrideResolver::class ) ) );
 		$c->set( ReferencePriceRepository::class, static fn( Container $c ) => new ReferencePriceRepository( $c->get( ReferenceDateResolver::class ) ) );
-		$c->set( MissingReferenceCounter::class, static function (): MissingReferenceCounter {
-			global $wpdb;
-			return new MissingReferenceCounter( $wpdb );
-		} );
+		$c->set(
+			MissingReferenceCounter::class,
+			static function (): MissingReferenceCounter {
+				global $wpdb;
+				return new MissingReferenceCounter( $wpdb );
+			}
+		);
 
-		$c->set( 'product_loader', static fn() => static function ( int $id ): ?WC_Product {
+		$c->set(
+			'product_loader',
+			static fn() => static function ( int $id ): ?WC_Product {
 			$product = wc_get_product( $id );
 			return $product instanceof WC_Product ? $product : null;
-		} );
+			}
+		);
 		$c->set( 'request_context', static fn() => static fn(): RequestContext => RequestContext::fromGlobals() );
 
 		// Display.
 		$c->set( PriceFormatter::class, static fn() => new PriceFormatter() );
 		$c->set( RenderGuard::class, static fn( Container $c ) => new RenderGuard( $c->get( Settings::class ), $c->get( 'request_context' ) ) );
-		$c->set( BadgeDataFactory::class, static fn( Container $c ) => new BadgeDataFactory(
-			$c->get( Settings::class ),
-			$c->get( ReferencePriceRegistry::class ),
-			$c->get( ProductAdapter::class ),
-			$c->get( ReferencePriceRepository::class ),
-			$c->get( PriceFormatter::class ),
-			$c->get( 'product_loader' ),
-		) );
+		$c->set(
+			BadgeDataFactory::class,
+			static fn( Container $c ) => new BadgeDataFactory(
+				$c->get( Settings::class ),
+				$c->get( ReferencePriceRegistry::class ),
+				$c->get( ProductAdapter::class ),
+				$c->get( ReferencePriceRepository::class ),
+				$c->get( PriceFormatter::class ),
+				$c->get( 'product_loader' ),
+			)
+		);
 		$c->set( PriceBadge::class, static fn( Container $c ) => new PriceBadge( $c->get( Settings::class ), SCWC_PLUGIN_DIR . 'templates' ) );
 		$c->set( PriceHtmlComposer::class, static fn( Container $c ) => new PriceHtmlComposer( $c->get( Settings::class ), $c->get( PriceBadge::class ) ) );
 		$c->set( PriceHtmlFilter::class, static fn( Container $c ) => new PriceHtmlFilter( $c->get( RenderGuard::class ), $c->get( BadgeDataFactory::class ), $c->get( PriceHtmlComposer::class ) ) );
@@ -250,10 +259,13 @@ final class Plugin {
 		$c->set( ExtendStoreApi::class, static fn( Container $c ) => new ExtendStoreApi( $c->get( BadgeDataFactory::class ), $c->get( PriceBadge::class ) ) );
 
 		// History / Omnibus.
-		$c->set( PriceHistoryRepository::class, static function (): PriceHistoryRepository {
-			global $wpdb;
-			return new PriceHistoryRepository( $wpdb, Schema::tableName( $wpdb ) );
-		} );
+		$c->set(
+			PriceHistoryRepository::class,
+			static function (): PriceHistoryRepository {
+				global $wpdb;
+				return new PriceHistoryRepository( $wpdb, Schema::tableName( $wpdb ) );
+			}
+		);
 		$c->set( Recorder::class, static fn( Container $c ) => new Recorder( $c->get( PriceHistoryRepository::class ), $c->get( Clock::class ) ) );
 		$c->set( LowestPriceCalculator::class, static fn( Container $c ) => new LowestPriceCalculator( $c->get( PriceHistoryRepository::class ) ) );
 		$c->set( OmnibusStateUpdater::class, static fn( Container $c ) => new OmnibusStateUpdater( $c->get( LowestPriceCalculator::class ), $c->get( Settings::class ), $c->get( Clock::class ) ) );
@@ -263,71 +275,89 @@ final class Plugin {
 
 		// Price list.
 		$c->set( ItemFactory::class, static fn( Container $c ) => new ItemFactory( $c->get( Settings::class ), $c->get( ReferencePriceRegistry::class ), $c->get( ReferencePriceRepository::class ), $c->get( ServiceRule::class ) ) );
-		$c->set( Collector::class, static function ( Container $c ): Collector {
-			$observer = null;
-			if ( (bool) $c->get( Settings::class )->get( 'history.enabled', true ) ) {
-				$recorder = $c->get( Recorder::class );
-				$updater  = $c->get( OmnibusStateUpdater::class );
-				$observer = static function ( ProductSnapshot $snapshot ) use ( $recorder, $updater ): void {
-					$updater->apply( $snapshot, $recorder->record( $snapshot, 'sweep' ) );
-				};
+		$c->set(
+			Collector::class,
+			static function ( Container $c ): Collector {
+				$observer = null;
+				if ( (bool) $c->get( Settings::class )->get( 'history.enabled', true ) ) {
+					$recorder = $c->get( Recorder::class );
+					$updater  = $c->get( OmnibusStateUpdater::class );
+					$observer = static function ( ProductSnapshot $snapshot ) use ( $recorder, $updater ): void {
+						$updater->apply( $snapshot, $recorder->record( $snapshot, 'sweep' ) );
+					};
+				}
+				return new Collector( Collector::wcPager(), $c->get( 'product_loader' ), $c->get( ProductAdapter::class ), $c->get( ItemFactory::class ), 200, $observer );
 			}
-			return new Collector( Collector::wcPager(), $c->get( 'product_loader' ), $c->get( ProductAdapter::class ), $c->get( ItemFactory::class ), 200, $observer );
-		} );
+		);
 		$c->set( Storage::class, static fn() => Storage::fromUploads() );
 		$c->set( Manifest::class, static fn( Container $c ) => new Manifest( $c->get( Storage::class ) ) );
 		$c->set( Retention::class, static fn( Container $c ) => new Retention( $c->get( Manifest::class ), $c->get( Storage::class ), $c->get( Clock::class ) ) );
-		$c->set( Generator::class, static function ( Container $c ): Generator {
-			$settings = $c->get( Settings::class );
-			return new Generator(
-				$settings,
-				static fn(): Outlet => Outlet::fromSettings( $settings ),
-				$c->get( Collector::class ),
-				[
-					'xml' => new XmlWriter(),
-					'csv' => new CsvWriter( (string) $settings->get( 'price_list.csv_delimiter', ';' ), (bool) $settings->get( 'price_list.csv_bom', true ) ),
-				],
-				new FilenameBuilder(),
+		$c->set(
+			Generator::class,
+			static function ( Container $c ): Generator {
+				$settings = $c->get( Settings::class );
+				return new Generator(
+					$settings,
+					static fn(): Outlet => Outlet::fromSettings( $settings ),
+					$c->get( Collector::class ),
+					[
+						'xml' => new XmlWriter(),
+						'csv' => new CsvWriter( (string) $settings->get( 'price_list.csv_delimiter', ';' ), (bool) $settings->get( 'price_list.csv_bom', true ) ),
+					],
+					new FilenameBuilder(),
+					$c->get( Storage::class ),
+					$c->get( Manifest::class ),
+					$c->get( Retention::class ),
+					$c->get( Clock::class ),
+					$c->get( ReferencePriceRegistry::class ),
+				);
+			}
+		);
+		$c->set( IndexRenderer::class, static fn( Container $c ) => new IndexRenderer( $c->get( Settings::class ), $c->get( Storage::class ), $c->get( Manifest::class ), SCWC_PLUGIN_DIR . 'templates' ) );
+		$c->set(
+			Endpoint::class,
+			static fn( Container $c ) => new Endpoint(
+				$c->get( Settings::class ),
 				$c->get( Storage::class ),
 				$c->get( Manifest::class ),
-				$c->get( Retention::class ),
-				$c->get( Clock::class ),
-				$c->get( ReferencePriceRegistry::class ),
-			);
-		} );
-		$c->set( IndexRenderer::class, static fn( Container $c ) => new IndexRenderer( $c->get( Settings::class ), $c->get( Storage::class ), $c->get( Manifest::class ), SCWC_PLUGIN_DIR . 'templates' ) );
-		$c->set( Endpoint::class, static fn( Container $c ) => new Endpoint(
-			$c->get( Settings::class ),
-			$c->get( Storage::class ),
-			$c->get( Manifest::class ),
-			new Headers(),
-			$c->get( IndexRenderer::class ),
-			static fn( string $reason ): bool => $c->get( Generator::class )->run( $reason )->ok(),
-		) );
+				new Headers(),
+				$c->get( IndexRenderer::class ),
+				static fn( string $reason ): bool => $c->get( Generator::class )->run( $reason )->ok(),
+			)
+		);
 
 		// Scheduling.
 		$c->set( SchedulerBackend::class, static fn() => ActionSchedulerBackend::available() ? new ActionSchedulerBackend() : new WpCronBackend() );
 		$c->set( Scheduler::class, static fn( Container $c ) => new Scheduler( $c->get( SchedulerBackend::class ), $c->get( Settings::class ), $c->get( Clock::class ) ) );
 		$c->set( ServiceChangeDebouncer::class, static fn( Container $c ) => new ServiceChangeDebouncer( $c->get( Scheduler::class ), $c->get( Settings::class ), $c->get( ServiceRule::class ) ) );
-		$c->set( JobRunner::class, static fn( Container $c ) => new JobRunner(
-			$c->get( Scheduler::class ),
-			static function ( string $reason ) use ( $c ): void {
+		$c->set(
+			JobRunner::class,
+			static fn( Container $c ) => new JobRunner(
+				$c->get( Scheduler::class ),
+				static function ( string $reason ) use ( $c ): void {
 				$c->get( Generator::class )->run( $reason );
-			},
-			static fn( int $page ) => $c->get( DailySweep::class )->run( $page, self::SWEEP_PAGE_SIZE ),
-			static function () use ( $c ): void {
+				},
+				static fn( int $page ) => $c->get( DailySweep::class )->run( $page, self::SWEEP_PAGE_SIZE ),
+				static function () use ( $c ): void {
 				$c->get( Pruner::class )->run();
-			},
-			static function ( string $typeKey ) use ( $c ): void {
-				$request = SnapshotRequest::fromArray( [ 'type' => $typeKey, 'mode' => 'only_missing' ], $c->get( Settings::class ) );
+				},
+				static function ( string $typeKey ) use ( $c ): void {
+				$request = SnapshotRequest::fromArray(
+					[
+						'type' => $typeKey,
+						'mode' => 'only_missing',
+					],
+					$c->get( Settings::class )
+				);
 				$page    = 1;
 				do {
 					$result = $c->get( SnapshotService::class )->run( $request, $page, 200 );
 					++$page;
 				} while ( $result->hasMore );
 				do_action( 'scwc_snapshot_completed', $request );
-			},
-		) );
+				},
+			)
+		);
 
 		// Admin.
 		$c->set( SnapshotService::class, static fn( Container $c ) => new SnapshotService( $c->get( ReferencePriceRegistry::class ), $c->get( ReferencePriceRepository::class ), $c->get( ProductAdapter::class ), $c->get( Recorder::class ), DailySweep::wcPager(), $c->get( 'product_loader' ) ) );
@@ -340,18 +370,23 @@ final class Plugin {
 		$c->set( ProductFields::class, static fn( Container $c ) => new ProductFields( $c->get( ReferencePriceRegistry::class ), $c->get( Settings::class ) ) );
 		$c->set( VariationFields::class, static fn( Container $c ) => new VariationFields( $c->get( ReferencePriceRegistry::class ) ) );
 		$c->set( ProductSave::class, static fn( Container $c ) => new ProductSave( $c->get( ReferencePriceRegistry::class ) ) );
-		$c->set( AdminActions::class, static fn( Container $c ) => new AdminActions(
-			static fn(): ?string => $c->get( Generator::class )->run( 'manual' )->error,
-			static function () use ( $c ): void {
+		$c->set(
+			AdminActions::class,
+			static fn( Container $c ) => new AdminActions(
+				static fn(): ?string => $c->get( Generator::class )->run( 'manual' )->error,
+				static function () use ( $c ): void {
 				$c->get( JobRunner::class )->sweep();
-			},
-			static function () use ( $c ): void {
+				},
+				static function () use ( $c ): void {
 				$c->get( Scheduler::class )->reschedule();
-			},
-		) );
-		$c->set( AdminNotices::class, static fn( Container $c ) => new AdminNotices(
-			$c->get( Settings::class ),
-			static function () use ( $c ): Environment {
+				},
+			)
+		);
+		$c->set(
+			AdminNotices::class,
+			static fn( Container $c ) => new AdminNotices(
+				$c->get( Settings::class ),
+				static function () use ( $c ): Environment {
 				$last   = get_option( Generator::OPTION_LAST, [] );
 				$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
 				$cartId = function_exists( 'wc_get_page_id' ) ? (int) wc_get_page_id( 'cart' ) : 0;
@@ -365,44 +400,56 @@ final class Plugin {
 					$screen instanceof \WP_Screen ? (string) $screen->id : '',
 					AdminNotices::dismissedFor( get_current_user_id() ),
 				);
-			},
-			$c->get( Clock::class ),
-		) );
+				},
+				$c->get( Clock::class ),
+			)
+		);
 
 		// CLI.
-		$c->set( Commands::class, static fn( Container $c ) => new Commands(
-			$c->get( Settings::class ),
-			static fn( string $reason ) => $c->get( Generator::class )->run( $reason ),
-			static fn( SnapshotRequest $request, int $page ) => $c->get( SnapshotService::class )->run( $request, $page, 200 ),
-			static function ( string $csv, string $type, bool $dryRun ) use ( $c ): array {
+		$c->set(
+			Commands::class,
+			static fn( Container $c ) => new Commands(
+				$c->get( Settings::class ),
+				static fn( string $reason ) => $c->get( Generator::class )->run( $reason ),
+				static fn( SnapshotRequest $request, int $page ) => $c->get( SnapshotService::class )->run( $request, $page, 200 ),
+				static function ( string $csv, string $type, bool $dryRun ) use ( $c ): array {
 				$importer = $c->get( CsvImporter::class );
 				$preview  = $importer->parse( $csv, $type );
 				if ( $dryRun ) {
-					return [ 'valid' => $preview->valid, 'invalid' => $preview->invalid, 'errors' => $preview->errors() ];
+					return [
+						'valid'   => $preview->valid,
+						'invalid' => $preview->invalid,
+						'errors'  => $preview->errors(),
+					];
 				}
 				$result = $importer->apply( $preview );
 				do_action( 'scwc_import_completed', $result );
-				return [ 'updated' => $result->updated, 'markedNa' => $result->markedNa, 'errors' => $result->errors ];
-			},
-			static fn( int $page ) => $c->get( DailySweep::class )->run( $page, self::SWEEP_PAGE_SIZE ),
-			static function () use ( $c ): void {
+				return [
+					'updated'  => $result->updated,
+					'markedNa' => $result->markedNa,
+					'errors'   => $result->errors,
+				];
+				},
+				static fn( int $page ) => $c->get( DailySweep::class )->run( $page, self::SWEEP_PAGE_SIZE ),
+				static function () use ( $c ): void {
 				$c->get( Pruner::class )->run();
-			},
-			static fn(): array => $c->get( Scheduler::class )->status(),
-			static function () use ( $c ): void {
+				},
+				static fn(): array => $c->get( Scheduler::class )->status(),
+				static function () use ( $c ): void {
 				$c->get( Scheduler::class )->reschedule();
-			},
-			static fn( int $id, int $limit ): array => array_map(
-				static fn( PriceRecord $r ): array => [
-					'recorded_at' => $r->recordedAt->format( 'Y-m-d H:i:s' ),
-					'regular'     => $r->regular,
-					'sale'        => $r->sale,
-					'active'      => $r->active,
-					'on_sale'     => $r->isOnSale ? 'da' : 'ne',
-					'source'      => $r->source,
-				],
-				$c->get( PriceHistoryRepository::class )->historyFor( $id, $limit )
-			),
-		) );
+				},
+				static fn( int $id, int $limit ): array => array_map(
+					static fn( PriceRecord $r ): array => [
+						'recorded_at' => $r->recordedAt->format( 'Y-m-d H:i:s' ),
+						'regular'     => $r->regular,
+						'sale'        => $r->sale,
+						'active'      => $r->active,
+						'on_sale'     => $r->isOnSale ? 'da' : 'ne',
+						'source'      => $r->source,
+					],
+					$c->get( PriceHistoryRepository::class )->historyFor( $id, $limit )
+				),
+			)
+		);
 	}
 }

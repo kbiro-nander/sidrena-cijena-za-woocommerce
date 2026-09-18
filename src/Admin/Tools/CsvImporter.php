@@ -193,7 +193,18 @@ class CsvImporter {
 	private static function normalizeHeader( string $cell ): string {
 		$cell = strtr(
 			trim( $cell ),
-			[ 'č' => 'c', 'ć' => 'c', 'š' => 's', 'ž' => 'z', 'đ' => 'd', 'Č' => 'c', 'Ć' => 'c', 'Š' => 's', 'Ž' => 'z', 'Đ' => 'd' ]
+			[
+				'č' => 'c',
+				'ć' => 'c',
+				'š' => 's',
+				'ž' => 'z',
+				'đ' => 'd',
+				'Č' => 'c',
+				'Ć' => 'c',
+				'Š' => 's',
+				'Ž' => 'z',
+				'Đ' => 'd',
+			]
 		);
 		$cell = strtolower( $cell );
 		return (string) preg_replace( '/[\s\-]+/', '_', $cell );

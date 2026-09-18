@@ -28,13 +28,15 @@ final class StatusProvider {
 	 * @return array<int,array{label:string,value:string}>
 	 */
 	public function __invoke(): array {
-		$td   = 'sidrena-cijena-za-woocommerce';
 		$rows = [];
 		$last = get_option( Generator::OPTION_LAST, [] );
 		$last = is_array( $last ) ? $last : [];
 
 		if ( empty( $last['at'] ) ) {
-			$rows[] = [ 'label' => __( 'Zadnje generiranje', $td ), 'value' => __( 'nikad', $td ) ];
+			$rows[] = [
+				'label' => __( 'Zadnje generiranje', 'sidrena-cijena-za-woocommerce' ),
+				'value' => __( 'nikad', 'sidrena-cijena-za-woocommerce' ),
+			];
 		} else {
 			$value = esc_html( $this->local( (string) $last['at'] ) );
 			if ( ! empty( $last['error'] ) ) {
@@ -42,33 +44,59 @@ final class StatusProvider {
 			} else {
 				$value .= sprintf(
 					/* translators: 1: products, 2: services */
-					' (' . __( '%1$d proizvoda, %2$d usluge', $td ) . ')',
+					' (' . __( '%1$d proizvoda, %2$d usluge', 'sidrena-cijena-za-woocommerce' ) . ')',
 					(int) ( $last['products'] ?? 0 ),
 					(int) ( $last['services'] ?? 0 )
 				);
 				$value .= '<br><code>' . esc_html( implode( ', ', (array) ( $last['files'] ?? [] ) ) ) . '</code>';
 			}
-			$rows[] = [ 'label' => __( 'Zadnje generiranje', $td ), 'value' => $value ];
+			$rows[] = [
+				'label' => __( 'Zadnje generiranje', 'sidrena-cijena-za-woocommerce' ),
+				'value' => $value,
+			];
 		}
 
 		$status = $this->scheduler->status();
-		$rows[] = [ 'label' => __( 'Sljedeće generiranje', $td ), 'value' => $this->when( $status[ Scheduler::HOOK_GENERATE ] ?? null ) ];
-		$rows[] = [ 'label' => __( 'Sljedeća provjera cijena', $td ), 'value' => $this->when( $status[ Scheduler::HOOK_SWEEP ] ?? null ) ];
+		$rows[] = [
+			'label' => __( 'Sljedeće generiranje', 'sidrena-cijena-za-woocommerce' ),
+			'value' => $this->when( $status[ Scheduler::HOOK_GENERATE ] ?? null ),
+		];
+		$rows[] = [
+			'label' => __( 'Sljedeća provjera cijena', 'sidrena-cijena-za-woocommerce' ),
+			'value' => $this->when( $status[ Scheduler::HOOK_SWEEP ] ?? null ),
+		];
 		if ( ! empty( $status[ Scheduler::HOOK_AUTO_SNAPSHOT ] ) ) {
-			$rows[] = [ 'label' => __( 'Zakazano automatsko snimanje', $td ), 'value' => $this->when( $status[ Scheduler::HOOK_AUTO_SNAPSHOT ] ) ];
+			$rows[] = [
+				'label' => __( 'Zakazano automatsko snimanje', 'sidrena-cijena-za-woocommerce' ),
+				'value' => $this->when( $status[ Scheduler::HOOK_AUTO_SNAPSHOT ] ),
+			];
 		}
-		$rows[] = [ 'label' => __( 'Mehanizam zakazivanja', $td ), 'value' => 'action_scheduler' === $this->scheduler->backend()->name() ? 'Action Scheduler' : 'WP-Cron' ];
+		$rows[] = [
+			'label' => __( 'Mehanizam zakazivanja', 'sidrena-cijena-za-woocommerce' ),
+			'value' => 'action_scheduler' === $this->scheduler->backend()->name() ? 'Action Scheduler' : 'WP-Cron',
+		];
 
-		$base   = home_url( '/' . trim( (string) $this->settings->get( 'price_list.slug', 'cjenik' ), '/' ) . '/' );
-		$links  = [];
-		foreach ( [ '' => __( 'Popis', $td ), 'latest.xml' => 'latest.xml', 'latest.csv' => 'latest.csv', 'index.json' => 'index.json' ] as $path => $label ) {
+		$base  = home_url( '/' . trim( (string) $this->settings->get( 'price_list.slug', 'cjenik' ), '/' ) . '/' );
+		$links = [];
+		foreach ( [
+			''           => __( 'Popis', 'sidrena-cijena-za-woocommerce' ),
+			'latest.xml' => 'latest.xml',
+			'latest.csv' => 'latest.csv',
+			'index.json' => 'index.json',
+		] as $path => $label ) {
 			$links[] = '<a href="' . esc_url( $base . $path ) . '" target="_blank" rel="noopener">' . esc_html( (string) $label ) . '</a>';
 		}
-		$rows[] = [ 'label' => __( 'Javni URL-ovi', $td ), 'value' => implode( ' · ', $links ) ];
+		$rows[] = [
+			'label' => __( 'Javni URL-ovi', 'sidrena-cijena-za-woocommerce' ),
+			'value' => implode( ' · ', $links ),
+		];
 		$key    = (string) $this->settings->get( 'price_list.external_cron_key', '' );
 		if ( '' !== $key ) {
 			$url    = $base . '?scwc_run=1&key=' . rawurlencode( $key );
-			$rows[] = [ 'label' => __( 'Vanjski cron (GET)', $td ), 'value' => '<code>' . esc_html( $url ) . '</code>' ];
+			$rows[] = [
+				'label' => __( 'Vanjski cron (GET)', 'sidrena-cijena-za-woocommerce' ),
+				'value' => '<code>' . esc_html( $url ) . '</code>',
+			];
 		}
 		return $rows;
 	}

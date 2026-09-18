@@ -95,7 +95,7 @@ final class ProductAdapter {
 	 * @return string[]
 	 */
 	private function pluginMetaKeys( WC_Product $product ): array {
-		$keys = MetaKeys::INHERITED;
+		$keys   = MetaKeys::INHERITED;
 		$keys[] = MetaKeys::OMNIBUS_REF_PRICE;
 		$keys[] = MetaKeys::OMNIBUS_SALE_START;
 		$keys[] = MetaKeys::OMNIBUS_SOURCE;

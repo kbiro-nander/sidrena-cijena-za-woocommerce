@@ -77,7 +77,7 @@ final class BadgeDataFactory {
 		$inherit        = (bool) $this->settings->get( 'reference_prices.variation_inherit_parent', false );
 		$types          = $this->registry->enabled();
 		/** @var array<string,array{min:float,max:float,ref:ReferencePrice}> $ranges */
-		$ranges = [];
+		$ranges   = [];
 		$childIds = $parent instanceof \WC_Product_Variable ? $parent->get_visible_children() : $parent->get_children();
 		foreach ( $childIds as $childId ) {
 			$child = ( $this->loader )( (int) $childId );
@@ -92,7 +92,11 @@ final class BadgeDataFactory {
 				}
 				$amount = $this->formatter->display( $child, (string) $ref->amount, $context, $quantity );
 				if ( ! isset( $ranges[ $key ] ) ) {
-					$ranges[ $key ] = [ 'min' => $amount, 'max' => $amount, 'ref' => $ref ];
+					$ranges[ $key ] = [
+						'min' => $amount,
+						'max' => $amount,
+						'ref' => $ref,
+					];
 				} else {
 					$ranges[ $key ]['min'] = min( $ranges[ $key ]['min'], $amount );
 					$ranges[ $key ]['max'] = max( $ranges[ $key ]['max'], $amount );

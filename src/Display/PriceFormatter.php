@@ -17,7 +17,10 @@ final class PriceFormatter {
 	 * @param string $amount Stored (tax-agnostic, like _regular_price) amount.
 	 */
 	public function display( WC_Product $product, string $amount, string $context, int $quantity = 1 ): float {
-		$args = [ 'price' => $amount, 'qty' => $quantity ];
+		$args = [
+			'price' => $amount,
+			'qty'   => $quantity,
+		];
 		if ( in_array( $context, BadgeContext::CART_LIKE, true ) && function_exists( 'WC' ) && WC()->cart ) {
 			return WC()->cart->display_prices_including_tax()
 				? (float) wc_get_price_including_tax( $product, $args )

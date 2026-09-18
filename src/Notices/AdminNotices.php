@@ -16,7 +16,7 @@ use SidrenaCijena\Support\Clock;
 
 final class AdminNotices {
 
-	public const STALE_HOURS   = 26;
+	public const STALE_HOURS    = 26;
 	public const DISMISS_ACTION = 'scwc_dismiss_notice';
 	public const USER_META      = 'scwc_dismissed_notices';
 
@@ -47,11 +47,16 @@ final class AdminNotices {
 		$setUrl   = admin_url( 'admin.php?page=scwc-settings' );
 
 		if ( $listOn && ( '' === trim( (string) ( $outlet['address'] ?? '' ) ) || '' === trim( (string) ( $outlet['label'] ?? '' ) ) ) ) {
-			$notices[] = $this->notice( 'outlet', 'error', sprintf(
+			$notices[] = $this->notice(
+				'outlet',
+				'error',
+				sprintf(
 				/* translators: %s: settings URL */
-				__( 'Sidrena cijena: cjenik se ne može generirati dok ne unesete adresu i oznaku prodajnog objekta. <a href="%s">Otvorite postavke</a>.', 'sidrena-cijena-za-woocommerce' ),
-				esc_url( $setUrl )
-			), false );
+					__( 'Sidrena cijena: cjenik se ne može generirati dok ne unesete adresu i oznaku prodajnog objekta. <a href="%s">Otvorite postavke</a>.', 'sidrena-cijena-za-woocommerce' ),
+					esc_url( $setUrl )
+				),
+				false
+			);
 		}
 
 		if ( $listOn ) {
@@ -60,25 +65,40 @@ final class AdminNotices {
 			}
 			$last = $env->lastGeneration;
 			if ( null === $last || empty( $last['at'] ) ) {
-				$notices[] = $this->notice( 'never_generated', 'warning', sprintf(
+				$notices[] = $this->notice(
+					'never_generated',
+					'warning',
+					sprintf(
 					/* translators: %s: settings URL */
-					__( 'Sidrena cijena: cjenik još nije generiran. <a href="%s">Generirajte ga sada</a> i provjerite javni URL.', 'sidrena-cijena-za-woocommerce' ),
-					esc_url( $setUrl . '&tab=price_list' )
-				), false );
+						__( 'Sidrena cijena: cjenik još nije generiran. <a href="%s">Generirajte ga sada</a> i provjerite javni URL.', 'sidrena-cijena-za-woocommerce' ),
+						esc_url( $setUrl . '&tab=price_list' )
+					),
+					false
+				);
 			} elseif ( ! empty( $last['error'] ) ) {
-				$notices[] = $this->notice( 'generation_error', 'warning', sprintf(
+				$notices[] = $this->notice(
+					'generation_error',
+					'warning',
+					sprintf(
 					/* translators: %s: error message */
-					__( 'Sidrena cijena: zadnje generiranje cjenika nije uspjelo: %s', 'sidrena-cijena-za-woocommerce' ),
-					esc_html( (string) $last['error'] )
-				), false );
+						__( 'Sidrena cijena: zadnje generiranje cjenika nije uspjelo: %s', 'sidrena-cijena-za-woocommerce' ),
+						esc_html( (string) $last['error'] )
+					),
+					false
+				);
 			} else {
 				$at = new DateTimeImmutable( (string) $last['at'], new DateTimeZone( 'UTC' ) );
 				if ( $this->clock->now()->getTimestamp() - $at->getTimestamp() > self::STALE_HOURS * HOUR_IN_SECONDS ) {
-					$notices[] = $this->notice( 'stale', 'warning', sprintf(
+					$notices[] = $this->notice(
+						'stale',
+						'warning',
+						sprintf(
 						/* translators: %s: date/time */
-						__( 'Sidrena cijena: cjenik nije osvježen od %s (obveza: svaki dan do 08:00). Provjerite WP-Cron / Action Scheduler.', 'sidrena-cijena-za-woocommerce' ),
-						esc_html( $at->setTimezone( $this->clock->timezone() )->format( 'j. n. Y. H:i' ) )
-					), false );
+							__( 'Sidrena cijena: cjenik nije osvježen od %s (obveza: svaki dan do 08:00). Provjerite WP-Cron / Action Scheduler.', 'sidrena-cijena-za-woocommerce' ),
+							esc_html( $at->setTimezone( $this->clock->timezone() )->format( 'j. n. Y. H:i' ) )
+						),
+						false
+					);
 				}
 			}
 			if ( ! $env->prettyPermalinks ) {
@@ -88,12 +108,17 @@ final class AdminNotices {
 
 		if ( $env->isWooCommerceScreen() ) {
 			if ( $env->missingAnchors > 0 ) {
-				$notices[] = $this->notice( 'missing_anchors', 'info', sprintf(
+				$notices[] = $this->notice(
+					'missing_anchors',
+					'info',
+					sprintf(
 					/* translators: 1: count, 2: tools URL */
-					__( 'Sidrena cijena: %1$d proizvoda/varijacija nema sidrenu cijenu ni oznaku „nema referentne cijene”. <a href="%2$s">Snimite ili uvezite cijene</a>.', 'sidrena-cijena-za-woocommerce' ),
-					$env->missingAnchors,
-					esc_url( $toolsUrl )
-				), true );
+						__( 'Sidrena cijena: %1$d proizvoda/varijacija nema sidrenu cijenu ni oznaku „nema referentne cijene”. <a href="%2$s">Snimite ili uvezite cijene</a>.', 'sidrena-cijena-za-woocommerce' ),
+						$env->missingAnchors,
+						esc_url( $toolsUrl )
+					),
+					true
+				);
 			}
 			if ( $env->blockCart ) {
 				$notices[] = $this->notice( 'block_cart', 'info', __( 'Sidrena cijena: koristite blokovsku košaricu/blagajnu. Sidrena cijena tamo se prikazuje kao dodatni redak podataka stavke; puni prikaz oznake u blokovima stiže u sljedećoj verziji.', 'sidrena-cijena-za-woocommerce' ), true );
@@ -118,7 +143,11 @@ final class AdminNotices {
 			echo '<p>' . wp_kses_post( $n['message'] );
 			if ( $n['dismissible'] ) {
 				$url = add_query_arg(
-					[ 'action' => self::DISMISS_ACTION, 'notice' => $n['id'], '_wpnonce' => wp_create_nonce( self::DISMISS_ACTION ) ],
+					[
+						'action'   => self::DISMISS_ACTION,
+						'notice'   => $n['id'],
+						'_wpnonce' => wp_create_nonce( self::DISMISS_ACTION ),
+					],
 					admin_url( 'admin-post.php' )
 				);
 				echo ' <a href="' . esc_url( $url ) . '">' . esc_html__( 'Sakrij', 'sidrena-cijena-za-woocommerce' ) . '</a>';
@@ -153,6 +182,11 @@ final class AdminNotices {
 	 * @return array{id:string,type:string,message:string,dismissible:bool}
 	 */
 	private function notice( string $id, string $type, string $message, bool $dismissible ): array {
-		return [ 'id' => $id, 'type' => $type, 'message' => $message, 'dismissible' => $dismissible ];
+		return [
+			'id'          => $id,
+			'type'        => $type,
+			'message'     => $message,
+			'dismissible' => $dismissible,
+		];
 	}
 }

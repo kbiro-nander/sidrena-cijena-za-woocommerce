@@ -23,7 +23,7 @@ final class Sanitizer {
 		$defaults = Defaults::all();
 		$out      = [];
 		foreach ( $defaults as $section => $sectionDefaults ) {
-			$rawSection = isset( $raw[ $section ] ) && is_array( $raw[ $section ] ) ? $raw[ $section ] : null;
+			$rawSection      = isset( $raw[ $section ] ) && is_array( $raw[ $section ] ) ? $raw[ $section ] : null;
 			$out[ $section ] = $this->sanitizeSection( $section, $sectionDefaults, $rawSection );
 		}
 		if ( '' === $out['price_list']['external_cron_key'] ) {
@@ -89,12 +89,15 @@ final class Sanitizer {
 			if ( ! is_array( $row ) ) {
 				continue;
 			}
-			$ids = array_values( array_filter( array_map( 'intval', (array) ( $row['term_ids'] ?? [] ) ) ) );
+			$ids  = array_values( array_filter( array_map( 'intval', (array) ( $row['term_ids'] ?? [] ) ) ) );
 			$date = trim( (string) ( $row['date'] ?? '' ) );
 			if ( [] === $ids || null === DateFormat::parseIso( $date ) ) {
 				continue;
 			}
-			$out[] = [ 'term_ids' => $ids, 'date' => $date ];
+			$out[] = [
+				'term_ids' => $ids,
+				'date'     => $date,
+			];
 		}
 		return $out;
 	}

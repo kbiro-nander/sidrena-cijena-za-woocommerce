@@ -17,7 +17,7 @@ final class PriceHtmlComposer {
 	public function __construct( private readonly Settings $settings, private readonly PriceBadge $badge ) {}
 
 	public function compose( string $wcHtml, WC_Product $product, BadgeData $data, string $context ): string {
-		$html = $this->maybeRebuildSaleHtml( $wcHtml, $product, $data );
+		$html  = $this->maybeRebuildSaleHtml( $wcHtml, $product, $data );
 		$badge = $this->badge->render( $data, $context );
 		if ( '' === $badge ) {
 			return $html;

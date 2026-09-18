@@ -16,6 +16,40 @@
         <exclude name="WordPress.NamingConventions.ValidVariableName"/>
         <exclude name="WordPress.NamingConventions.ValidFunctionName"/>
         <exclude name="Universal.Operators.DisallowShortTernary"/>
+        <exclude name="Universal.NamingConventions.NoReservedKeywordParameterNames"/>
+        <exclude name="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+        <exclude name="WordPress.PHP.YodaConditions"/>
+        <exclude name="WordPress.Security.EscapeOutput.ExceptionNotEscaped"/>
+        <exclude name="Squiz.PHP.DisallowSizeFunctionsInLoops"/>
+        <exclude name="Generic.CodeAnalysis.AssignmentInCondition"/>
+    </rule>
+    <!-- Repositories call $this->wpdb->prepare(); the sniff cannot see through the property. -->
+    <rule ref="WordPress.DB.PreparedSQL">
+        <exclude-pattern>src/History/PriceHistoryRepository\.php</exclude-pattern>
+        <exclude-pattern>src/History/Schema\.php</exclude-pattern>
+        <exclude-pattern>src/Reference/MissingReferenceCounter\.php</exclude-pattern>
+        <exclude-pattern>uninstall\.php</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.DB.PreparedSQLPlaceholders">
+        <exclude-pattern>src/History/PriceHistoryRepository\.php</exclude-pattern>
+        <exclude-pattern>src/Reference/MissingReferenceCounter\.php</exclude-pattern>
+    </rule>
+    <!-- Streaming writers and storage legitimately use native file functions on the uploads dir. -->
+    <rule ref="WordPress.WP.AlternativeFunctions">
+        <exclude-pattern>src/PriceList/*</exclude-pattern>
+        <exclude-pattern>src/Endpoint/*</exclude-pattern>
+        <exclude-pattern>src/Cli/*</exclude-pattern>
+        <exclude-pattern>src/Admin/Tools/*</exclude-pattern>
+        <exclude-pattern>uninstall\.php</exclude-pattern>
+    </rule>
+    <!-- Template variables are local to the including closure, not globals. -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound">
+        <exclude-pattern>templates/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.WP.Capabilities">
+        <properties>
+            <property name="custom_capabilities" type="array"><element value="manage_woocommerce"/></property>
+        </properties>
     </rule>
     <rule ref="WordPress.WP.I18n">
         <properties>

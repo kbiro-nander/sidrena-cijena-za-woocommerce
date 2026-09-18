@@ -106,8 +106,8 @@ final class Commands {
 			],
 			$this->settings
 		);
-		$page  = 1;
-		$total = null;
+		$page    = 1;
+		$total   = null;
 		do {
 			$result = ( $this->snapshot )( $request, $page );
 			$total  = $total ? $total->merge( $result ) : $result;

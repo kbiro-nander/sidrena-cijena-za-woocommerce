@@ -62,7 +62,9 @@ class ToolsPage {
 					'rowsValid'       => __( 'ispravnih redaka', 'sidrena-cijena-za-woocommerce' ),
 					'rowsInvalid'     => __( 'neispravnih', 'sidrena-cijena-za-woocommerce' ),
 					'rowsUnmatched'   => __( 'bez proizvoda', 'sidrena-cijena-za-woocommerce' ),
+					/* translators: %d: number */
 					'imported'        => __( 'Uvoz završen: ažurirano %1$d, označeno bez cijene %2$d, preskočeno %3$d.', 'sidrena-cijena-za-woocommerce' ),
+					/* translators: %d: number */
 					'exported'        => __( 'Izvezeno redaka: %d', 'sidrena-cijena-za-woocommerce' ),
 					'actions'         => [
 						'written'          => __( 'zapisano', 'sidrena-cijena-za-woocommerce' ),

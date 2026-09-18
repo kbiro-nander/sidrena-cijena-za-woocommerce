@@ -1,0 +1,1225 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Sidrena cijena za WooCommerce package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Sidrena cijena za WooCommerce 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/nander/sidrena-cijena-za-"
+"woocommerce/issues\n"
+"POT-Creation-Date: 2026-09-18 15:47+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: hr_HR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/Admin/AdminActions.php:54 src/Notices/AdminNotices.php:132
+msgid "Nedozvoljen zahtjev."
+msgstr ""
+
+#: src/Admin/AdminActions.php:87
+msgid "Cjenik je generiran."
+msgstr ""
+
+#: src/Admin/AdminActions.php:88
+msgid "Provjera cijena je pokrenuta."
+msgstr ""
+
+#: src/Admin/AdminActions.php:89
+msgid "Zadaci su ponovno zakazani."
+msgstr ""
+
+#. translators: %s: error message
+#: src/Admin/AdminActions.php:94
+#, php-format
+msgid "Generiranje cjenika nije uspjelo: %s"
+msgstr ""
+
+#: src/Admin/Fields.php:47
+msgid "Prodajni objekt"
+msgstr ""
+
+#: src/Admin/Fields.php:48
+msgid "Referentne cijene"
+msgstr ""
+
+#: src/Admin/Fields.php:49
+msgid "Prikaz"
+msgstr ""
+
+#: src/Admin/Fields.php:50
+msgid "Cjenik"
+msgstr ""
+
+#: src/Admin/Fields.php:51
+msgid "Povijest cijena"
+msgstr ""
+
+#: src/Admin/Fields.php:52
+msgid "Napredno"
+msgstr ""
+
+#: src/Admin/Fields.php:85
+msgid "Oblik prodajnog objekta"
+msgstr ""
+
+#: src/Admin/Fields.php:85
+msgid "Npr. webshop, prodavaonica, kiosk. Prvi dio naziva datoteke cjenika."
+msgstr ""
+
+#: src/Admin/Fields.php:86
+msgid "Adresa prodajnog objekta"
+msgstr ""
+
+#: src/Admin/Fields.php:86
+msgid "Za web trgovinu: adresa sjedišta trgovca. Obvezan podatak u cjeniku."
+msgstr ""
+
+#: src/Admin/Fields.php:87
+msgid "Oznaka prodajnog objekta"
+msgstr ""
+
+#: src/Admin/Fields.php:87
+msgid ""
+"Interna oznaka objekta (npr. naziv web trgovine). Obvezan dio naziva "
+"datoteke."
+msgstr ""
+
+#: src/Admin/Fields.php:88
+msgid "Broj skladišta"
+msgstr ""
+
+#: src/Admin/Fields.php:88
+msgid "Zadano 1 ako nemate više skladišta."
+msgstr ""
+
+#: src/Admin/Fields.php:89
+msgid "Naziv trgovca"
+msgstr ""
+
+#: src/Admin/Fields.php:89
+msgid "Prazno = naziv web stranice."
+msgstr ""
+
+#: src/Admin/Fields.php:91
+msgid "Sidrena (dodatna) cijena"
+msgstr ""
+
+#: src/Admin/Fields.php:92
+msgid "Bazna cijena (od 17. 11. 2026.)"
+msgstr ""
+
+#: src/Admin/Fields.php:94
+msgid "Varijacije nasljeđuju referentnu cijenu roditelja"
+msgstr ""
+
+#: src/Admin/Fields.php:94
+msgid ""
+"Kada varijacija nema vlastitu referentnu cijenu, koristi se cijena "
+"varijabilnog proizvoda."
+msgstr ""
+
+#: src/Admin/Fields.php:94
+msgid "Ostalo"
+msgstr ""
+
+#: src/Admin/Fields.php:95
+msgid "Automatski \"nema referentne cijene\" za nove proizvode"
+msgstr ""
+
+#: src/Admin/Fields.php:95
+msgid ""
+"Proizvodi kreirani nakon referentnog datuma nemaju sidrenu cijenu pa se "
+"oznaka ne prikazuje."
+msgstr ""
+
+#: src/Admin/Fields.php:97
+msgid "Položaj oznake"
+msgstr ""
+
+#: src/Admin/Fields.php:97
+msgid "Iza cijene (isti redak)"
+msgstr ""
+
+#: src/Admin/Fields.php:97
+msgid "Ispod cijene"
+msgstr ""
+
+#: src/Admin/Fields.php:97
+msgid "Ispred cijene"
+msgstr ""
+
+#: src/Admin/Fields.php:98
+msgid "Format oznake"
+msgstr ""
+
+#: src/Admin/Fields.php:98
+msgid ""
+"Dostupne oznake: {label}, {date}, {price}, {key}. Sidrena cijena isključuje "
+"akcijske cijene."
+msgstr ""
+
+#: src/Admin/Fields.php:99
+msgid "Sažeti format (košarica, blagajna)"
+msgstr ""
+
+#: src/Admin/Fields.php:99
+msgid "Iste oznake kao gore; koristi se gdje je malo prostora."
+msgstr ""
+
+#: src/Admin/Fields.php:100
+msgid "Format datuma"
+msgstr ""
+
+#: src/Admin/Fields.php:100
+msgid "PHP format datuma; zadano \"j. n. Y.\" daje 10. 9. 2026."
+msgstr ""
+
+#: src/Admin/Fields.php:101
+msgid "Prikaži u popisu proizvoda"
+msgstr ""
+
+#: src/Admin/Fields.php:101
+msgid "Zakon traži oznaku svugdje gdje se prikazuje cijena."
+msgstr ""
+
+#: src/Admin/Fields.php:102
+msgid "Prikaži na stranici proizvoda"
+msgstr ""
+
+#: src/Admin/Fields.php:103
+msgid "Prikaži u košarici"
+msgstr ""
+
+#: src/Admin/Fields.php:104
+msgid "Prikaz na blagajni"
+msgstr ""
+
+#: src/Admin/Fields.php:104
+msgid "Jedinična cijena"
+msgstr ""
+
+#: src/Admin/Fields.php:104
+msgid "Ukupno za količinu"
+msgstr ""
+
+#: src/Admin/Fields.php:104 src/Admin/Fields.php:107
+msgid "Ne prikazuj"
+msgstr ""
+
+#: src/Admin/Fields.php:105
+msgid "Prikaži u mini košarici"
+msgstr ""
+
+#: src/Admin/Fields.php:106
+msgid "Dodaj redak u podatke stavke (blok košarica/blagajna)"
+msgstr ""
+
+#: src/Admin/Fields.php:106
+msgid ""
+"Blok košarica ne renderira oznaku; ovako se podatak ipak prikazuje kao redak "
+"stavke."
+msgstr ""
+
+#: src/Admin/Fields.php:107
+msgid "Varijabilni proizvodi u popisu"
+msgstr ""
+
+#: src/Admin/Fields.php:107
+msgid "Raspon (min – max)"
+msgstr ""
+
+#: src/Admin/Fields.php:108
+msgid "Prikaži najnižu cijenu u 30 dana prije sniženja"
+msgstr ""
+
+#: src/Admin/Fields.php:108
+msgid "Obveza prema čl. 19 Zakona o zaštiti potrošača za svako sniženje."
+msgstr ""
+
+#: src/Admin/Fields.php:109
+msgid "Naziv najniže cijene"
+msgstr ""
+
+#: src/Admin/Fields.php:110
+msgid "Zamijeni precrtanu cijenu najnižom u 30 dana"
+msgstr ""
+
+#: src/Admin/Fields.php:110
+msgid ""
+"Kada je najniža cijena niža od redovne, precrtava se ona (postotak se računa "
+"od nje)."
+msgstr ""
+
+#: src/Admin/Fields.php:111
+msgid "Prikaži postotak sniženja"
+msgstr ""
+
+#: src/Admin/Fields.php:112
+msgid "Učitaj CSS dodatka"
+msgstr ""
+
+#: src/Admin/Fields.php:112
+msgid "Isključite ako stilove definirate u temi."
+msgstr ""
+
+#: src/Admin/Fields.php:114
+msgid "Objavi strojno čitljiv cjenik"
+msgstr ""
+
+#: src/Admin/Fields.php:114
+msgid "Obveza za sve trgovce s web stranicom od 1. 10. 2026."
+msgstr ""
+
+#: src/Admin/Fields.php:115
+msgid "Formati"
+msgstr ""
+
+#: src/Admin/Fields.php:116
+msgid "Putanja (slug)"
+msgstr ""
+
+#: src/Admin/Fields.php:116
+msgid "Javna adresa cjenika: /{slug}/latest.xml"
+msgstr ""
+
+#: src/Admin/Fields.php:117
+msgid "Vrijeme dnevnog generiranja"
+msgstr ""
+
+#: src/Admin/Fields.php:117
+msgid "Cjenik robe mora biti objavljen svaki dan prije 08:00."
+msgstr ""
+
+#: src/Admin/Fields.php:118
+msgid "Regeneriraj pri promjeni cijene"
+msgstr ""
+
+#: src/Admin/Fields.php:118
+msgid "Cjenik usluga mora se objaviti pri svakoj promjeni cijene."
+msgstr ""
+
+#: src/Admin/Fields.php:118
+msgid "Samo usluge"
+msgstr ""
+
+#: src/Admin/Fields.php:118
+msgid "Svi proizvodi"
+msgstr ""
+
+#: src/Admin/Fields.php:118
+msgid "Nikad (samo dnevno)"
+msgstr ""
+
+#: src/Admin/Fields.php:119
+msgid "Odgoda regeneriranja (s)"
+msgstr ""
+
+#: src/Admin/Fields.php:119
+msgid "Više promjena u ovom razdoblju spaja se u jedno generiranje."
+msgstr ""
+
+#: src/Admin/Fields.php:120
+msgid "Čuvanje starih cjenika (dana)"
+msgstr ""
+
+#: src/Admin/Fields.php:120
+msgid "Zakonski minimum 30 dana."
+msgstr ""
+
+#: src/Admin/Fields.php:121
+msgid "Uključi proizvode kojih nema na zalihi"
+msgstr ""
+
+#: src/Admin/Fields.php:122
+msgid "Uključi skrivene proizvode"
+msgstr ""
+
+#: src/Admin/Fields.php:123
+msgid "Što je usluga"
+msgstr ""
+
+#: src/Admin/Fields.php:123
+msgid "Virtualni proizvod ili oznaka \"Ovo je usluga\""
+msgstr ""
+
+#: src/Admin/Fields.php:123
+msgid "Samo virtualni proizvodi"
+msgstr ""
+
+#: src/Admin/Fields.php:123
+msgid "Samo oznaka \"Ovo je usluga\""
+msgstr ""
+
+#: src/Admin/Fields.php:123
+msgid "Svi proizvodi su usluge"
+msgstr ""
+
+#: src/Admin/Fields.php:123
+msgid "Nema usluga"
+msgstr ""
+
+#: src/Admin/Fields.php:124
+msgid "Zadani naziv posebnog oblika prodaje"
+msgstr ""
+
+#: src/Admin/Fields.php:125
+msgid "CSV razdjelnik"
+msgstr ""
+
+#: src/Admin/Fields.php:125
+msgid "Točka-zarez (;)"
+msgstr ""
+
+#: src/Admin/Fields.php:125
+msgid "Zarez (,)"
+msgstr ""
+
+#: src/Admin/Fields.php:125 templates/admin/tools.php:116
+msgid "Tabulator"
+msgstr ""
+
+#: src/Admin/Fields.php:126
+msgid "CSV s UTF-8 BOM (za Excel)"
+msgstr ""
+
+#: src/Admin/Fields.php:127
+msgid "Cijene u cjeniku"
+msgstr ""
+
+#: src/Admin/Fields.php:127
+msgid "S PDV-om (maloprodajne)"
+msgstr ""
+
+#: src/Admin/Fields.php:127
+msgid "Bez PDV-a"
+msgstr ""
+
+#: src/Admin/Fields.php:128
+msgid "Ključ za vanjski cron"
+msgstr ""
+
+#: src/Admin/Fields.php:128
+msgid ""
+"Za pokretanje generiranja izvana (?scwc_cron=KLJUČ). Prazno = generira se "
+"automatski."
+msgstr ""
+
+#: src/Admin/Fields.php:130
+msgid "Bilježi povijest cijena"
+msgstr ""
+
+#: src/Admin/Fields.php:130
+msgid "Potrebno za izračun najniže cijene u 30 dana prije sniženja."
+msgstr ""
+
+#: src/Admin/Fields.php:131
+msgid "Čuvanje povijesti (dana)"
+msgstr ""
+
+#: src/Admin/Fields.php:131
+msgid "Najmanje 31 dan; preporučeno 400 radi naknadnih provjera."
+msgstr ""
+
+#: src/Admin/Fields.php:132
+msgid "Vrijeme dnevne provjere cijena"
+msgstr ""
+
+#: src/Admin/Fields.php:132
+msgid "Hvata promjene cijena izvan WooCommerce sučelja (ERP, SQL)."
+msgstr ""
+
+#: src/Admin/Fields.php:133
+msgid "Kad nema dovoljno povijesti"
+msgstr ""
+
+#: src/Admin/Fields.php:133
+msgid "Za sniženja bez 30 dana zabilježene povijesti."
+msgstr ""
+
+#: src/Admin/Fields.php:133
+msgid "Koristi redovnu cijenu"
+msgstr ""
+
+#: src/Admin/Fields.php:133
+msgid "Ne prikazuj najnižu cijenu"
+msgstr ""
+
+#: src/Admin/Fields.php:135
+msgid "Obriši sve podatke pri deinstalaciji"
+msgstr ""
+
+#: src/Admin/Fields.php:135
+msgid "Postavke, meta podatke proizvoda, povijest cijena i generirane cjenike."
+msgstr ""
+
+#: src/Admin/Fields.php:136
+msgid "Zapisuj dijagnostiku u WooCommerce log"
+msgstr ""
+
+#: src/Admin/Fields.php:149
+msgid "Omogućeno"
+msgstr ""
+
+#: src/Admin/Fields.php:151
+msgid "Omogući"
+msgstr ""
+
+#: src/Admin/Fields.php:151
+msgid "Uključite kada pravilnik odredi referentni dan za baznu cijenu."
+msgstr ""
+
+#. translators: 1: default anchor date, 2: FMCG date
+#: src/Admin/Fields.php:156
+#, php-format
+msgid ""
+"Zadano %1$s (NN 101/2026). Datum za FMCG kategorije koje ste već označavali: "
+"%2$s – dodajte ih kao iznimku ispod."
+msgstr ""
+
+#: src/Admin/Fields.php:160
+msgid "Referentni dan određuje pravilnik; ostavite prazno dok nije objavljen."
+msgstr ""
+
+#: src/Admin/Fields.php:162
+msgid "Naziv na stranici"
+msgstr ""
+
+#: src/Admin/Fields.php:162
+msgid "Npr. \"Cijena na dan\" – prikazuje se uz datum i iznos."
+msgstr ""
+
+#: src/Admin/Fields.php:163
+msgid "Referentni datum"
+msgstr ""
+
+#: src/Admin/Fields.php:164
+msgid "Iznimke po kategorijama"
+msgstr ""
+
+#: src/Admin/Fields.php:164
+msgid "Kategorije (uključujući podkategorije) s drugim referentnim datumom."
+msgstr ""
+
+#: src/Admin/Fields.php:165
+msgid "Automatski snapshot cijena"
+msgstr ""
+
+#: src/Admin/Fields.php:165
+msgid ""
+"U zadano vrijeme redovne cijene svih proizvoda kopiraju se kao referentne "
+"(zakazani zadatak). Prazno = bez automatskog snapshota."
+msgstr ""
+
+#: src/Admin/Fields.php:166
+msgid "Snapshot obavljen"
+msgstr ""
+
+#: src/Admin/ProductFields.php:67 src/Admin/ProductFields.php:125
+msgid "Izvor"
+msgstr ""
+
+#: src/Admin/ProductFields.php:80
+msgid "Ovo je usluga"
+msgstr ""
+
+#: src/Admin/ProductFields.php:81
+msgid "Cjenik usluga regenerira se pri svakoj promjeni cijene."
+msgstr ""
+
+#: src/Admin/ProductFields.php:86
+msgid "Jedinica mjere (kg, l, m, kom)"
+msgstr ""
+
+#: src/Admin/ProductFields.php:91
+msgid "Neto količina u jedinici mjere"
+msgstr ""
+
+#: src/Admin/ProductFields.php:92
+msgid "Cijena za jedinicu mjere = cijena / neto količina."
+msgstr ""
+
+#: src/Admin/ProductFields.php:98
+msgid "Naziv posebnog oblika prodaje"
+msgstr ""
+
+#: src/Admin/ProductFields.php:99
+msgid "Npr. sniženje, akcija, rasprodaja. Prazno = zadani naziv iz postavki."
+msgstr ""
+
+#: src/Admin/ProductFields.php:105
+msgid "Isključi iz cjenika"
+msgstr ""
+
+#: src/Admin/ProductFields.php:110
+msgid "Cijena na upit (isključeno iz cjenika)"
+msgstr ""
+
+#: src/Admin/ProductFields.php:123
+msgid "Referentna cijena"
+msgstr ""
+
+#: src/Admin/ProductFields.php:124
+msgid "Početak sniženja"
+msgstr ""
+
+#: src/Admin/ProductFields.php:128
+msgid "Najniža cijena u 30 dana"
+msgstr ""
+
+#. translators: %s: reference price type label
+#: src/Admin/ReferenceFieldLabel.php:26
+#, php-format
+msgid "%s – datum za ovaj proizvod"
+msgstr ""
+
+#: src/Admin/ReferenceFieldLabel.php:30
+msgid "Nema referentne cijene (proizvod uveden nakon referentnog datuma)"
+msgstr ""
+
+#: src/Admin/ReferenceFieldLabel.php:34
+msgid "Ostavite prazno za zadani datum"
+msgstr ""
+
+#: src/Admin/ReferenceFieldLabel.php:40
+msgid "ručni unos"
+msgstr ""
+
+#: src/Admin/ReferenceFieldLabel.php:41
+msgid "snapshot"
+msgstr ""
+
+#: src/Admin/ReferenceFieldLabel.php:42
+msgid "CSV uvoz"
+msgstr ""
+
+#: src/Admin/ReferenceFieldLabel.php:43
+msgid "automatski snapshot"
+msgstr ""
+
+#: src/Admin/ReferenceFieldLabel.php:44
+msgid "naslijeđeno"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:71 src/Admin/SettingsPage.php:72
+msgid "Sidrena cijena"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:122
+msgid "Nemate ovlasti za pristup ovoj stranici."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:127
+msgid "Sidrena cijena za WooCommerce"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:200
+msgid ""
+"Podaci o prodajnom objektu ulaze u naziv datoteke i zaglavlje cjenika (NN "
+"101/2026)."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:201
+msgid ""
+"Sidrena cijena je redovna cijena koja je vrijedila na referentni dan; "
+"akcijske cijene se ne uzimaju u obzir."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:202
+msgid ""
+"Oznaka se prikazuje uz svaku cijenu: jasno, vidljivo i čitljivo, s "
+"referentnim datumom."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:203
+msgid ""
+"Cjenik robe objavljuje se svaki dan prije 08:00, cjenik usluga pri svakoj "
+"promjeni; verzije se čuvaju najmanje 30 dana."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:204
+msgid ""
+"Povijest cijena služi za izračun najniže cijene u 30 dana prije sniženja "
+"(čl. 19 ZZP)."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:235
+msgid "Naziv datoteke cjenika"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:237
+msgid ""
+"Datum i vrijeme dodaju se pri svakom generiranju. Isti naziv s "
+"nastavkom .csv za CSV."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:238
+msgid "Javne adrese"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:255
+msgid "Pregled oznake (primjer)"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:256
+msgid ""
+"Proizvod na sniženju: trenutna cijena 12,99 €, sidrena 14,99 €, najniža u 30 "
+"dana 12,49 €. Pregled se osvježava nakon spremanja."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:265
+msgid "Stanje cjenika"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:267
+msgid "Nema podataka o generiranju."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:276
+msgid "Generiraj sada"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:277
+msgid "Provjeri cijene sada"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:278
+msgid "Ponovno zakaži zadatke"
+msgstr ""
+
+#: src/Admin/StatusProvider.php:37 src/Admin/StatusProvider.php:51
+msgid "Zadnje generiranje"
+msgstr ""
+
+#: src/Admin/StatusProvider.php:37
+msgid "nikad"
+msgstr ""
+
+#. translators: 1: products, 2: services
+#: src/Admin/StatusProvider.php:45
+#, php-format
+msgid "%1$d proizvoda, %2$d usluge"
+msgstr ""
+
+#: src/Admin/StatusProvider.php:55
+msgid "Sljedeće generiranje"
+msgstr ""
+
+#: src/Admin/StatusProvider.php:56
+msgid "Sljedeća provjera cijena"
+msgstr ""
+
+#: src/Admin/StatusProvider.php:58
+msgid "Zakazano automatsko snimanje"
+msgstr ""
+
+#: src/Admin/StatusProvider.php:60
+msgid "Mehanizam zakazivanja"
+msgstr ""
+
+#: src/Admin/StatusProvider.php:64
+msgid "Popis"
+msgstr ""
+
+#: src/Admin/StatusProvider.php:67
+msgid "Javni URL-ovi"
+msgstr ""
+
+#: src/Admin/StatusProvider.php:71
+msgid "Vanjski cron (GET)"
+msgstr ""
+
+#: src/Admin/StatusProvider.php:78
+msgid "nije zakazano"
+msgstr ""
+
+#: src/Admin/Tools/CsvImporter.php:71
+msgid "Datoteka je prazna."
+msgstr ""
+
+#. translators: %s: list of column names
+#: src/Admin/Tools/CsvImporter.php:83
+#, php-format
+msgid "Nedostaje obavezni stupac: %s"
+msgstr ""
+
+#: src/Admin/Tools/CsvImporter.php:212
+msgid "Nedostaje šifra (SKU)"
+msgstr ""
+
+#: src/Admin/Tools/CsvImporter.php:221
+msgid "Neispravan iznos"
+msgstr ""
+
+#: src/Admin/Tools/CsvImporter.php:229
+msgid "Neispravan datum"
+msgstr ""
+
+#. translators: %s: type key
+#: src/Admin/Tools/CsvImporter.php:241
+#, php-format
+msgid "Nepoznata vrsta referentne cijene: %s"
+msgstr ""
+
+#: src/Admin/Tools/CsvImporter.php:250
+msgid "Proizvod s tom šifrom ne postoji"
+msgstr ""
+
+#. translators: 1: line number, 2: error message
+#: src/Admin/Tools/ImportPreview.php:69
+#, php-format
+msgid "Redak %1$d: %2$s"
+msgstr ""
+
+#: src/Admin/Tools/ToolsAjax.php:56
+msgid "Nemate dopuštenje za ovu radnju."
+msgstr ""
+
+#. translators: %s: tool identifier
+#: src/Admin/Tools/ToolsAjax.php:72
+#, php-format
+msgid "Nepoznat alat: %s"
+msgstr ""
+
+#. translators: 1: page, 2: processed, 3: written, 4: skipped existing, 5: skipped on sale, 6: without price, 7: marked na
+#: src/Admin/Tools/ToolsAjax.php:109
+#, php-format
+msgid ""
+"Stranica %1$d: obrađeno %2$d, zapisano %3$d, preskočeno (postoji) %4$d, "
+"preskočeno (na akciji) %5$d, bez cijene %6$d, označeno „bez referentne "
+"cijene” %7$d."
+msgstr ""
+
+#: src/Admin/Tools/ToolsAjax.php:119
+msgid "(probno – ništa nije zapisano)"
+msgstr ""
+
+#: src/Admin/Tools/ToolsAjax.php:139 src/Admin/Tools/ToolsPage.php:61
+msgid "Odaberite CSV datoteku."
+msgstr ""
+
+#: src/Admin/Tools/ToolsAjax.php:169
+msgid "Pregled uvoza je istekao. Ponovno učitajte datoteku."
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:34 src/Admin/Tools/ToolsPage.php:35
+#: templates/admin/tools.php:22
+msgid "Sidrena cijena – Alati"
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:55
+msgid "Pokrećem…"
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:56
+msgid "Gotovo."
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:57
+msgid "Greška:"
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:58
+msgid "Greška u komunikaciji s poslužiteljem."
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:59
+msgid ""
+"Zapisati referentne cijene za sve proizvode? Ova radnja mijenja podatke "
+"proizvoda."
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:60
+msgid ""
+"Primijeniti uvoz? Referentne cijene navedenih proizvoda bit će prepisane."
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:62
+msgid "ispravnih redaka"
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:63
+msgid "neispravnih"
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:64
+msgid "bez proizvoda"
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:65
+#, php-format
+msgid ""
+"Uvoz završen: ažurirano %1$d, označeno bez cijene %2$d, preskočeno %3$d."
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:66
+#, php-format
+msgid "Izvezeno redaka: %d"
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:68
+msgid "zapisano"
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:69
+msgid "preskočeno – već postoji"
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:70
+msgid "preskočeno – na akciji"
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:71
+msgid "preskočeno – bez cijene"
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:72
+msgid "označeno – bez referentne cijene"
+msgstr ""
+
+#: src/Admin/Tools/ToolsPage.php:81
+msgid "Nemate dopuštenje za pristup ovoj stranici."
+msgstr ""
+
+#. translators: %s: settings URL
+#: src/Notices/AdminNotices.php:52
+#, php-format
+msgid ""
+"Sidrena cijena: cjenik se ne može generirati dok ne unesete adresu i oznaku "
+"prodajnog objekta. <a href=\"%s\">Otvorite postavke</a>."
+msgstr ""
+
+#: src/Notices/AdminNotices.php:59
+msgid ""
+"Sidrena cijena: dnevno generiranje cjenika nije zakazano. Otvorite postavke "
+"cjenika i kliknite „Ponovno zakaži”."
+msgstr ""
+
+#. translators: %s: settings URL
+#: src/Notices/AdminNotices.php:65
+#, php-format
+msgid ""
+"Sidrena cijena: cjenik još nije generiran. <a href=\"%s\">Generirajte ga "
+"sada</a> i provjerite javni URL."
+msgstr ""
+
+#. translators: %s: error message
+#: src/Notices/AdminNotices.php:71
+#, php-format
+msgid "Sidrena cijena: zadnje generiranje cjenika nije uspjelo: %s"
+msgstr ""
+
+#. translators: %s: date/time
+#: src/Notices/AdminNotices.php:79
+#, php-format
+msgid ""
+"Sidrena cijena: cjenik nije osvježen od %s (obveza: svaki dan do 08:00). "
+"Provjerite WP-Cron / Action Scheduler."
+msgstr ""
+
+#: src/Notices/AdminNotices.php:85
+msgid ""
+"Sidrena cijena: trajne veze su „obične” pa je cjenik dostupan samo na adresi "
+"s parametrima (?scwc_cjenik=latest&scwc_format=xml). Preporučujemo uključiti "
+"lijepe trajne veze."
+msgstr ""
+
+#. translators: 1: count, 2: tools URL
+#: src/Notices/AdminNotices.php:93
+#, php-format
+msgid ""
+"Sidrena cijena: %1$d proizvoda/varijacija nema sidrenu cijenu ni oznaku "
+"„nema referentne cijene”. <a href=\"%2$s\">Snimite ili uvezite cijene</a>."
+msgstr ""
+
+#: src/Notices/AdminNotices.php:99
+msgid ""
+"Sidrena cijena: koristite blokovsku košaricu/blagajnu. Sidrena cijena tamo "
+"se prikazuje kao dodatni redak podataka stavke; puni prikaz oznake u "
+"blokovima stiže u sljedećoj verziji."
+msgstr ""
+
+#: src/Notices/AdminNotices.php:102
+msgid ""
+"Sidrena cijena: WooCommerce 9.2+ ima ugrađeno polje GTIN/EAN (barkod). "
+"Nadogradite WooCommerce kako bi cjenik sadržavao barkodove."
+msgstr ""
+
+#: src/Notices/AdminNotices.php:105
+msgid ""
+"Sidrena cijena: WooCommerce 9.6+ ima ugrađene marke (Brands). Nadogradite "
+"WooCommerce kako bi cjenik sadržavao marku."
+msgstr ""
+
+#: src/Notices/AdminNotices.php:124
+msgid "Sakrij"
+msgstr ""
+
+#. translators: %s: file path
+#: src/PriceList/CsvWriter.php:32 src/PriceList/XmlWriter.php:27
+#, php-format
+msgid "Nije moguće pisati u datoteku %s."
+msgstr ""
+
+#: src/PriceList/Generator.php:49
+msgid "Generiranje je već u tijeku."
+msgstr ""
+
+#: src/PriceList/Generator.php:70
+msgid "Podaci o prodajnom objektu nisu potpuni."
+msgstr ""
+
+#. translators: %s: directory path
+#: src/PriceList/Storage.php:35
+#, php-format
+msgid "Nije moguće stvoriti mapu %s."
+msgstr ""
+
+#. translators: %s: file name
+#: src/PriceList/Storage.php:59
+#, php-format
+msgid "Nije moguće objaviti datoteku %s."
+msgstr ""
+
+#: src/StoreApi/ExtendStoreApi.php:65
+msgid "Referentne cijene (sidrena/bazna) s datumom."
+msgstr ""
+
+#: src/StoreApi/ExtendStoreApi.php:70
+msgid "Najniža cijena u 30 dana prije sniženja."
+msgstr ""
+
+#: src/StoreApi/ExtendStoreApi.php:79
+msgid "Gotov HTML oznake za prikaz."
+msgstr ""
+
+#: templates/admin/category-overrides.php:23
+msgid "Ukloni"
+msgstr ""
+
+#: templates/admin/category-overrides.php:42
+msgid "Nema kategorija proizvoda."
+msgstr ""
+
+#: templates/admin/category-overrides.php:45
+msgid "Dodaj kategoriju/e"
+msgstr ""
+
+#: templates/admin/category-overrides.php:46
+msgid "Dodaj FMCG kategorije (2. 5. 2025.)"
+msgstr ""
+
+#: templates/admin/category-overrides.php:48
+msgid ""
+"FMCG: trgovci koji su sidrenu cijenu za šest kategorija (npr. mlijeko, kruh, "
+"jaja) već prikazivali od 2. 5. 2025. zadržavaju taj datum."
+msgstr ""
+
+#: templates/admin/tools.php:25
+msgid "Snimi trenutne redovne cijene kao referentnu cijenu"
+msgstr ""
+
+#: templates/admin/tools.php:27
+msgid ""
+"Sidrena cijena je REDOVNA cijena proizvoda na dan 10. 9. 2026. Alat kopira "
+"trenutnu redovnu cijenu svakog proizvoda i varijacije u odabranu vrstu "
+"referentne cijene. Akcijske (snižene) cijene se nikada ne kopiraju."
+msgstr ""
+
+#: templates/admin/tools.php:32
+msgid "Vrsta referentne cijene"
+msgstr ""
+
+#: templates/admin/tools.php:42
+msgid "Datum referentne cijene"
+msgstr ""
+
+#: templates/admin/tools.php:45
+msgid ""
+"Ostavite prazno da se koristi zadani datum vrste (bez zapisa datuma po "
+"proizvodu)."
+msgstr ""
+
+#: templates/admin/tools.php:49
+msgid "Način"
+msgstr ""
+
+#: templates/admin/tools.php:51
+msgid "Samo nedostajuće (postojeće referentne cijene ostaju)"
+msgstr ""
+
+#: templates/admin/tools.php:52
+msgid "Prepiši sve"
+msgstr ""
+
+#: templates/admin/tools.php:56
+msgid "Opcije"
+msgstr ""
+
+#: templates/admin/tools.php:58
+msgid "Preskoči proizvode koji su trenutno na akciji"
+msgstr ""
+
+#: templates/admin/tools.php:59
+msgid "Probno izvršavanje (samo prikaži što bi se dogodilo, ništa ne zapisuj)"
+msgstr ""
+
+#: templates/admin/tools.php:61
+msgid ""
+"Proizvodi kreirani nakon datuma referentne cijene bit će označeni kao „bez "
+"referentne cijene” (postavka „Automatski označi proizvode nakon datuma”)."
+msgstr ""
+
+#: templates/admin/tools.php:67
+msgid "Pokreni"
+msgstr ""
+
+#: templates/admin/tools.php:74
+msgid "ID"
+msgstr ""
+
+#: templates/admin/tools.php:75 templates/admin/tools.php:132
+msgid "Šifra"
+msgstr ""
+
+#: templates/admin/tools.php:76
+msgid "Naziv"
+msgstr ""
+
+#: templates/admin/tools.php:77
+msgid "Redovna cijena"
+msgstr ""
+
+#: templates/admin/tools.php:78
+msgid "Radnja"
+msgstr ""
+
+#: templates/admin/tools.php:87
+msgid "Uvoz iz CSV-a"
+msgstr ""
+
+#: templates/admin/tools.php:89
+msgid ""
+"Stupci: sku (šifra), cijena, datum (GGGG-MM-DD, neobavezno), tip "
+"(neobavezno), na (1 = bez referentne cijene). Decimalni zarez je dopušten. "
+"Razdjelnik se prepoznaje automatski."
+msgstr ""
+
+#: templates/admin/tools.php:90
+msgid "Preuzmi predložak"
+msgstr ""
+
+#: templates/admin/tools.php:95
+msgid "CSV datoteka"
+msgstr ""
+
+#: templates/admin/tools.php:99
+msgid "Zadana vrsta referentne cijene"
+msgstr ""
+
+#: templates/admin/tools.php:106
+msgid "Koristi se kada datoteka nema stupac „tip”."
+msgstr ""
+
+#: templates/admin/tools.php:110
+msgid "Razdjelnik"
+msgstr ""
+
+#: templates/admin/tools.php:113
+msgid "Automatski"
+msgstr ""
+
+#: templates/admin/tools.php:122
+msgid "Pregled"
+msgstr ""
+
+#: templates/admin/tools.php:123
+msgid "Primijeni uvoz"
+msgstr ""
+
+#: templates/admin/tools.php:131
+msgid "Redak"
+msgstr ""
+
+#: templates/admin/tools.php:133
+msgid "Cijena"
+msgstr ""
+
+#: templates/admin/tools.php:134
+msgid "Datum"
+msgstr ""
+
+#: templates/admin/tools.php:135
+msgid "Tip"
+msgstr ""
+
+#: templates/admin/tools.php:136
+msgid "Bez cijene"
+msgstr ""
+
+#: templates/admin/tools.php:137
+msgid "Status"
+msgstr ""
+
+#: templates/admin/tools.php:147
+msgid "Izvoz referentnih cijena"
+msgstr ""
+
+#: templates/admin/tools.php:148
+msgid ""
+"CSV s jednim retkom po proizvodu i vrsti referentne cijene (sku, naziv, "
+"vrsta_proizvoda, redovna_cijena, tip, cijena, datum, izvor, na). Datoteka se "
+"može urediti i ponovno uvesti."
+msgstr ""
+
+#: templates/admin/tools.php:151
+msgid "Samo proizvodi bez referentne cijene"
+msgstr ""
+
+#: templates/admin/tools.php:154
+msgid "Izvezi CSV"
+msgstr ""
+
+#: templates/cjenik-index.php:34
+msgid "oznaka"
+msgstr ""
+
+#: templates/cjenik-index.php:34
+msgid "broj pohrane"
+msgstr ""
+
+#: templates/cjenik-index.php:35
+msgid ""
+"Strojno čitljiv cjenik objavljen prema Odluci o objavi cjenika proizvoda i "
+"usluga (NN 101/2026). Datoteke sadrže maloprodajne cijene, sidrene cijene i "
+"podatke o posebnim oblicima prodaje. Verzije se čuvaju najmanje 30 dana."
+msgstr ""
+
+#: templates/cjenik-index.php:43
+msgid "Datoteka"
+msgstr ""
+
+#: templates/cjenik-index.php:43
+msgid "Format"
+msgstr ""
+
+#: templates/cjenik-index.php:43
+msgid "Generirano"
+msgstr ""
+
+#: templates/cjenik-index.php:43
+msgid "Proizvodi"
+msgstr ""
+
+#: templates/cjenik-index.php:43
+msgid "Usluge"
+msgstr ""
+
+#: templates/cjenik-index.php:43
+msgid "Veličina"
+msgstr ""

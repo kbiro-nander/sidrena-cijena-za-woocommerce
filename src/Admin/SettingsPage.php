@@ -171,14 +171,22 @@ class SettingsPage {
 	 * @return array<int,array{id:int,name:string}>
 	 */
 	public static function productCategories(): array {
-		$terms = get_terms( [ 'taxonomy' => 'product_cat', 'hide_empty' => false ] );
+		$terms = get_terms(
+			[
+				'taxonomy'   => 'product_cat',
+				'hide_empty' => false,
+			]
+		);
 		if ( ! is_array( $terms ) ) {
 			return [];
 		}
 		$out = [];
 		foreach ( $terms as $term ) {
 			if ( $term instanceof \WP_Term ) {
-				$out[] = [ 'id' => (int) $term->term_id, 'name' => (string) $term->name ];
+				$out[] = [
+					'id'   => (int) $term->term_id,
+					'name' => (string) $term->name,
+				];
 			}
 		}
 		return $out;
@@ -187,7 +195,13 @@ class SettingsPage {
 	private function navTabs( string $current ): string {
 		$html = '<nav class="nav-tab-wrapper woo-nav-tab-wrapper">';
 		foreach ( self::tabs() as $tab => $label ) {
-			$url   = add_query_arg( [ 'page' => self::SLUG, 'tab' => $tab ], admin_url( 'admin.php' ) );
+			$url   = add_query_arg(
+				[
+					'page' => self::SLUG,
+					'tab'  => $tab,
+				],
+				admin_url( 'admin.php' )
+			);
 			$class = 'nav-tab' . ( $tab === $current ? ' nav-tab-active' : '' );
 			$html .= '<a href="' . esc_url( $url ) . '" class="' . esc_attr( $class ) . '">' . esc_html( $label ) . '</a>';
 		}
@@ -195,13 +209,12 @@ class SettingsPage {
 	}
 
 	private function intro( string $tab ): string {
-		$td   = 'sidrena-cijena-za-woocommerce';
 		$text = match ( $tab ) {
-			'outlet'     => __( 'Podaci o prodajnom objektu ulaze u naziv datoteke i zaglavlje cjenika (NN 101/2026).', $td ),
-			'reference'  => __( 'Sidrena cijena je redovna cijena koja je vrijedila na referentni dan; akcijske cijene se ne uzimaju u obzir.', $td ),
-			'display'    => __( 'Oznaka se prikazuje uz svaku cijenu: jasno, vidljivo i čitljivo, s referentnim datumom.', $td ),
-			'price_list' => __( 'Cjenik robe objavljuje se svaki dan prije 08:00, cjenik usluga pri svakoj promjeni; verzije se čuvaju najmanje 30 dana.', $td ),
-			'history'    => __( 'Povijest cijena služi za izračun najniže cijene u 30 dana prije sniženja (čl. 19 ZZP).', $td ),
+			'outlet'     => __( 'Podaci o prodajnom objektu ulaze u naziv datoteke i zaglavlje cjenika (NN 101/2026).', 'sidrena-cijena-za-woocommerce' ),
+			'reference'  => __( 'Sidrena cijena je redovna cijena koja je vrijedila na referentni dan; akcijske cijene se ne uzimaju u obzir.', 'sidrena-cijena-za-woocommerce' ),
+			'display'    => __( 'Oznaka se prikazuje uz svaku cijenu: jasno, vidljivo i čitljivo, s referentnim datumom.', 'sidrena-cijena-za-woocommerce' ),
+			'price_list' => __( 'Cjenik robe objavljuje se svaki dan prije 08:00, cjenik usluga pri svakoj promjeni; verzije se čuvaju najmanje 30 dana.', 'sidrena-cijena-za-woocommerce' ),
+			'history'    => __( 'Povijest cijena služi za izračun najniže cijene u 30 dana prije sniženja (čl. 19 ZZP).', 'sidrena-cijena-za-woocommerce' ),
 			default      => '',
 		};
 		return '' === $text ? '' : '<p class="scwc-intro">' . esc_html( $text ) . '</p>';
@@ -229,13 +242,12 @@ class SettingsPage {
 	}
 
 	private function outletExtras(): string {
-		$td   = 'sidrena-cijena-za-woocommerce';
-		$slug = (string) $this->settings->get( 'price_list.slug', 'cjenik' );
-		$base = (string) home_url( '/' . $slug . '/' );
-		$html = '<div class="scwc-box scwc-filename-preview"><h3>' . esc_html__( 'Naziv datoteke cjenika', $td ) . '</h3>';
+		$slug  = (string) $this->settings->get( 'price_list.slug', 'cjenik' );
+		$base  = (string) home_url( '/' . $slug . '/' );
+		$html  = '<div class="scwc-box scwc-filename-preview"><h3>' . esc_html__( 'Naziv datoteke cjenika', 'sidrena-cijena-za-woocommerce' ) . '</h3>';
 		$html .= '<p><code>' . esc_html( $this->filenamePreview() ) . '</code></p>';
-		$html .= '<p class="description">' . esc_html__( 'Datum i vrijeme dodaju se pri svakom generiranju. Isti naziv s nastavkom .csv za CSV.', $td ) . '</p>';
-		$html .= '<h3>' . esc_html__( 'Javne adrese', $td ) . '</h3><ul>';
+		$html .= '<p class="description">' . esc_html__( 'Datum i vrijeme dodaju se pri svakom generiranju. Isti naziv s nastavkom .csv za CSV.', 'sidrena-cijena-za-woocommerce' ) . '</p>';
+		$html .= '<h3>' . esc_html__( 'Javne adrese', 'sidrena-cijena-za-woocommerce' ) . '</h3><ul>';
 		foreach ( [ $base, $base . 'latest.xml', $base . 'latest.csv' ] as $url ) {
 			$html .= '<li><a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . esc_html( $url ) . '</a></li>';
 		}
@@ -243,7 +255,6 @@ class SettingsPage {
 	}
 
 	private function displayPreview(): string {
-		$td   = 'sidrena-cijena-za-woocommerce';
 		$type = $this->registry->primary();
 		$iso  = (string) ( $type->defaultDate ?? Defaults::ANCHOR_DATE );
 		$date = DateFormat::parseIso( $iso );
@@ -252,19 +263,18 @@ class SettingsPage {
 		$omni = (bool) $this->settings->get( 'display.omnibus', true ) ? new OmnibusView( 12.49, wc_price( 12.49 ), 23, 'history' ) : null;
 		$data = new BadgeData( 0, [ $ref ], $omni, true, 12.99, 16.99 );
 
-		$html  = '<div class="scwc-box scwc-preview"><h3>' . esc_html__( 'Pregled oznake (primjer)', $td ) . '</h3>';
-		$html .= '<p class="description">' . esc_html__( 'Proizvod na sniženju: trenutna cijena 12,99 €, sidrena 14,99 €, najniža u 30 dana 12,49 €. Pregled se osvježava nakon spremanja.', $td ) . '</p>';
+		$html  = '<div class="scwc-box scwc-preview"><h3>' . esc_html__( 'Pregled oznake (primjer)', 'sidrena-cijena-za-woocommerce' ) . '</h3>';
+		$html .= '<p class="description">' . esc_html__( 'Proizvod na sniženju: trenutna cijena 12,99 €, sidrena 14,99 €, najniža u 30 dana 12,49 €. Pregled se osvježava nakon spremanja.', 'sidrena-cijena-za-woocommerce' ) . '</p>';
 		$html .= '<div class="scwc-preview__price"><del>' . wp_kses_post( wc_price( 16.99 ) ) . '</del> <ins>' . wp_kses_post( wc_price( 12.99 ) ) . '</ins> ';
 		$html .= wp_kses_post( $this->badge->render( $data, BadgeContext::SINGLE ) );
 		return $html . '</div></div>';
 	}
 
 	private function priceListExtras(): string {
-		$td   = 'sidrena-cijena-za-woocommerce';
 		$rows = ( $this->status )();
-		$html = '<div class="scwc-box scwc-status"><h3>' . esc_html__( 'Stanje cjenika', $td ) . '</h3>';
+		$html = '<div class="scwc-box scwc-status"><h3>' . esc_html__( 'Stanje cjenika', 'sidrena-cijena-za-woocommerce' ) . '</h3>';
 		if ( [] === $rows ) {
-			$html .= '<p class="description">' . esc_html__( 'Nema podataka o generiranju.', $td ) . '</p>';
+			$html .= '<p class="description">' . esc_html__( 'Nema podataka o generiranju.', 'sidrena-cijena-za-woocommerce' ) . '</p>';
 		} else {
 			$html .= '<table class="widefat striped scwc-status__table"><tbody>';
 			foreach ( $rows as $row ) {
@@ -273,11 +283,11 @@ class SettingsPage {
 			$html .= '</tbody></table>';
 		}
 		$labels = [
-			'scwc_generate_now' => __( 'Generiraj sada', $td ),
-			'scwc_run_sweep'    => __( 'Provjeri cijene sada', $td ),
-			'scwc_reschedule'   => __( 'Ponovno zakaži zadatke', $td ),
+			'scwc_generate_now' => __( 'Generiraj sada', 'sidrena-cijena-za-woocommerce' ),
+			'scwc_run_sweep'    => __( 'Provjeri cijene sada', 'sidrena-cijena-za-woocommerce' ),
+			'scwc_reschedule'   => __( 'Ponovno zakaži zadatke', 'sidrena-cijena-za-woocommerce' ),
 		];
-		$html .= '<p class="scwc-status__actions">';
+		$html  .= '<p class="scwc-status__actions">';
 		foreach ( self::ACTIONS as $action ) {
 			$url   = wp_nonce_url( admin_url( 'admin-post.php?action=' . $action ), $action );
 			$html .= '<a class="button" href="' . esc_url( $url ) . '">' . esc_html( $labels[ $action ] ) . '</a> ';

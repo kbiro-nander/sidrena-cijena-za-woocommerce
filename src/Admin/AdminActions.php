@@ -69,7 +69,11 @@ final class AdminActions {
 				$result = 'rescheduled';
 				break;
 		}
-		$args = [ 'page' => 'scwc-settings', 'tab' => 'price_list', 'scwc_result' => $result ];
+		$args = [
+			'page'        => 'scwc-settings',
+			'tab'         => 'price_list',
+			'scwc_result' => $result,
+		];
 		if ( '' !== $error ) {
 			$args['scwc_error'] = $error;
 		}
@@ -89,11 +93,13 @@ final class AdminActions {
 			'rescheduled' => __( 'Zadaci su ponovno zakazani.', 'sidrena-cijena-za-woocommerce' ),
 		];
 		if ( 'error' === $result ) {
-			echo '<div class="notice notice-error is-dismissible"><p>' . esc_html( sprintf(
+			echo '<div class="notice notice-error is-dismissible"><p>' . esc_html(
+				sprintf(
 				/* translators: %s: error message */
-				__( 'Generiranje cjenika nije uspjelo: %s', 'sidrena-cijena-za-woocommerce' ),
-				sanitize_text_field( wp_unslash( (string) ( $input['scwc_error'] ?? '' ) ) )
-			) ) . '</p></div>';
+					__( 'Generiranje cjenika nije uspjelo: %s', 'sidrena-cijena-za-woocommerce' ),
+					sanitize_text_field( wp_unslash( (string) ( $input['scwc_error'] ?? '' ) ) )
+				)
+			) . '</p></div>';
 			return;
 		}
 		if ( isset( $messages[ $result ] ) ) {

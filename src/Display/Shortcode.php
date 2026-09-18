@@ -38,7 +38,15 @@ final class Shortcode {
 	 * @param mixed $atts Shortcode attributes.
 	 */
 	public function render( $atts = [] ): string {
-		$atts    = shortcode_atts( [ 'id' => 0, 'key' => '', 'context' => BadgeContext::SHORTCODE ], $atts, self::TAG );
+		$atts    = shortcode_atts(
+			[
+				'id'      => 0,
+				'key'     => '',
+				'context' => BadgeContext::SHORTCODE,
+			],
+			$atts,
+			self::TAG
+		);
 		$product = $this->resolveProduct( (int) $atts['id'] );
 		if ( ! $product ) {
 			return '';

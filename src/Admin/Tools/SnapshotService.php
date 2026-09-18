@@ -56,8 +56,8 @@ class SnapshotService {
 			throw new InvalidArgumentException( sprintf( 'Unknown reference price type "%s".', $req->typeKey ) );
 		}
 
-		$ids      = ( $this->pager )( $page, $perPage );
-		$counters = [
+		$ids       = ( $this->pager )( $page, $perPage );
+		$counters  = [
 			SnapshotResult::ACTION_WRITTEN          => 0,
 			SnapshotResult::ACTION_SKIPPED_EXISTING => 0,
 			SnapshotResult::ACTION_SKIPPED_ON_SALE  => 0,
