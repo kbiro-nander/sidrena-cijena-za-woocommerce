@@ -6,7 +6,7 @@ Tested up to: 6.8
 Requires PHP: 8.1
 WC requires at least: 9.0
 WC tested up to: 9.9
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -60,7 +60,7 @@ U blokovskoj košarici i blagajni (WooCommerce Blocks) sidrena cijena prikazuje 
 
 == Installation ==
 
-1. Prenesite mapu dodatka u `wp-content/plugins/` (ZIP paket već sadrži `vendor/`).
+1. Prenesite ZIP dodatka (Dodaci → Dodaj novi → Prenesi dodatak) ili mapu u `wp-content/plugins/`. Composer nije potreban.
 2. Aktivirajte dodatak. WooCommerce 9.0+ i PHP 8.1+ su obavezni.
 3. **WooCommerce → Sidrena cijena → Prodajni objekti**: unesite adresu, oznaku prodajnog objekta i broj pohrane webshopa (ulaze u naziv datoteke cjenika) te dodajte fizičke poslovnice ako ih imate – svaka dobiva vlastitu datoteku i adresu.
 4. **Referentne cijene**: provjerite datum (10. 9. 2026.) i po potrebi dodajte FMCG kategorije s datumom 2. 5. 2025.
@@ -96,6 +96,9 @@ Da, najmanje 30 dana. Dodatak čuva i javno poslužuje verzije prema postavci za
 Iz najniže cijene u 30 dana prije početka sniženja (a ne iz redovne cijene), zaokruženo na niže.
 
 == Changelog ==
+
+= 1.2.1 =
+* Dodatak više ne ovisi o Composeru: radi iz bilo kojeg ZIP-a (izdanje, GitHub „Source code” ili git clone). Uklonjena poruka o nedostajućem vendor/autoload.php.
 
 = 1.2.0 =
 * Ažuriranja iz GitHub Releases: WordPress prikazuje „Ažuriraj sada” kad postoji novija verzija; pogled „Detalji” pokazuje bilješke izdanja. Privatni repozitorij zahtijeva token putem filtra `scwc_github_token`.

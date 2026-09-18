@@ -25,7 +25,8 @@ phpstan.neon.dist
 phpstan-bootstrap.php
 phpcs.xml.dist
 EXCLUDE
-( cd "$BUILD" && composer install --no-dev --no-interaction --classmap-authoritative --quiet && rm -f composer.json composer.lock )
+# No runtime Composer dependencies (built-in autoloader): ship without vendor/ or composer files.
+rm -f "$BUILD/composer.json" "$BUILD/composer.lock"
 if command -v msgfmt >/dev/null; then
   for po in "$BUILD"/languages/*.po; do [ -f "$po" ] && msgfmt -o "${po%.po}.mo" "$po"; done
 fi

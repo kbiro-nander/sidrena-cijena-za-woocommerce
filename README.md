@@ -25,16 +25,14 @@ WordPress 6.4+, WooCommerce 9.0+, PHP 8.1+.
 
 ## Instalacija
 
-**Iz ZIP-a (preporučeno):** preuzmite `sidrena-cijena-za-woocommerce-x.y.z.zip` s [Releases](../../releases) stranice i prenesite ga u WordPress → Dodaci → Dodaj novi → Prenesi dodatak. ZIP već sadrži `vendor/` i priručnik `prirucnik.pdf`.
+**Iz ZIP-a (preporučeno):** preuzmite `sidrena-cijena-za-woocommerce-x.y.z.zip` s [Releases](../../releases) stranice (radi i GitHubov „Source code (zip)”) i prenesite ga u WordPress → Dodaci → Dodaj novi → Prenesi dodatak. ZIP sadrži i priručnik `prirucnik.pdf`.
 
 **Iz izvornog koda:**
 
 ```bash
-git clone https://github.com/kbiro-nander/sidrena-cijena-za-woocommerce.git
-cd sidrena-cijena-za-woocommerce
-composer install --no-dev
-# ili izgradite ZIP za prijenos:
-composer install && bin/build-zip.sh   # → dist/sidrena-cijena-za-woocommerce-x.y.z.zip
+git clone https://github.com/kbiro-nander/sidrena-cijena-za-woocommerce.git wp-content/plugins/sidrena-cijena-za-woocommerce
+# Composer nije potreban za rad dodatka (ugrađeni autoloader); za razvoj i testove: composer install
+# ZIP za prijenos: bin/build-zip.sh   # → dist/sidrena-cijena-za-woocommerce-x.y.z.zip
 ```
 
 ## Ažuriranje

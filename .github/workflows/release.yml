@@ -17,8 +17,6 @@ jobs:
           php-version: '8.3'
           tools: composer:v2
           coverage: none
-      - name: Install dev dependencies (needed by build-zip's nested install cache)
-        run: composer install --no-interaction --prefer-dist
       - name: Build distributable zip
         run: bash bin/build-zip.sh
       - name: Publish GitHub Release with the zip
