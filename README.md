@@ -1,6 +1,6 @@
 # Sidrena cijena za WooCommerce
 
-> **Napomena: ovaj projekt je „vibe coded”** – razvijen uz pomoć umjetne inteligencije (Claude) prema tekstu propisa i s automatiziranim testovima, ali **nije provjeren na produkcijskoj trgovini niti ga je pregledao pravnik**. Koristite ga **isključivo na vlastitu odgovornost**: prije 1. 10. 2026. provjerite ga na testnoj stranici, usporedite izlaz s propisima i po potrebi se posavjetujte s pravnim savjetnikom. Autor ne odgovara za bilo kakvu štetu, kaznu ili trošak (v. [Licenca i odricanje od odgovornosti](#licenca-i-odricanje-od-odgovornosti)).
+> **Napomena: ovaj projekt je „vibe coded”** – razvijen uz pomoć umjetne inteligencije (Claude) prema tekstu propisa, pokriven automatiziranim testovima i isproban na stvarnom webshopu, ali **nije ga pregledao pravnik**. Koristite ga **isključivo na vlastitu odgovornost**: prije 1. 10. 2026. provjerite ga na vlastitoj trgovini, usporedite izlaz s propisima i po potrebi se posavjetujte s pravnim savjetnikom. Autor ne odgovara za bilo kakvu štetu, kaznu ili trošak (v. [Licenca i odricanje od odgovornosti](#licenca-i-odricanje-od-odgovornosti)).
 
 WordPress/WooCommerce dodatak koji hrvatskim webshopovima omogućuje usklađenost s obvezama koje stupaju na snagu **1. listopada 2026.**:
 
