@@ -76,4 +76,4 @@ Objavljeno pod [MIT licencom](LICENSE): dodatak smijete slobodno koristiti, mije
 
 Softver se isporučuje **„kakav jest”, bez ikakvog jamstva**. Autor ne odgovara za bilo kakvu štetu, kaznu ili trošak proizašao iz korištenja dodatka, uključujući odluke inspekcijskih tijela. Dodatak i priručnik **nisu pravni savjet**; za usklađenost vaše trgovine odgovorni ste sami i preporučujemo provjeru s pravnim savjetnikom.
 
-Autor: Kristijan Biro ([Nander](https://nander.hr)).
+Autor: Kristijan Biro.
