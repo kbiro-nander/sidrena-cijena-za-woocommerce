@@ -6,7 +6,7 @@ WordPress/WooCommerce dodatak koji hrvatskim webshopovima omogućuje usklađenos
 
 - **sidrena (dodatna) cijena** uz svaku cijenu – redovna cijena koja je vrijedila 10. 9. 2026. (za FMCG kategorije opcionalno 2. 5. 2025.),
 - **najniža cijena u 30 dana prije sniženja** i postotak popusta izračunat iz nje (Zakon o zaštiti potrošača, čl. 19),
-- **strojno čitljiv cjenik (XML/CSV)** na javnoj adresi `/cjenik/`, s propisanim poljima i nazivom datoteke, generiran svaki dan prije 08:00 i pri svakoj promjeni cijene, s arhivom od najmanje 30 dana i **zasebnom datotekom za svaki prodajni objekt** (webshop i poslovnice).
+- **strojno čitljiv cjenik (XML/CSV)** na javnoj adresi `/cjenik/` (zadana putanja; mijenja se u postavkama, a stvarna adresa vaše trgovine piše u kartici Cjenik), s propisanim poljima i nazivom datoteke, generiran svaki dan prije 08:00 i pri svakoj promjeni cijene, s arhivom od najmanje 30 dana i **zasebnom datotekom za svaki prodajni objekt** (webshop i poslovnice).
 
 Pravna osnova: [Odluka o isticanju dodatne cijene](https://narodne-novine.nn.hr/clanci/sluzbeni/2026_09_101_1212.html) i [Odluka o objavi cjenika proizvoda i usluga](https://narodne-novine.nn.hr/clanci/sluzbeni/2026_09_101_1213.html) (NN 101/2026) na temelju Zakona o iznimnim mjerama kontrole cijena (NN 40/2025).
 
@@ -45,7 +45,7 @@ Dodatak provjerava [GitHub Releases](../../releases) i WordPress prikazuje uobi�
 2. **WooCommerce → Sidrena cijena → Prodajni objekti**: unesite adresu, oznaku i broj pohrane webshopa; dodajte poslovnice ako ih imate.
 3. **Referentne cijene**: provjerite datum 10. 9. 2026.; po potrebi dodajte FMCG kategorije s datumom 2. 5. 2025.
 4. **WooCommerce → Sidrena cijena – Alati**: snimite trenutne redovne cijene kao sidrene cijene ili uvezite CSV s cijenama od 10. 9. 2026.
-5. **Cjenik**: kliknite „Generiraj sada” i otvorite `https://vasa-trgovina.hr/cjenik/` (adresa je `/cjenik/`, ne `/cijene`).
+5. **Cjenik**: kliknite „Generiraj sada” i otvorite adresu prikazanu u statusnom okviru (zadano `https://vasa-trgovina.hr/cjenik/`; ako ste promijenili putanju, npr. u `cijene`, adresa je `/cijene/`).
 6. Postavite pravi sistemski cron (v. priručnik, poglavlje 7).
 
 ## Dokumentacija
