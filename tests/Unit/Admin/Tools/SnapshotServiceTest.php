@@ -61,6 +61,16 @@ final class SnapshotServiceTest extends TestCase {
 		);
 	}
 
+	public function test_request_date_equal_to_type_default_is_not_stored_as_override(): void {
+		$this->product( [ 'id' => 8, 'regular_price' => '10' ] );
+		Functions\expect( 'update_post_meta' )->once()->with( 8, '_scwc_ref_anchor_price', '10' );
+		Functions\expect( 'update_post_meta' )->once()->with( 8, '_scwc_ref_anchor_source', 'snapshot' );
+		Functions\expect( 'update_post_meta' )->never()->with( 8, '_scwc_ref_anchor_date', \Mockery::any() );
+		Functions\expect( 'delete_post_meta' )->atLeast()->once();
+		$this->recorder->shouldReceive( 'record' )->once()->andReturn( Transition::FIRST );
+		$this->service( [ 1 => [ 8 ] ] )->run( $this->request( [ 'date' => '2026-09-10' ] ), 1, 100 );
+	}
+
 	public function test_copies_regular_not_sale_price_and_seeds_history(): void {
 		$this->product( [ 'id' => 5, 'sku' => 'A5', 'regular_price' => '100', 'sale_price' => '80' ] );
 		Functions\expect( 'update_post_meta' )->once()->with( 5, '_scwc_ref_anchor_price', '100' );

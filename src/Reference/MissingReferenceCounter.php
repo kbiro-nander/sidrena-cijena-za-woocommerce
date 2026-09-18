@@ -20,16 +20,18 @@ final class MissingReferenceCounter {
 		$posts = $this->wpdb->posts;
 		$meta  = $this->wpdb->postmeta;
 		$sql   = $this->wpdb->prepare(
-			"SELECT COUNT(*) FROM {$posts} p
+			"SELECT COUNT(DISTINCT p.ID) FROM {$posts} p
 INNER JOIN {$meta} rp ON rp.post_id = p.ID AND rp.meta_key = '_regular_price' AND rp.meta_value <> ''
 LEFT JOIN {$meta} ref ON ref.post_id = p.ID AND ref.meta_key = %s AND ref.meta_value <> ''
 LEFT JOIN {$meta} na ON na.post_id = p.ID AND na.meta_key = %s
-LEFT JOIN {$this->wpdb->prefix}term_relationships tr ON tr.object_id = p.ID
-LEFT JOIN {$this->wpdb->prefix}term_taxonomy tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'product_type'
-LEFT JOIN {$this->wpdb->prefix}terms t ON t.term_id = tt.term_id
 WHERE p.post_type IN ('product','product_variation') AND p.post_status = 'publish'
 AND ref.meta_id IS NULL AND na.meta_id IS NULL
-AND (t.name IS NULL OR t.name NOT IN ('variable','grouped'))",
+AND NOT EXISTS (
+  SELECT 1 FROM {$this->wpdb->prefix}term_relationships tr
+  INNER JOIN {$this->wpdb->prefix}term_taxonomy tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'product_type'
+  INNER JOIN {$this->wpdb->prefix}terms t ON t.term_id = tt.term_id
+  WHERE tr.object_id = p.ID AND t.name IN ('variable','grouped')
+)",
 			$type->metaKey( 'price' ),
 			$type->metaKey( 'na' )
 		);

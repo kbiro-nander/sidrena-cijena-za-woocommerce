@@ -86,7 +86,7 @@ final class CartFilters {
 		if ( ! $product instanceof WC_Product || ! (bool) $this->settings->get( 'display.item_data', true ) ) {
 			return $itemData;
 		}
-		if ( ! ( $this->context )()->isStoreApi() || ! $this->guard->shouldRender( $product, BadgeContext::CART ) ) {
+		if ( ! $this->isBlocksRequest() || ! $this->guard->shouldRender( $product, BadgeContext::CART ) ) {
 			return $itemData;
 		}
 		$data = $this->factory->forProduct( $product, BadgeContext::CART );
@@ -106,5 +106,23 @@ final class CartFilters {
 			];
 		}
 		return $itemData;
+	}
+
+	/**
+	 * Store API request, or a block cart/checkout page being rendered (blocks hydrate through an
+	 * internal REST call whose REQUEST_URI is still the page URL).
+	 */
+	private function isBlocksRequest(): bool {
+		if ( ( $this->context )()->isStoreApi() ) {
+			return true;
+		}
+		if ( function_exists( 'WC' ) && is_object( WC() ) && method_exists( WC(), 'is_store_api_request' ) && WC()->is_store_api_request() ) {
+			return true;
+		}
+		if ( ! function_exists( 'has_block' ) || ! ( is_cart() || is_checkout() ) ) {
+			return false;
+		}
+		$pageId = get_queried_object_id();
+		return $pageId > 0 && ( has_block( 'woocommerce/cart', $pageId ) || has_block( 'woocommerce/checkout', $pageId ) );
 	}
 }

@@ -21,6 +21,11 @@ final class ExtendStoreApi {
 	public function __construct( private readonly BadgeDataFactory $factory, private readonly PriceBadge $badge ) {}
 
 	public function register(): void {
+		// WooCommerce fires this at plugins_loaded priority 10; we boot at 20, so it has usually fired already.
+		if ( did_action( 'woocommerce_blocks_loaded' ) ) {
+			$this->registerEndpointData();
+			return;
+		}
 		add_action( 'woocommerce_blocks_loaded', [ $this, 'registerEndpointData' ] );
 	}
 

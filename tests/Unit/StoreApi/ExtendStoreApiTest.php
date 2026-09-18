@@ -43,6 +43,13 @@ final class ExtendStoreApiTest extends TestCase {
 		$this->ext()->register();
 	}
 
+	public function test_registers_immediately_when_blocks_already_loaded(): void {
+		do_action( 'woocommerce_blocks_loaded' );
+		Actions\expectAdded( 'woocommerce_blocks_loaded' )->never();
+		$this->ext()->register();
+		self::assertCount( 2, $GLOBALS['scwc_test_store_api'] );
+	}
+
 	public function test_registers_cart_item_and_product_endpoint_data_using_class_constants(): void {
 		$this->ext()->registerEndpointData();
 		$regs = $GLOBALS['scwc_test_store_api'];

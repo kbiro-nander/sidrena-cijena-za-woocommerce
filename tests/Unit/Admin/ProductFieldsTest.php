@@ -32,7 +32,7 @@ final class ProductFieldsTest extends TestCase {
 	}
 
 	public function test_register_adds_pricing_and_general_hooks(): void {
-		Actions\expectAdded( 'woocommerce_product_options_pricing' )->once()->with( \Mockery::type( 'callable' ) );
+		Actions\expectAdded( 'woocommerce_product_options_general_product_data' )->once()->with( \Mockery::type( 'callable' ), 5 );
 		Actions\expectAdded( 'woocommerce_product_options_general_product_data' )->once()->with( \Mockery::type( 'callable' ) );
 		$this->fields()->register();
 	}

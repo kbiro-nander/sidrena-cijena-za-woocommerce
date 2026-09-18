@@ -180,6 +180,15 @@ final class GeneratorTest extends TestCase {
 		self::assertDirectoryDoesNotExist( $this->dir );
 	}
 
+	public function test_disabled_price_list_is_an_error_without_files(): void {
+		$settings  = ( new Settings( Defaults::all() ) )->with( 'price_list.enabled', false );
+		$collector = \Mockery::mock( Collector::class );
+		$collector->shouldReceive( 'items' )->never();
+		$result = $this->generator( $settings, $collector )->run( 'scheduled' );
+		self::assertFalse( $result->ok() );
+		self::assertSame( [], $result->files );
+	}
+
 	public function test_incomplete_outlet_is_an_error_without_files(): void {
 		Functions\expect( 'update_option' )->once()->with( 'scwc_last_generation', \Mockery::on( static fn( array $o ) => 'Podaci o prodajnom objektu nisu potpuni.' === $o['error'] && [] === $o['files'] ) );
 		Actions\expectDone( 'scwc_price_list_generated' )->never();

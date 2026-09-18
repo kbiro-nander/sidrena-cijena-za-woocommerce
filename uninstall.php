@@ -39,5 +39,13 @@ if ( is_dir( $scwc_dir ) ) {
 	rmdir( $scwc_dir ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 }
 
+// Scheduled actions and per-user notice dismissals.
+if ( function_exists( 'as_unschedule_all_actions' ) ) {
+	foreach ( [ 'scwc_generate_price_list', 'scwc_daily_sweep', 'scwc_sweep_page', 'scwc_prune', 'scwc_auto_snapshot' ] as $scwc_hook ) {
+		as_unschedule_all_actions( $scwc_hook, [], 'scwc' );
+	}
+}
+delete_metadata( 'user', 0, 'scwc_dismissed_notices', '', true );
+
 // Transients.
 $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\\_transient\\_scwc\\_%' OR option_name LIKE '\\_transient\\_timeout\\_scwc\\_%'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery

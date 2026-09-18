@@ -45,10 +45,20 @@ class Generator {
 
 	public function run( string $reason = 'manual' ): GenerationResult {
 		$local = $this->clock->nowLocal();
+		if ( ! (bool) $this->settings->get( 'price_list.enabled', true ) ) {
+			return new GenerationResult( [], $local, $reason, __( 'Cjenik je isključen u postavkama.', 'sidrena-cijena-za-woocommerce' ), 0, 0 );
+		}
 		if ( get_transient( self::LOCK_KEY ) ) {
 			return new GenerationResult( [], $local, $reason, __( 'Generiranje je već u tijeku.', 'sidrena-cijena-za-woocommerce' ), 0, 0 );
 		}
 		set_transient( self::LOCK_KEY, 1, self::LOCK_TTL );
+		if ( function_exists( 'wc_set_time_limit' ) ) {
+			wc_set_time_limit( 0 );
+		}
+		if ( function_exists( 'wp_raise_memory_limit' ) ) {
+			wp_raise_memory_limit( 'admin' );
+		}
+		ignore_user_abort( true );
 		try {
 			$result = $this->generate( $reason, $local );
 		} catch ( Throwable $e ) {

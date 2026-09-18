@@ -130,7 +130,9 @@ class SnapshotService {
 		}
 
 		if ( ! $req->dryRun ) {
-			$this->repository->set( $type, $snapshot->id, (string) wc_format_decimal( $snapshot->regular ), $req->date, ReferencePriceRepository::SOURCE_SNAPSHOT );
+			// A date equal to the type default is not stored per product, so a later global change still applies.
+			$override = ( null !== $req->date && $req->date !== $type->defaultDate ) ? $req->date : null;
+			$this->repository->set( $type, $snapshot->id, (string) wc_format_decimal( $snapshot->regular ), $override, ReferencePriceRepository::SOURCE_SNAPSHOT );
 			$this->recorder->record( $snapshot, ReferencePriceRepository::SOURCE_SNAPSHOT );
 		}
 		return SnapshotResult::ACTION_WRITTEN;

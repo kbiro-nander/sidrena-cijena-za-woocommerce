@@ -23,7 +23,9 @@ final class MissingReferenceCounterTest extends TestCase {
 		self::assertStringContainsString( "meta_key = '_scwc_ref_anchor_price'", $sql );
 		self::assertStringContainsString( "meta_key = '_scwc_ref_anchor_na'", $sql );
 		self::assertStringContainsString( "meta_key = '_regular_price'", $sql );
-		self::assertStringContainsString( "NOT IN ('variable','grouped')", $sql );
+		self::assertStringContainsString( "IN ('variable','grouped')", $sql );
+		self::assertStringStartsWith( 'SELECT COUNT(DISTINCT p.ID)', $sql, 'category joins must not multiply rows' );
+		self::assertStringContainsString( 'NOT EXISTS', $sql );
 	}
 
 	public function test_result_is_cached_in_transient(): void {

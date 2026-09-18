@@ -165,6 +165,17 @@ final class HooksTest extends TestCase {
 		self::assertSame( '12,00 €', $rows[2]['value'] );
 	}
 
+	public function test_item_data_rows_added_on_block_cart_page_render(): void {
+		Functions\when( 'is_cart' )->justReturn( true );
+		Functions\when( 'has_block' )->justReturn( true );
+		Functions\when( 'get_queried_object_id' )->justReturn( 9 );
+		$p  = $this->product( [ 'id' => 1, 'regular_price' => '10', 'meta' => [ '_scwc_ref_anchor_price' => '12' ] ] );
+		$cf = new CartFilters( $this->settings, $this->guard(), $this->factory(), $this->composer(), fn() => $this->ctx );
+		self::assertCount( 1, $cf->itemData( [], [ 'data' => $p, 'quantity' => 1 ] ), 'blocks hydrate via internal REST during page render' );
+		Functions\when( 'has_block' )->justReturn( false );
+		self::assertSame( [], $cf->itemData( [], [ 'data' => $p, 'quantity' => 1 ] ), 'classic cart page keeps the badge only' );
+	}
+
 	public function test_shortcode_renders_badge_for_given_product(): void {
 		$this->product( [ 'id' => 5, 'regular_price' => '10', 'meta' => [ '_scwc_ref_anchor_price' => '12' ] ] );
 		$sc = new Shortcode( $this->guard(), $this->factory(), new PriceBadge( $this->settings, dirname( __DIR__, 3 ) . '/templates' ), fn( int $id ) => \wc_get_product( $id ) ?: null );

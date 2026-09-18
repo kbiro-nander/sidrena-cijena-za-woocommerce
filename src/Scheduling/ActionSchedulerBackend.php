@@ -27,10 +27,8 @@ final class ActionSchedulerBackend implements SchedulerBackend {
 
 	public function nextScheduled( string $hook, array $args ): ?int {
 		$next = as_next_scheduled_action( $hook, $args, self::GROUP );
-		if ( is_int( $next ) ) {
-			return $next;
-		}
-		return false === $next || null === $next ? null : ( true === $next ? time() : null );
+		// `true` means "running right now" – there is no future occurrence pending, so the caller may schedule one.
+		return is_int( $next ) ? $next : null;
 	}
 
 	public function unscheduleAll( string $hook ): void {

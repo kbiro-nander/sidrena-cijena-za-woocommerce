@@ -37,7 +37,7 @@ final class PluginTest extends TestCase {
 	public function test_admin_services_register_when_in_admin(): void {
 		\Brain\Monkey\Functions\when( 'is_admin' )->justReturn( true );
 		Actions\expectAdded( 'admin_menu' )->atLeast()->twice();
-		Actions\expectAdded( 'woocommerce_product_options_pricing' )->once();
+		Actions\expectAdded( 'woocommerce_product_options_general_product_data' )->atLeast()->once();
 		Actions\expectAdded( 'woocommerce_variation_options_pricing' )->once();
 		Actions\expectAdded( 'woocommerce_admin_process_product_object' )->once();
 		Actions\expectAdded( 'wp_ajax_scwc_tool_step' )->once();

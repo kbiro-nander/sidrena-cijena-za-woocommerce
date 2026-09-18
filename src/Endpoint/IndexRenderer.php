@@ -61,6 +61,7 @@ final class IndexRenderer {
 		}
 		$outlet = Outlet::fromSettings( $this->settings );
 		return [
+			'base_url' => $base,
 			'outlet' => [
 				'form'           => $outlet->form,
 				'address'        => $outlet->address,
@@ -82,9 +83,10 @@ final class IndexRenderer {
 		$file = rtrim( $this->templateDir, '/' ) . '/cjenik-index.php';
 		ob_start();
 		( static function () use ( $file, $data ): void {
-			$outlet = $data['outlet'];
-			$latest = $data['latest'];
-			$files  = $data['files'];
+			$outlet   = $data['outlet'];
+			$latest   = $data['latest'];
+			$files    = $data['files'];
+			$base_url = $data['base_url'];
 			include $file;
 		} )();
 		return (string) ob_get_clean();

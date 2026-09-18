@@ -44,7 +44,7 @@ final class SchedulerTest extends TestCase {
 		$s->ensureScheduled();
 		$hooks = array_column( $GLOBALS['scwc_test_schedule']['single'], 'hook' );
 		self::assertSame( [ Scheduler::HOOK_GENERATE, Scheduler::HOOK_SWEEP, Scheduler::HOOK_PRUNE ], $hooks );
-		self::assertTrue( $GLOBALS['scwc_test_schedule']['single'][0]['unique'] );
+		self::assertFalse( $GLOBALS['scwc_test_schedule']['single'][0]['unique'], 'dedupe is by (hook,args) in Scheduler, not AS unique' );
 		self::assertSame( 'scwc', $GLOBALS['scwc_test_schedule']['single'][0]['group'] );
 		self::assertSame( '2026-10-01 04:00:00', gmdate( 'Y-m-d H:i:s', $GLOBALS['scwc_test_schedule']['single'][0]['timestamp'] ) );
 		self::assertSame( '2026-10-01 22:30:00', gmdate( 'Y-m-d H:i:s', $GLOBALS['scwc_test_schedule']['single'][1]['timestamp'] ), 'sweep 00:30 local next day' );
@@ -69,6 +69,32 @@ final class SchedulerTest extends TestCase {
 		self::assertCount( 1, $snaps, 'anchor already done, base pending' );
 		self::assertSame( [ 'type' => 'base' ], $snaps[0]['args'] );
 		self::assertSame( '2026-11-16 23:05:00', gmdate( 'Y-m-d H:i:s', $snaps[0]['timestamp'] ), '00:05 Zagreb (CET) = 23:05 UTC previous day' );
+	}
+
+	public function test_debounced_generation_coexists_with_daily_action(): void {
+		$s = $this->scheduler( '2026-10-01 03:00:00' );
+		$s->ensureScheduled();
+		$s->scheduleGenerationSoon( 60, 'change' );
+		$generate = array_values( array_filter( $GLOBALS['scwc_test_schedule']['single'], fn( $x ) => Scheduler::HOOK_GENERATE === $x['hook'] ) );
+		self::assertCount( 2, $generate, 'daily ([]) and on-change ([reason]) both pending' );
+	}
+
+	public function test_two_reference_types_each_get_their_own_auto_snapshot(): void {
+		$settings = ( new Settings( Defaults::all() ) )
+			->with( 'reference_prices.anchor.auto_snapshot_at', '2026-10-05 00:05' )
+			->with( 'reference_prices.base.enabled', true )
+			->with( 'reference_prices.base.auto_snapshot_at', '2026-11-17 00:05' );
+		$this->scheduler( '2026-10-01 03:00:00', $settings )->ensureScheduled();
+		$snaps = array_values( array_filter( $GLOBALS['scwc_test_schedule']['single'], fn( $x ) => Scheduler::HOOK_AUTO_SNAPSHOT === $x['hook'] ) );
+		self::assertCount( 2, $snaps );
+		self::assertFalse( $snaps[0]['unique'] );
+	}
+
+	public function test_running_action_does_not_block_scheduling_the_next_occurrence(): void {
+		// Action Scheduler reports `true` for an in-progress action; that must count as "nothing pending".
+		\Brain\Monkey\Functions\when( 'as_next_scheduled_action' )->justReturn( true );
+		$this->scheduler( '2026-10-01 03:00:00' )->ensureScheduled();
+		self::assertContains( Scheduler::HOOK_GENERATE, array_column( $GLOBALS['scwc_test_schedule']['single'], 'hook' ) );
 	}
 
 	public function test_auto_snapshot_in_the_past_runs_immediately(): void {
@@ -112,9 +138,9 @@ final class SchedulerTest extends TestCase {
 		$s->scheduleGenerationSoon( 300, 'change' );
 		$s->scheduleGenerationSoon( 300, 'change' );
 		$single = $GLOBALS['scwc_test_schedule']['single'];
-		self::assertCount( 2, $single, 'backend receives both; uniqueness is enforced by Action Scheduler' );
+		self::assertCount( 1, $single, 'second call is deduplicated by (hook,args), not by Action Scheduler unique flag' );
 		self::assertSame( [ 'reason' => 'change' ], $single[0]['args'] );
-		self::assertTrue( $single[0]['unique'] );
+		self::assertFalse( $single[0]['unique'], 'AS unique ignores args and would collide with the daily action' );
 		self::assertSame( strtotime( '2026-10-01 03:05:00 UTC' ), $single[0]['timestamp'] );
 	}
 }

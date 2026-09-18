@@ -21,6 +21,8 @@ final class BackendsTest extends TestCase {
 		self::assertSame( 'scwc', $GLOBALS['scwc_test_schedule']['single'][0]['group'] );
 		self::assertSame( 123, $b->nextScheduled( 'h', [ 'a' => 1 ] ) );
 		self::assertNull( $b->nextScheduled( 'h', [ 'a' => 2 ] ) );
+		\Brain\Monkey\Functions\when( 'as_next_scheduled_action' )->justReturn( true );
+		self::assertNull( $b->nextScheduled( 'h', [ 'a' => 1 ] ), 'in-progress (true) is not a future occurrence' );
 		$b->enqueueAsync( 'h2', [] );
 		self::assertSame( 'h2', $GLOBALS['scwc_test_schedule']['async'][0]['hook'] );
 		$b->unscheduleAll( 'h' );

@@ -69,6 +69,6 @@ final class ServiceChangeDebouncerTest extends TestCase {
 		Functions\when( 'update_option' )->justReturn( true );
 		$this->debouncer()->onBulkChange();
 		$this->debouncer()->onProductRemoved( 5 );
-		self::assertCount( 2, $this->generated() );
+		self::assertCount( 1, $this->generated(), 'both touches collapse into one pending on-change run' );
 	}
 }

@@ -19,6 +19,17 @@ use SidrenaCijena\Settings\Settings;
 use SidrenaCijena\Tests\TestCase;
 
 final class BadgeDataFactoryTest extends TestCase {
+	protected function setUp(): void {
+		parent::setUp();
+		\Brain\Monkey\Functions\when( 'get_post_meta' )->alias( function ( int $id, string $key = '', bool $single = false ) {
+			$p = \WC_Product::$registry[ $id ] ?? null;
+			if ( ! $p ) {
+				return $single ? '' : [];
+			}
+			return '' === $key ? $p->all_meta() : $p->get_meta( $key );
+		} );
+	}
+
 	private function factory( ?Settings $settings = null ): BadgeDataFactory {
 		$settings = $settings ?? new Settings( Defaults::all() );
 		return new BadgeDataFactory(
@@ -95,6 +106,33 @@ final class BadgeDataFactoryTest extends TestCase {
 		self::assertStringContainsString( '9,00', $ref->amountHtml );
 		self::assertStringContainsString( '13,00', $ref->amountHtml );
 		self::assertNull( $d->omnibus );
+	}
+
+	public function test_variable_loop_none_setting_suppresses_badge_in_loop_only(): void {
+		$this->product( [ 'id' => 51, 'type' => 'variation', 'parent_id' => 50, 'regular_price' => '10', 'meta' => [ '_scwc_ref_anchor_price' => '9' ] ] );
+		$parent   = $this->product( [ 'id' => 50, 'type' => 'variable', 'children' => [ 51 ] ] );
+		$settings = ( new Settings( Defaults::all() ) )->with( 'display.variable_loop', 'none' );
+		self::assertNull( $this->factory( $settings )->forProduct( $parent, BadgeContext::LOOP ) );
+		self::assertNotNull( $this->factory( $settings )->forProduct( $parent, BadgeContext::SINGLE ) );
+	}
+
+	public function test_variable_range_reads_child_meta_without_loading_child_products(): void {
+		$this->product( [ 'id' => 61, 'type' => 'variation', 'parent_id' => 60, 'regular_price' => '10', 'meta' => [ '_scwc_ref_anchor_price' => '9' ] ] );
+		$parent = $this->product( [ 'id' => 60, 'type' => 'variable', 'children' => [ 61 ] ] );
+		$loads  = 0;
+		$f      = new BadgeDataFactory(
+			new Settings( Defaults::all() ),
+			ReferencePriceRegistry::fromSettings( new Settings( Defaults::all() ) ),
+			new ProductAdapter( new BrandResolver(), new BarcodeResolver() ),
+			new ReferencePriceRepository( new ReferenceDateResolver( new CategoryOverrideResolver( fn() => [] ) ) ),
+			new PriceFormatter(),
+			function ( int $id ) use ( &$loads ) { $loads++; return \wc_get_product( $id ) ?: null; },
+		);
+		$d = $f->forProduct( $parent, BadgeContext::LOOP );
+		self::assertSame( 9.0, $d->references[0]->amount );
+		self::assertSame( 0, $loads, 'children resolved from post meta (primed cache), not full product objects' );
+		$f->forProduct( $parent, BadgeContext::LOOP );
+		self::assertSame( 0, $loads );
 	}
 
 	public function test_variable_parent_with_equal_min_max_is_not_a_range(): void {

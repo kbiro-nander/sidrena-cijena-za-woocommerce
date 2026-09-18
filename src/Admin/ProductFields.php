@@ -36,7 +36,8 @@ class ProductFields {
 	}
 
 	public function register(): void {
-		add_action( 'woocommerce_product_options_pricing', [ $this, 'renderPricing' ] );
+		// Not inside the pricing group (hidden for variable products): parents may carry an inheritable reference price.
+		add_action( 'woocommerce_product_options_general_product_data', [ $this, 'renderPricing' ], 5 );
 		add_action( 'woocommerce_product_options_general_product_data', [ $this, 'renderGeneral' ] );
 	}
 

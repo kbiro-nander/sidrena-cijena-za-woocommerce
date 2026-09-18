@@ -72,25 +72,77 @@ final class BadgeDataFactory {
 		return $data->hasContent() ? $data : null;
 	}
 
+	/** @var array<string,array<string,array{min:float,max:float,ref:ReferencePrice}>> */
+	private array $rangeCache = [];
+
+	/**
+	 * Variable parents show a min–max range over their variations. Children are resolved from
+	 * (primed) post meta rather than full product objects to avoid an N+1 on every shop loop.
+	 */
 	private function forVariable( WC_Product $parent, string $context, int $quantity ): ?BadgeData {
+		if ( BadgeContext::LOOP === $context && 'none' === $this->settings->get( 'display.variable_loop', 'range' ) ) {
+			return null;
+		}
+		$types    = $this->registry->enabled();
+		$cacheKey = $parent->get_id() . ':' . $context . ':' . $quantity;
+		if ( ! isset( $this->rangeCache[ $cacheKey ] ) ) {
+			$this->rangeCache[ $cacheKey ] = $this->collectRanges( $parent, $context, $quantity, $types );
+		}
+		$ranges = $this->rangeCache[ $cacheKey ];
+		$views  = [];
+		foreach ( $types as $key => $type ) {
+			if ( isset( $ranges[ $key ] ) ) {
+				$views[] = $this->view( $ranges[ $key ]['ref'], $ranges[ $key ]['min'], $ranges[ $key ]['max'] );
+			}
+		}
+		if ( [] === $views ) {
+			return null;
+		}
+		$current = $this->formatter->display( $parent, (string) $parent->get_price( 'edit' ), $context, $quantity );
+		return new BadgeData( $parent->get_id(), $views, null, $parent->is_on_sale( 'edit' ), $current, null );
+	}
+
+	/**
+	 * @param array<string,ReferencePriceType> $types Enabled types.
+	 * @return array<string,array{min:float,max:float,ref:ReferencePrice}>
+	 */
+	private function collectRanges( WC_Product $parent, string $context, int $quantity, array $types ): array {
 		$parentSnapshot = $this->adapter->fromProduct( $parent );
 		$inherit        = (bool) $this->settings->get( 'reference_prices.variation_inherit_parent', false );
-		$types          = $this->registry->enabled();
-		/** @var array<string,array{min:float,max:float,ref:ReferencePrice}> $ranges */
-		$ranges   = [];
-		$childIds = $parent instanceof \WC_Product_Variable ? $parent->get_visible_children() : $parent->get_children();
+		$childIds       = array_map( 'intval', $parent instanceof \WC_Product_Variable ? $parent->get_visible_children() : $parent->get_children() );
+		if ( [] === $childIds ) {
+			return [];
+		}
+		if ( function_exists( 'update_meta_cache' ) ) {
+			update_meta_cache( 'post', $childIds );
+		}
+		$ranges = [];
 		foreach ( $childIds as $childId ) {
-			$child = ( $this->loader )( (int) $childId );
-			if ( ! $child instanceof WC_Product ) {
-				continue;
+			$meta = [];
+			foreach ( $types as $type ) {
+				foreach ( [ 'price', 'date', 'na', 'source' ] as $suffix ) {
+					$value = get_post_meta( $childId, $type->metaKey( $suffix ), true );
+					if ( '' !== $value && null !== $value ) {
+						$meta[ $type->metaKey( $suffix ) ] = $value;
+					}
+				}
 			}
-			$snapshot = $this->adapter->fromProduct( $child, $parent );
+			$snapshot = ProductSnapshot::fromArray(
+				[
+					'id'          => $childId,
+					'parentId'    => $parent->get_id(),
+					'type'        => 'variation',
+					'categoryIds' => $parentSnapshot->categoryIds,
+					'meta'        => $meta,
+				]
+			);
 			foreach ( $types as $key => $type ) {
 				$ref = $this->references->get( $type, $snapshot, $parentSnapshot, $inherit );
 				if ( ! $ref->isPresent() ) {
 					continue;
 				}
-				$amount = $this->formatter->display( $child, (string) $ref->amount, $context, $quantity );
+				// Variations share the parent's tax class, so the parent is a valid basis for display conversion.
+				$amount = $this->formatter->display( $parent, (string) $ref->amount, $context, $quantity );
 				if ( ! isset( $ranges[ $key ] ) ) {
 					$ranges[ $key ] = [
 						'min' => $amount,
@@ -103,17 +155,7 @@ final class BadgeDataFactory {
 				}
 			}
 		}
-		$views = [];
-		foreach ( $types as $key => $type ) {
-			if ( isset( $ranges[ $key ] ) ) {
-				$views[] = $this->view( $ranges[ $key ]['ref'], $ranges[ $key ]['min'], $ranges[ $key ]['max'] );
-			}
-		}
-		if ( [] === $views ) {
-			return null;
-		}
-		$current = $this->formatter->display( $parent, (string) $parent->get_price( 'edit' ), $context, $quantity );
-		return new BadgeData( $parent->get_id(), $views, null, $parent->is_on_sale( 'edit' ), $current, null );
+		return $ranges;
 	}
 
 	private function view( ReferencePrice $ref, float $amount, ?float $max ): ReferenceView {

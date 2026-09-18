@@ -63,6 +63,7 @@ final class EndpointTest extends TestCase {
 		Filters\expectAdded( 'query_vars' )->once();
 		Actions\expectAdded( 'template_redirect' )->once()->with( \Mockery::type( 'callable' ), 1 );
 		Filters\expectAdded( 'robots_txt' )->once();
+		Actions\expectAdded( 'update_option_scwc_settings' )->once();
 		$this->endpoint()->register();
 	}
 
@@ -72,7 +73,7 @@ final class EndpointTest extends TestCase {
 		self::assertSame( 'index.php?scwc_cjenik=json', $rules['^cjenik/index\.json$'] );
 		self::assertSame( 'index.php?scwc_cjenik=latest&scwc_format=$matches[1]', $rules['^cjenik/latest\.(xml|csv)$'] );
 		self::assertSame( 'index.php?scwc_cjenik=file&scwc_file=$matches[1]', $rules['^cjenik/([a-z0-9][a-z0-9._-]*\.(?:xml|csv))$'] );
-		self::assertSame( [ 'scwc_cjenik', 'scwc_format', 'scwc_file', 'scwc_run', 'key' ], $this->endpoint()->queryVars( [] ) );
+		self::assertSame( [ 'scwc_cjenik', 'scwc_format', 'scwc_file' ], $this->endpoint()->queryVars( [] ), 'scwc_run/key stay private ($_GET), `key` would collide with WC order keys' );
 	}
 
 	public function test_latest_xml_streams_newest_file_with_no_cache_headers(): void {
@@ -142,6 +143,19 @@ final class EndpointTest extends TestCase {
 		self::assertNull( $this->endpoint()->resolve( [ 'p' => 5 ], [] ) );
 		$off = ( new Settings( Defaults::all() ) )->with( 'price_list.enabled', false );
 		self::assertSame( 404, $this->endpoint( $off )->resolve( [ 'scwc_cjenik' => 'index' ], [] )->status );
+	}
+
+	public function test_slug_change_on_settings_save_flags_rewrite_flush(): void {
+		\Brain\Monkey\Functions\expect( 'update_option' )->once()->with( 'scwc_flush_rewrite', 1 );
+		$e = $this->endpoint();
+		$e->onSettingsUpdated( [ 'price_list' => [ 'slug' => 'cjenik' ] ], [ 'price_list' => [ 'slug' => 'cijene' ] ] );
+		\Brain\Monkey\Functions\expect( 'update_option' )->never();
+		$e->onSettingsUpdated( [ 'price_list' => [ 'slug' => 'cjenik' ] ], [ 'price_list' => [ 'slug' => 'cjenik' ] ] );
+	}
+
+	public function test_index_json_link_is_absolute(): void {
+		$r = $this->endpoint()->resolve( [ 'scwc_cjenik' => 'index' ], [] );
+		self::assertStringContainsString( 'href="https://example.hr/cjenik/index.json"', $r->body );
 	}
 
 	public function test_robots_txt_allows_the_directory(): void {

@@ -56,7 +56,7 @@ class ItemFactory {
 			}
 			$item = new Item(
 				$snapshot->name,
-				$snapshot->sku,
+				'' !== $snapshot->sku ? $snapshot->sku : (string) $snapshot->id,
 				$snapshot->brand,
 				$snapshot->unit,
 				UnitPrice::compute( $price, $snapshot->unitQuantity ),

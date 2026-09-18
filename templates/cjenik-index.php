@@ -6,6 +6,7 @@
  * @var array<string,string>            $outlet
  * @var array<string,string>            $latest
  * @var array<int,array<string,mixed>>  $files
+ * @var string                          $base_url
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -55,7 +56,7 @@ small{color:#555}
 </tbody>
 </table>
 </div>
-<p><small><a href="index.json">index.json</a></small></p>
+<p><small><a href="<?php echo esc_url( $base_url . 'index.json' ); ?>">index.json</a></small></p>
 </main>
 </body>
 </html>

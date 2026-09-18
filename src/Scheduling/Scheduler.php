@@ -80,9 +80,16 @@ class Scheduler {
 		}
 	}
 
-	/** Schedule a (debounced, unique) generation run. */
+	/**
+	 * Schedule a debounced generation run. Deduplicated by (hook, args) ourselves: Action Scheduler's
+	 * `unique` flag ignores args and would collide with the pending daily action.
+	 */
 	public function scheduleGenerationSoon( int $delaySeconds, string $reason ): void {
-		$this->backend->scheduleSingle( $this->clock->now()->getTimestamp() + max( 0, $delaySeconds ), self::HOOK_GENERATE, [ 'reason' => $reason ], true );
+		$args = [ 'reason' => $reason ];
+		if ( null !== $this->backend->nextScheduled( self::HOOK_GENERATE, $args ) ) {
+			return;
+		}
+		$this->backend->scheduleSingle( $this->clock->now()->getTimestamp() + max( 0, $delaySeconds ), self::HOOK_GENERATE, $args, false );
 	}
 
 	/**
@@ -128,7 +135,7 @@ class Scheduler {
 	 */
 	private function ensure( string $hook, array $args, int $timestamp ): void {
 		if ( null === $this->backend->nextScheduled( $hook, $args ) ) {
-			$this->backend->scheduleSingle( $timestamp, $hook, $args, true );
+			$this->backend->scheduleSingle( $timestamp, $hook, $args, false );
 		}
 	}
 }

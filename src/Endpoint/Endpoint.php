@@ -16,7 +16,9 @@ use SidrenaCijena\Settings\Settings;
 
 final class Endpoint {
 
-	public const QUERY_VARS = [ 'scwc_cjenik', 'scwc_format', 'scwc_file', 'scwc_run', 'key' ];
+	public const QUERY_VARS   = [ 'scwc_cjenik', 'scwc_format', 'scwc_file' ];
+	/** Read from $_GET only – `key` must not become a public query var (WooCommerce order URLs use it). */
+	public const PRIVATE_VARS = [ 'scwc_run', 'key' ];
 
 	/** @var callable(string):bool */
 	private $runGenerator;
@@ -40,6 +42,21 @@ final class Endpoint {
 		add_filter( 'query_vars', [ $this, 'queryVars' ] );
 		add_action( 'template_redirect', [ $this, 'dispatch' ], 1 );
 		add_filter( 'robots_txt', [ $this, 'robots' ], 10, 2 );
+		add_action( 'update_option_' . Settings::OPTION, [ $this, 'onSettingsUpdated' ], 10, 2 );
+	}
+
+	/**
+	 * Flush rewrite rules on the next request when the slug changed.
+	 *
+	 * @param mixed $old Old settings.
+	 * @param mixed $new New settings.
+	 */
+	public function onSettingsUpdated( $old, $new ): void {
+		$oldSlug = is_array( $old ) ? (string) ( $old['price_list']['slug'] ?? '' ) : '';
+		$newSlug = is_array( $new ) ? (string) ( $new['price_list']['slug'] ?? '' ) : '';
+		if ( $oldSlug !== $newSlug ) {
+			update_option( 'scwc_flush_rewrite', 1 );
+		}
 	}
 
 	public function slug(): string {
@@ -92,7 +109,7 @@ final class Endpoint {
 	public function dispatch(): void {
 		$wp   = $GLOBALS['wp'] ?? null;
 		$vars = is_object( $wp ) && isset( $wp->query_vars ) ? (array) $wp->query_vars : [];
-		foreach ( self::QUERY_VARS as $var ) { // Plain-permalink fallback.
+		foreach ( array_merge( self::QUERY_VARS, self::PRIVATE_VARS ) as $var ) { // Plain-permalink fallback + private vars.
 			if ( ! isset( $vars[ $var ] ) && isset( $_GET[ $var ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 				$vars[ $var ] = sanitize_text_field( wp_unslash( (string) $_GET[ $var ] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 			}
@@ -106,6 +123,11 @@ final class Endpoint {
 		}
 		status_header( $response->status );
 		if ( null !== $response->file ) {
+			// Content-Length was sent: make sure nothing re-encodes the stream.
+			@ini_set( 'zlib.output_compression', 'Off' ); // phpcs:ignore WordPress.PHP.NoSilencedErrors, WordPress.PHP.IniSet
+			if ( function_exists( 'wp_ob_end_flush_all' ) ) {
+				wp_ob_end_flush_all();
+			}
 			readfile( $response->file ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 		} elseif ( null !== $response->body ) {
 			echo $response->body; // phpcs:ignore WordPress.Security.EscapeOutput -- body is fully built with escaping / JSON.

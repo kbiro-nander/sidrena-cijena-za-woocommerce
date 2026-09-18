@@ -52,6 +52,8 @@ final class ItemFactoryTest extends TestCase {
 		self::assertInstanceOf( Item::class, $item );
 		self::assertSame( 'Proizvod', $item->name );
 		self::assertSame( 'SKU-1', $item->sku );
+		$noSku = $this->factory()->make( $this->product( [ 'id' => 77, 'regular_price' => '1' ] ), \SidrenaCijena\Product\ProductSnapshot::fromArray( [ 'id' => 77, 'regular' => '1', 'active' => '1' ] ), null );
+		self::assertSame( '77', $noSku->sku, 'šifra is mandatory: fall back to the product ID' );
 		self::assertSame( 'Marka', $item->brand );
 		self::assertSame( 'kg', $item->unit );
 		self::assertSame( 25.98, $item->unitPrice );

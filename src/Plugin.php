@@ -155,6 +155,11 @@ final class Plugin {
 		// History / Omnibus.
 		if ( (bool) $this->get( Settings::class )->get( 'history.enabled', true ) ) {
 			$this->get( PriceChangeListener::class )->register();
+			$forget = function ( $productId ): void {
+				$this->get( PriceHistoryRepository::class )->deleteFor( (int) $productId );
+			};
+			add_action( 'woocommerce_delete_product', $forget );
+			add_action( 'woocommerce_delete_product_variation', $forget );
 		}
 
 		// Price list endpoint + scheduling.

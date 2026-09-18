@@ -343,7 +343,7 @@ final class Fields {
 					'path'        => 'price_list.external_cron_key',
 					'type'        => 'text',
 					'label'       => __( 'Ključ za vanjski cron', 'sidrena-cijena-za-woocommerce' ),
-					'description' => __( 'Za pokretanje generiranja izvana (?scwc_cron=KLJUČ). Prazno = generira se automatski.', 'sidrena-cijena-za-woocommerce' ),
+					'description' => __( 'Za pokretanje generiranja izvana: /cjenik/?scwc_run=1&key=KLJUČ (npr. iz sistemskog crona).', 'sidrena-cijena-za-woocommerce' ),
 				],
 
 				[
