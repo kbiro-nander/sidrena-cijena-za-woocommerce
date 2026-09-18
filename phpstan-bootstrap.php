@@ -10,3 +10,7 @@ define( 'SCWC_PLUGIN_URL', 'https://example.hr/wp-content/plugins/sidrena-cijena
 define( 'WC_VERSION', '9.9.0' );
 define( 'WP_UNINSTALL_PLUGIN', true );
 define( 'ARRAY_A', 'ARRAY_A' );
+define( 'MINUTE_IN_SECONDS', 60 );
+define( 'HOUR_IN_SECONDS', 3600 );
+define( 'DAY_IN_SECONDS', 86400 );
+define( 'WEEK_IN_SECONDS', 604800 );
