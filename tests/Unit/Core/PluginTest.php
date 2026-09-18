@@ -18,6 +18,9 @@ final class PluginTest extends TestCase {
 		Filters\expectAdded( 'woocommerce_cart_item_price' )->once();
 		Actions\expectAdded( 'wp_enqueue_scripts' )->once();
 		Actions\expectAdded( 'init' )->atLeast()->once();
+		Actions\expectAdded( 'woocommerce_product_object_updated_props' )->once();
+		Actions\expectAdded( 'scwc_price_changed' )->once();
+		Actions\expectAdded( 'woocommerce_blocks_loaded' )->once();
 
 		$plugin = new Plugin();
 		$plugin->boot();

@@ -20,6 +20,14 @@ use SidrenaCijena\Display\RenderGuard;
 use SidrenaCijena\Display\RequestContext;
 use SidrenaCijena\Display\Shortcode;
 use SidrenaCijena\Display\VariationJsonFilter;
+use SidrenaCijena\History\DailySweep;
+use SidrenaCijena\History\LowestPriceCalculator;
+use SidrenaCijena\History\OmnibusStateUpdater;
+use SidrenaCijena\History\PriceChangeListener;
+use SidrenaCijena\History\PriceHistoryRepository;
+use SidrenaCijena\History\Pruner;
+use SidrenaCijena\History\Recorder;
+use SidrenaCijena\History\Schema;
 use SidrenaCijena\Lifecycle\Requirements;
 use SidrenaCijena\Lifecycle\Upgrader;
 use SidrenaCijena\Product\BarcodeResolver;
@@ -30,7 +38,13 @@ use SidrenaCijena\Reference\CategoryOverrideResolver;
 use SidrenaCijena\Reference\ReferenceDateResolver;
 use SidrenaCijena\Reference\ReferencePriceRegistry;
 use SidrenaCijena\Reference\ReferencePriceRepository;
+use SidrenaCijena\Scheduling\ActionSchedulerBackend;
+use SidrenaCijena\Scheduling\Scheduler;
+use SidrenaCijena\Scheduling\SchedulerBackend;
+use SidrenaCijena\Scheduling\ServiceChangeDebouncer;
+use SidrenaCijena\Scheduling\WpCronBackend;
 use SidrenaCijena\Settings\Settings;
+use SidrenaCijena\StoreApi\ExtendStoreApi;
 use SidrenaCijena\Support\Clock;
 use SidrenaCijena\Support\WpClock;
 use WC_Product;
@@ -101,6 +115,13 @@ final class Plugin {
 		$this->get( CartFilters::class )->register();
 		$this->get( Shortcode::class )->register();
 		$this->get( Assets::class )->register();
+		$this->get( ExtendStoreApi::class )->register();
+
+		if ( (bool) $this->get( Settings::class )->get( 'history.enabled', true ) ) {
+			$this->get( PriceChangeListener::class )->register();
+		}
+		$this->get( ServiceChangeDebouncer::class )->register();
+		$this->get( Scheduler::class )->registerWatchdog();
 
 		do_action( 'scwc_booted', $this );
 	}
@@ -146,5 +167,23 @@ final class Plugin {
 		$c->set( CartFilters::class, static fn( Container $c ) => new CartFilters( $c->get( Settings::class ), $c->get( RenderGuard::class ), $c->get( BadgeDataFactory::class ), $c->get( PriceHtmlComposer::class ), $c->get( 'request_context' ) ) );
 		$c->set( Shortcode::class, static fn( Container $c ) => new Shortcode( $c->get( RenderGuard::class ), $c->get( BadgeDataFactory::class ), $c->get( PriceBadge::class ), $c->get( 'product_loader' ) ) );
 		$c->set( Assets::class, static fn( Container $c ) => new Assets( $c->get( Settings::class ) ) );
+		$c->set( ExtendStoreApi::class, static fn( Container $c ) => new ExtendStoreApi( $c->get( BadgeDataFactory::class ), $c->get( PriceBadge::class ) ) );
+
+		// History / Omnibus.
+		$c->set( PriceHistoryRepository::class, static function (): PriceHistoryRepository {
+			global $wpdb;
+			return new PriceHistoryRepository( $wpdb, Schema::tableName( $wpdb ) );
+		} );
+		$c->set( Recorder::class, static fn( Container $c ) => new Recorder( $c->get( PriceHistoryRepository::class ), $c->get( Clock::class ) ) );
+		$c->set( LowestPriceCalculator::class, static fn( Container $c ) => new LowestPriceCalculator( $c->get( PriceHistoryRepository::class ) ) );
+		$c->set( OmnibusStateUpdater::class, static fn( Container $c ) => new OmnibusStateUpdater( $c->get( LowestPriceCalculator::class ), $c->get( Settings::class ), $c->get( Clock::class ) ) );
+		$c->set( PriceChangeListener::class, static fn( Container $c ) => new PriceChangeListener( $c->get( ProductAdapter::class ), $c->get( Recorder::class ), $c->get( OmnibusStateUpdater::class ), $c->get( 'product_loader' ) ) );
+		$c->set( DailySweep::class, static fn( Container $c ) => new DailySweep( DailySweep::wcPager(), $c->get( 'product_loader' ), $c->get( ProductAdapter::class ), $c->get( Recorder::class ), $c->get( OmnibusStateUpdater::class ) ) );
+		$c->set( Pruner::class, static fn( Container $c ) => new Pruner( $c->get( PriceHistoryRepository::class ), $c->get( Settings::class ), $c->get( Clock::class ) ) );
+
+		// Scheduling.
+		$c->set( SchedulerBackend::class, static fn() => ActionSchedulerBackend::available() ? new ActionSchedulerBackend() : new WpCronBackend() );
+		$c->set( Scheduler::class, static fn( Container $c ) => new Scheduler( $c->get( SchedulerBackend::class ), $c->get( Settings::class ), $c->get( Clock::class ) ) );
+		$c->set( ServiceChangeDebouncer::class, static fn( Container $c ) => new ServiceChangeDebouncer( $c->get( Scheduler::class ), $c->get( Settings::class ), $c->get( ServiceRule::class ) ) );
 	}
 }
